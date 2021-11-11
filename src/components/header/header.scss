@@ -1,7 +1,5 @@
 @import "../mixins.scss";
-
-$green_color_soft: rgba(64, 178, 89, 1);
-$input_color_whitesmoke: rgba(236, 236, 236, 1);
+@import "../variables.scss";
 
 .header {
   .blackout {
@@ -10,7 +8,10 @@ $input_color_whitesmoke: rgba(236, 236, 236, 1);
     top: 0;
     bottom: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: $blackout;
+  }
+  .mobileMenu {
+    display: none;
   }
   height: 123px;
   display: flex;
@@ -19,11 +20,11 @@ $input_color_whitesmoke: rgba(236, 236, 236, 1);
   padding: 0px 5% 0px 3%;
   align-items: center;
   background-color: white;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  box-shadow: $boxShadow_2;
   &__logo {
     min-width: 195px;
     position: relative;
+    z-index: 51;
     display: flex;
     align-items: flex-end;
     &-img {
@@ -71,36 +72,20 @@ $input_color_whitesmoke: rgba(236, 236, 236, 1);
   &__search-hideMenu {
       display: none;
   }
-
   &__buttons {
     display: grid;
     grid-auto-flow: column;
     grid-gap: 5px;
-    &-favorites,
-    &-cart,
-    &-account {
-      font-family: inherit;
-      @include button_default(6px, 5px, white, 16px, rgba(0, 0, 0, 0.56), 600);
-      &:hover {
-        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-      }
-      &:active {
-        transition: 0.1s;
-        background-color: rgba(0, 0, 0, 0.05);
-      }
-    }
+    font-family: inherit;
   }
-
-  &__menu {
-    position: relative;
-    z-index: 10;
-    button {
-      cursor: pointer;
-      background-color: transparent;
-      border: none;
-      img {
-        width: 60px;
-      }
+  &__button {
+    @include button_default(6px, 5px, white, 16px, rgba(0, 0, 0, 0.56), 600);
+    &:hover {
+      box-shadow: $button_hover_shadow;
+    }
+    &:active {
+      transition: 0.1s;
+      background-color: $button_active;
     }
   }
 
@@ -117,9 +102,7 @@ $input_color_whitesmoke: rgba(236, 236, 236, 1);
       justify-content: center;
       align-items: flex-start;
     &-wrapper {
-      .header__buttons-favorites,
-      .header__buttons-cart,
-      .header__buttons-account {
+      .header__button {
         margin: 10px auto;
         width: 100%;
         @include menu_buttons(60px, 25px, 2px solid rgba(0, 0, 0, 0.1), rgba(241, 241, 241, 0.795));
@@ -163,7 +146,6 @@ $input_color_whitesmoke: rgba(236, 236, 236, 1);
     display: grid;
     grid-auto-flow: column;
     grid-template-columns: 200px 75px;
-    justify-items: start;
   }
 
 
@@ -171,6 +153,9 @@ $input_color_whitesmoke: rgba(236, 236, 236, 1);
   @media all and(max-width: 500px) {
     &__hideMenu, .blackout {
        display: none;
+    }
+    .mobileMenu {
+      display: block;
     }
     &__hideMenu-wrapper {
         width: 90%;

@@ -1,4 +1,4 @@
-import { imports } from "./imports";
+import { icons } from "./imports";
 import "./navbar.scss";
 
 interface someDataI {
@@ -25,8 +25,8 @@ export const NavBar = () => {
         {someData.map((el: someDataI, index: number) => {
           return (
             <li key={index} className="navbar__list-item">
-              <button>
-                <img src={imports[el.img]} alt="category logo" />
+              <button className="navbar__button">
+                <img src={icons[el.img]} alt="category logo" />
                 <p>{el.name}</p>
               </button>
             </li>

@@ -1,4 +1,4 @@
-import { imports } from "./imports";
+import { search } from "./imports";
 
 interface searchI {
   hideMenu: boolean;
@@ -9,7 +9,7 @@ export const Search = (props: searchI) => {
     <section className={`header__search${props.hideMenu ? "-hideMenu" : ""}`}>
       <div className="wrapper">
         <input placeholder="Поиск по сайту" />
-        <img src={imports.search} alt="search" />
+        <img src={search} alt="search" />
       </div>
     </section>
   );

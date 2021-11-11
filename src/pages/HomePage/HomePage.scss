@@ -1,3 +1,5 @@
+@import 'components/mixins.scss';
+
 .homePage {
   font-family: "Roboto";
   min-height: 100vh;
@@ -41,9 +43,7 @@
       }
       .CurrentOffers {
         width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include flex_center-v-h();
       }
       grid-template-areas:
         "navbar  Stock Stock"

@@ -7,7 +7,7 @@ import navIcon5 from 'assets/icons/5.svg';
 import navIcon6 from 'assets/icons/6.svg';
 import navIcon7 from 'assets/icons/7.svg';
 
-export const imports: any = {
+export const icons: any = {
     navIcon0,
     navIcon1,
     navIcon2,

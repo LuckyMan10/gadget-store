@@ -12,7 +12,7 @@ export const HomePage = () => {
     <div className="homePage">
       <Header />
       <main>
-        <NavBar />
+        <NavBar/>
         <TopSlider />
         <Stock />
         <CurrentOffers />

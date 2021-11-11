@@ -1,7 +1,7 @@
+@import 'components/mixins.scss';
+
 .CurrentOffers {
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
+   @include flex_center-v-h();
    width: 90%;
    &__title {
        font-size: 30px;
