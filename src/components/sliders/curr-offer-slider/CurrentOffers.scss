@@ -1,0 +1,10 @@
+.CurrentOffers {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   width: 90%;
+   &__title {
+       font-size: 30px;
+       margin-bottom: 20px;
+   }
+}

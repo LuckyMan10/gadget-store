@@ -1,0 +1,184 @@
+@import "../mixins.scss";
+
+$green_color_soft: rgba(64, 178, 89, 1);
+$input_color_whitesmoke: rgba(236, 236, 236, 1);
+
+.header {
+  .blackout {
+    position: fixed;
+    z-index: 4;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  height: 123px;
+  display: flex;
+  gap: 5px;
+  justify-content: space-between;
+  padding: 0px 5% 0px 3%;
+  align-items: center;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  &__logo {
+    min-width: 195px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    &-img {
+      width: 101px;
+      height: 101px;
+      img {
+        position: absolute;
+        top: 0px;
+        left: 23px;
+      }
+    }
+    h1 {
+      width: 50%;
+      font-size: 25px;
+      font-weight: bold;
+      color: $green_color_soft;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__search, &__search-hideMenu {
+      width: 30vw;
+      position: relative;
+      left: 20px;
+    .wrapper {
+        display: flex;
+    }
+    input {
+      width: 100%;
+      outline: none;
+      height: 100%;
+      padding: 6px 0px 6px 14px;
+      font-size: 24px;
+      font-family: inherit;
+      font-weight: 300;
+      border-radius: 11px;
+      border: none;
+      background-color: $input_color_whitesmoke;
+    }
+    img {
+        position: relative;
+        left:-40px;
+    }
+  }
+  &__search-hideMenu {
+      display: none;
+  }
+
+  &__buttons {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 5px;
+    &-favorites,
+    &-cart,
+    &-account {
+      font-family: inherit;
+      @include button_default(6px, 5px, white, 16px, rgba(0, 0, 0, 0.56), 600);
+      &:hover {
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+      }
+      &:active {
+        transition: 0.1s;
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  &__menu {
+    position: relative;
+    z-index: 10;
+    button {
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+      img {
+        width: 60px;
+      }
+    }
+  }
+
+  &__hideMenu {
+      position: absolute;
+      margin-top: 123px;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    &-wrapper {
+      .header__buttons-favorites,
+      .header__buttons-cart,
+      .header__buttons-account {
+        margin: 10px auto;
+        width: 100%;
+        @include menu_buttons(60px, 25px, 2px solid rgba(0, 0, 0, 0.1), rgba(241, 241, 241, 0.795));
+      }
+      min-width: 30%;
+      margin-top: 80px;
+      padding: 40px 40px 40px 40px;
+      background-color: white;
+      position: absolute;
+      z-index: 5;
+      border-radius: 20px;
+    }
+  }
+
+  @media all and(max-width: 1300px) {
+    padding: 0px 5% 0px 0%;
+    &__search input {
+      width: 40vw;
+    }
+    &__buttons {
+      display: none;
+    }
+    &__search {
+        width: 50vw;
+    }
+    &__hideMenu-wrapper {
+        min-width: 50vw;
+    }
+  }
+  @media all and(max-width: 650px) {
+    &__search {
+      display: none;
+    }
+    &__hideMenu-wrapper {
+        width: 75vw;
+    }
+    &__search-hideMenu {
+        display: block;
+        width: 100%;
+    }
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 200px 75px;
+    justify-items: start;
+  }
+
+
+
+  @media all and(max-width: 500px) {
+    &__hideMenu, .blackout {
+       display: none;
+    }
+    &__hideMenu-wrapper {
+        width: 90%;
+    }
+  }
+  @media all and(min-width: 1301px) {
+    &__menu, &__hideMenu, .blackout {
+      display: none;
+    }
+  }
+}

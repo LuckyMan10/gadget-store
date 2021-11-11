@@ -1,0 +1,31 @@
+.topSlider {
+    #splide01 {
+        max-width: 600px;
+    }
+    display: flex;
+    justify-content: center;
+    .splide__pagination {
+        position: relative !important;
+        top: -35px;
+        left: 40%;
+        .splide__pagination__page {
+            transform: scale(2.5);
+            margin: 10px;
+            background-color: rgba(0, 0, 0, 0.4);
+            &.is-active {
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+        }
+    }
+    &__slide {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        img {
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+    }
+}

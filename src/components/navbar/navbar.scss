@@ -1,0 +1,22 @@
+@import "../mixins.scss";
+
+.navbar {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+  &__list {
+    &-item {
+      padding: 10px;
+      p {
+          text-align: start;
+      }
+      button {
+        @include button_default(0px, 3px, white, 19px, black, 500);
+        @media all and(max-width: 1400px) {
+          @include button_default(0px, 3px, white, 16px, black, 500);
+        }
+      }
+    }
+  }
+  
+}

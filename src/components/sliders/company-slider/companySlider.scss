@@ -1,0 +1,45 @@
+.CompanySlider {
+    height: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .splide {
+        width: 100%;
+        margin: 0 auto;
+    }
+    &__wrapper {
+        width: 90%;
+        @media all and(max-width: 900px) {
+            max-width: 500px;
+        }
+    }
+    .splide__track {
+        padding: 20px;
+        height: 100%;
+    }
+    .splide__list {
+        display: flex;
+        align-items: center;
+    }
+    .splide__arrow {
+        &--prev {
+            left: -30px !important;
+        }
+        &--next {
+            right: -30px !important;
+        }
+    }
+    &__slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100px;
+        margin: 10px;
+        img {
+            max-width: 100px;
+        }
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    }
+}

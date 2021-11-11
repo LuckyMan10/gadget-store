@@ -1,0 +1,48 @@
+@mixin menu_buttons($imgSize, $fontSize, $border, $hoverColor) {
+    transition: 0.2s;
+    font-size: $fontSize;
+    border: $border;
+    img {
+        width: $imgSize
+    };
+    &:hover {
+        transition: 0.2s;
+        background-color: $hoverColor;
+    }
+}
+
+@mixin button_default($br, $padding, $bc, $fs, $fc, $fw) {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: $br;
+    padding: $padding;
+    background-color: $bc;
+    font-size: $fs;
+    color: $fc;
+    font-weight: $fw;
+}
+
+@mixin reset_button($fs, $fw, $op) {
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    font-size: $fs;
+    font-weight: $fw;
+    opacity: $op;
+    &:hover {
+        transition: 0.2s;
+        opacity: 0.9;
+    }
+   
+}
+
+@mixin flex_center-v-h() {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
