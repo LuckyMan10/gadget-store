@@ -1,0 +1,24 @@
+@import "../mixins.scss";
+
+.productImages {
+    &__wrapper {
+        padding: 20px;
+        border-radius: 20px;
+        background-color: white;
+        max-width: 600px;
+        @include flex_center-v-h();
+    }
+    &__currentImg {
+        img {
+            max-width: 300px;
+        }
+    }
+    &__imgBar {
+        margin-top: 20px;
+        img {
+            margin: 10px;
+            max-width: 120px;
+            height: 100px;
+        }
+    }
+}

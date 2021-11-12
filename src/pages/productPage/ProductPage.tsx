@@ -1,7 +1,7 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import "./ProductPage.scss";
 import { Header } from "components/header/header";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { BreadCrumbs } from "components/breadCrumbs/BreadCrumbs";
 import { NavBar } from "components/navbar/navbar";
 import { SearchSettings } from "components/searchSettings/SearchSettings";
@@ -15,7 +15,7 @@ export const ProductPage: FC = () => {
   };
   const [price, setPrice] = useState<number[]>([0, 5000]);
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
-
+  const navigate = useNavigate();
   const companies = [
     { id: 1, name: "Apple" },
     { id: 2, name: "Samsung" },
@@ -27,13 +27,14 @@ export const ProductPage: FC = () => {
   const changePrice = (event: Event, newValue: number | number[]) => {
     setPrice(newValue as number[]);
   };
-  const toProductHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e);
+  const toProductHandler = (e: string) => {
+    if(e) {
+      navigate(e);
+    }
   }
 
   return (
     <div className="productPage">
-      <Header />
       <main>
         <BreadCrumbs category={category} />
         {!isMobile && <NavBar />}
@@ -48,7 +49,6 @@ export const ProductPage: FC = () => {
           title={category}
         />
       </main>
-      <Footer />
     </div>
   );
 };

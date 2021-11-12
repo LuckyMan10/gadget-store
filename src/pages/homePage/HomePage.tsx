@@ -11,7 +11,6 @@ import {Footer} from 'components/footer/footer';
 export const HomePage: FC = () => {
   return (
     <div className="homePage">
-      <Header />
       <main>
         <NavBar/>
         <TopSlider />
@@ -19,7 +18,6 @@ export const HomePage: FC = () => {
         <CurrentOffers />
         <CompanySlider />
       </main>
-      <Footer />
     </div>
   );
 };
