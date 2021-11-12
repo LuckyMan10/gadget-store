@@ -1,9 +1,14 @@
 @import "../mixins.scss";
 
 .navbar {
+    a {
+      text-decoration: none;
+    }
+  &__wrapper {
     background-color: white;
     padding: 20px;
     border-radius: 20px;
+  }
   &__list {
     &-item {
       padding: 10px;

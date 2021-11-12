@@ -1,4 +1,4 @@
-import stock from "../../assets/icons/Stock.svg";
+import stock from "assets/icons/Stock.svg";
 import "./Stock.scss";
 
 export const Stock = () => {

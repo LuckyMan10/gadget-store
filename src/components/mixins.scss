@@ -47,3 +47,15 @@
     align-items: center;
 }
 
+@mixin flex_center-v-h-row() {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin navbar-horizontal() {
+    display: grid;
+    grid-template-rows: repeat(auto-fill, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+}
