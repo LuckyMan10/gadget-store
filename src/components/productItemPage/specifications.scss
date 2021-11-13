@@ -1,0 +1,79 @@
+@import "../mixins.scss";
+@import "../variables.scss";
+
+.specifications {
+ @include flex_center-v-h();
+  &__title {
+    font-size: 40px;
+    opacity: 0.75;
+  }
+  &__table {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    .table {
+      padding: 30px;
+      border-radius: 20px;
+      background-color: white;
+      width: 60%;
+    }
+    .title {
+      opacity: 0.8;
+      font-size: 35px;
+      margin: 30px 0px;
+    }
+    .row {
+      padding: 14px 0px;
+      opacity: 0.7;
+      font-size: 22px;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      .text {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+      p:nth-child(2) {
+        font-size: 15px;
+        max-width: 300px;
+      }
+      span {
+        border-radius: 6px;
+        height: 6px;
+        width: 100%;
+        background-color: $green_color_soft;
+      }
+    }
+  }
+  .wrapper {
+    margin: 30px 0px;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-rows: repeat(auto-fill, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    .clickButton {
+      @include button_default(
+        10px,
+        20px,
+        white,
+        24px,
+        $green_lime_variant_1,
+        600
+      );
+      &:hover {
+        color: white;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      &:active {
+          transform: scale(0.97);
+      }
+    }
+  }
+  &__buttons {
+      max-width: 90%;
+  }
+}

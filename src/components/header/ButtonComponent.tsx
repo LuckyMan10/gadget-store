@@ -1,15 +1,16 @@
 
-
-type ButtonComponentType = {
-  img?: string,
-  text: string
+interface ButtonComponentType {
+  img?: string;
+  text?: string
+  id?: string;
 }
 
-export const ButtonComponent = ({img, text}: ButtonComponentType) => {
+export const ButtonComponent = ({img, text, id}: ButtonComponentType) => {
+
   return (
-    <button className="header__button">
+    <button id={id ? id : 'button'} className="header__button">
       {img && <img src={img} alt="" />}
-      <span>{text}</span>
+      {text && <span>{text}</span>}
     </button>
   );
 };

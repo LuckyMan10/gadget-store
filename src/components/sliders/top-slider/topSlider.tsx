@@ -15,7 +15,8 @@ export const TopSlider = () => {
     slideBorderRadius: 10,
     slideBoxShadow: "none",
     sliderBackground: "none",
-    dots: true
+    dots: true,
+    autoPlay: true
   };
 
   return (

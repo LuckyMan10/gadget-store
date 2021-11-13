@@ -1,6 +1,10 @@
 @import "../mixins.scss";
+@import "../variables.scss";
 
 .productImages {
+    &__productTitle {
+        font-size: 30px;
+    }
     &__wrapper {
         padding: 20px;
         border-radius: 20px;
@@ -16,7 +20,13 @@
     }
     &__imgBar {
         margin-top: 20px;
+        display: flex;
+        .barItem {
+            display: flex;
+            flex-direction: column;
+        }
         img {
+            padding-bottom: 10px;
             cursor: pointer;
             margin: 10px;
             max-width: 120px;
@@ -24,7 +34,18 @@
             transition: 0.3s;
         }:hover {
             transition: 0.3s;
-            transform: scale(1.1);
+            transform: scale(1.05);
+        }
+        .image {
+            display: block;
+            width: 100%;
+            border-radius: 5px;
+            height: 6px;
+            transition: 0.3s;
+            &.active {
+                transition: 0.3s;
+                background-color: $green_lime_variant_1;
+            }
         }
     }
 }

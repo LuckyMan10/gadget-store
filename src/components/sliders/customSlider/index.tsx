@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-// Components
 import SliderItem from "./SliderItem";
-// Styles
+
 import {
   StyledSliderWrapper,
   StyledSlider,
@@ -26,6 +25,7 @@ type SliderProps = {
   maxImageWidth?: number;
   arrows: boolean;
   dots: boolean;
+  autoPlay: boolean
 };
 
 const numberOfSlides = (maxVisibleSlides: number, windowWidth: number) => {
@@ -53,6 +53,7 @@ const Slider: React.FC<SliderProps> = ({
   maxImageWidth,
   arrows,
   dots,
+  autoPlay
 }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [transformPosition, setTransformPosition] = useState(0);

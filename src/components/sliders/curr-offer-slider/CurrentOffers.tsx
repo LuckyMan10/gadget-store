@@ -21,7 +21,8 @@ export const CurrentOffers = () => {
     slideBoxShadow:
       "none",
     sliderBackground: "white",
-    dots: false
+    dots: false,
+    autoPlay: false
   };
   const mocData = [
     {
