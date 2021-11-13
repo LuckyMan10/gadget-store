@@ -1,30 +1,36 @@
 import { topSliderSlides } from "../imports";
+import Slider from "components/sliders/customSlider";
 import "./topSlider.scss";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/splide/dist/css/splide.min.css";
 
 export const TopSlider = () => {
+  const SliderProps = {
+    zoomFactor: 0,
+    slideMargin: 1,
+    maxVisibleSlides: 1,
+    pageTransition: 500,
+    sliderWidth: 400,
+    infinity: true,
+    arrows: false,
+    slidePadding: 1,
+    slideBorderRadius: 10,
+    slideBoxShadow: "none",
+    sliderBackground: "none",
+    dots: true
+  };
+
   return (
     <article className="topSlider">
-      <Splide
-        options={{
-          perPage: 1,
-          pagination: true,
-          autoplay: true,
-          rewind: true,
-          arrows: false,
-        }}
-      >
-        {topSliderSlides.map((el, index) => {
-          return (
-            <SplideSlide key={index}>
-              <div className="topSlider__slide">
+      <div className="topSlider__wrapper">
+        <Slider {...SliderProps}>
+          {topSliderSlides.map((el, index) => {
+            return (
+              <div key={index} className="slide">
                 <img src={el} alt="slider img" />
               </div>
-            </SplideSlide>
-          );
-        })}
-      </Splide>
+            );
+          })}
+        </Slider>
+      </div>
     </article>
   );
 };

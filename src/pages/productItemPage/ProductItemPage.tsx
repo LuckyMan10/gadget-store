@@ -10,7 +10,6 @@ export const ProductItemPage = () => {
     category: string;
     item: string;
   };
-  console.log(category, item);
 
   return (
     <div className="productItemPage">

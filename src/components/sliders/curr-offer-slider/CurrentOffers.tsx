@@ -13,6 +13,7 @@ export const CurrentOffers = () => {
     pageTransition: 500,
     sliderWidth: 90,
     infinity: true,
+    arrows: true,
     leftArrowImg: left_arrow,
     rightArrowImg: right_arrow,
     slidePadding: 20,
@@ -20,6 +21,7 @@ export const CurrentOffers = () => {
     slideBoxShadow:
       "none",
     sliderBackground: "white",
+    dots: false
   };
   const mocData = [
     {

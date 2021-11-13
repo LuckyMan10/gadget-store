@@ -18,13 +18,14 @@ type SliderProps = {
   maxVisibleSlides: number;
   pageTransition: number;
   infinity: boolean;
-  leftArrowImg: string;
-  rightArrowImg: string;
+  leftArrowImg?: string;
+  rightArrowImg?: string;
   slideBorderRadius: number;
   slideBoxShadow: string;
   sliderBackground: string;
   maxImageWidth?: number;
-
+  arrows: boolean;
+  dots: boolean;
 };
 
 const numberOfSlides = (maxVisibleSlides: number, windowWidth: number) => {
@@ -49,17 +50,21 @@ const Slider: React.FC<SliderProps> = ({
   slideBorderRadius,
   slideBoxShadow,
   sliderBackground,
-  maxImageWidth
+  maxImageWidth,
+  arrows,
+  dots,
 }) => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [transformPosition, setTransformPosition] = useState(0);
   const [transformValue, setTransformValue] = useState(`-${zoomFactor / 2}%`);
   const [scrollSize, setScrollSize] = useState(0);
 
   const sliderRef = useRef<HTMLElement>(null);
-  
+
   const visibleSlides = numberOfSlides(maxVisibleSlides, scrollSize);
 
   const totalPages: number = Math.ceil(children.length / visibleSlides) - 1;
+  const navigatePages: number = Math.floor(children.length / visibleSlides);
 
   useEffect(() => {
     //@ts-ignore
@@ -70,7 +75,6 @@ const Slider: React.FC<SliderProps> = ({
     resizeObserver.observe(sliderRef.current);
   }, [sliderRef]);
 
-
   useEffect(() => {
     if (sliderRef && sliderRef.current) {
       if (currentPage > totalPages) setCurrentPage(totalPages);
@@ -80,7 +84,6 @@ const Slider: React.FC<SliderProps> = ({
       }px, 0, 0)`;
     }
   }, [sliderRef, currentPage, scrollSize, totalPages]);
-
 
   const disableHoverEffect = () => {
     if (sliderRef.current) sliderRef.current.style.pointerEvents = "none";
@@ -93,11 +96,13 @@ const Slider: React.FC<SliderProps> = ({
     if (!(currentPage !== totalPages)) {
       disableHoverEffect();
       setCurrentPage(0);
+      setTransformPosition(0);
       if (sliderRef.current) {
         sliderRef.current.style.transform = `translate3D(${0}px, 0, 0)`;
       }
     } else {
       disableHoverEffect();
+      setTransformPosition((currentPage + 1) * scrollSize);
       setCurrentPage(currentPage + 1);
       if (sliderRef.current) {
         sliderRef.current.style.transform = `translate3D(-${
@@ -111,6 +116,7 @@ const Slider: React.FC<SliderProps> = ({
     if (!(currentPage > 0)) {
       disableHoverEffect();
       setCurrentPage(totalPages);
+      setTransformPosition(totalPages * scrollSize);
       if (sliderRef.current) {
         sliderRef.current.style.transform = `translate3D(-${
           totalPages * scrollSize
@@ -119,11 +125,27 @@ const Slider: React.FC<SliderProps> = ({
     } else {
       disableHoverEffect();
       setCurrentPage(currentPage - 1);
+      setTransformPosition((currentPage - 1) * scrollSize);
       if (sliderRef.current) {
         sliderRef.current.style.transform = `translate3D(-${
           (currentPage - 1) * scrollSize
         }px, 0, 0)`;
       }
+    }
+  };
+
+  const clickToDotButton = (e: React.MouseEvent<HTMLDivElement>) => {
+    const dotId = Number((e.target as HTMLElement).id);
+    if (dotId || dotId === 0) {
+      scrollTo(scrollSize * dotId);
+      setTransformPosition(scrollSize * dotId);
+    }
+  };
+  const scrollTo = (scrollValue: number) => {
+    disableHoverEffect();
+    setCurrentPage(0);
+    if (sliderRef.current) {
+      sliderRef.current.style.transform = `translate3D(-${scrollValue}px, 0, 0)`;
     }
   };
 
@@ -140,7 +162,9 @@ const Slider: React.FC<SliderProps> = ({
     const classes = ["right", "left"];
     return classes[index % visibleSlides] || "";
   };
-
+  const isActive = (dotId: number) => {
+    return transformPosition === scrollSize * dotId;
+  };
   return (
     <SliderComponent>
       <CenterWrapper sliderBackground={sliderBackground}>
@@ -176,7 +200,24 @@ const Slider: React.FC<SliderProps> = ({
               </SliderItem>
             ))}
           </StyledSlider>
-          {
+          {dots && (
+            <div onClick={clickToDotButton} className="dots-wrapper">
+              <div className="dots-list">
+                {Array(navigatePages)
+                  .fill(0)
+                  .map((el, index) => {
+                    return (
+                      <button
+                        key={index}
+                        id={String(index)}
+                        className={`dot ${isActive(index) ? "active" : ""}`}
+                      ></button>
+                    );
+                  })}
+              </div>
+            </div>
+          )}
+          {arrows && (
             <div className="button-wrapper back">
               <button
                 className="button back"
@@ -185,8 +226,8 @@ const Slider: React.FC<SliderProps> = ({
                 <img src={leftArrowImg} alt="back" />
               </button>
             </div>
-          }
-          {
+          )}
+          {arrows && (
             <div className="button-wrapper forward">
               <button
                 className="button forward"
@@ -195,7 +236,7 @@ const Slider: React.FC<SliderProps> = ({
                 <img src={rightArrowImg} alt="forward" />
               </button>
             </div>
-          }
+          )}
         </StyledSliderWrapper>
       </CenterWrapper>
     </SliderComponent>

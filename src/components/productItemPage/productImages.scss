@@ -10,15 +10,21 @@
     }
     &__currentImg {
         img {
+            cursor: pointer;
             max-width: 300px;
         }
     }
     &__imgBar {
         margin-top: 20px;
         img {
+            cursor: pointer;
             margin: 10px;
             max-width: 120px;
             height: 100px;
+            transition: 0.3s;
+        }:hover {
+            transition: 0.3s;
+            transform: scale(1.1);
         }
     }
 }

@@ -44,6 +44,30 @@ export const StyledSliderWrapper = styled.div<SliderWrapperProps>`
   overflow: hidden;
   width: ${(props) => (window.innerWidth < 800 ? 65 : props.width)}%;
   padding: ${(props) => (props.zoomFactor / props.visibleSlides) * 0.7 + "%"} 0;
+  .dots-wrapper {
+    width: 100%;
+    height: 25px;
+    position: relative;
+    .dots-list {
+      position: absolute;
+      top: -30px;
+      width: 100%;
+      display: flex;
+      justify-content: center; 
+      button {
+        cursor: pointer;
+        margin: 5px;
+        border-radius: 20px;
+        border: none;
+        width: 15px;
+        height: 15px;
+        background: rgba(0,0,0,0.3);
+    }
+    .active {
+      background: rgba(0,0,0,0.5);
+    }
+    }
+  } 
   .slide {
     border-radius: ${(props) => props.slideBorderRadius}px;
     box-shadow: ${(props) => props.slideBoxShadow};
@@ -53,7 +77,8 @@ export const StyledSliderWrapper = styled.div<SliderWrapperProps>`
     align-items: center;
     &__image {
       img {
-        max-width: ${(props) => props.maxImageWidth ? props.maxImageWidth : 250}px;
+        max-width: ${(props) =>
+          props.maxImageWidth ? props.maxImageWidth : 250}px;
       }
     }
     &__text {
