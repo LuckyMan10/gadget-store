@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import {Slider} from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
-import {ButtonComponent} from "components/header/ButtonComponent";
 import {useMediaQuery} from 'react-responsive';
+import {DynamicButtonComponent} from "components/buttons/Buttons";
 
 interface SearchSettingsI {
   title: string;
@@ -68,7 +68,7 @@ export const SearchSettings = ({
         />
         </Box>
       </section>
-      <ButtonComponent text="Искать"/>
+      <DynamicButtonComponent id="search" text="Искать"/>
       </div>
     </article>
   );

@@ -1,0 +1,121 @@
+@import "components/mixins.scss";
+@import "components/variables.scss";
+
+.productItemPage {
+
+    main {
+        display: grid;
+        align-items: center;
+        grid-gap: 25px;
+        grid-template-columns: repeat(auto-fill, 2);
+        grid-template-rows: repeat(auto-fill, 3);
+        grid-template-areas: "breadCrumbs breadCrumbs"
+                             "productImages productBuy"
+                             "specifications specifications";
+        .BreadCrumbs {
+            grid-area: breadCrumbs;
+        }
+        .productImages {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            grid-area: productImages;
+        }
+        .buyButton {
+            @include buy-btn-var-1();
+            grid-area: productBuy;
+            &__toFav {
+                button {
+                    @include button_default(10px, 5px, transparent, 0px, none, 600);
+                    @include clickEffect-2(0.96);
+                }
+            }
+            &__toBuy {
+                button {
+                    @include button_default(10px, 25px, $green_color_soft, 40px, white, 600);
+                    @include clickEffect-1(0.98);
+                }
+            }
+        }
+        .specifications {
+            grid-area: specifications;
+        }
+        @media all and(max-width: 1250px) {
+            .specifications {
+                .wrapper {
+                    grid-template-rows: repeat(auto-fill, 1fr);
+                    grid-template-columns: repeat(3, 1fr);
+                }
+                .table {
+                    width: 90%;
+                }
+            }
+        }
+        @media all and(max-width: 1000px) {
+            .productImages {
+                &__wrapper {
+                    min-width: 400px;
+                }
+            }
+        }
+        @media all and(max-width: 760px) {
+            .productBuy {
+                display: flex;
+                justify-content: center;
+            }
+            grid-template-columns: repeat(auto-fill, 2);
+            grid-template-rows: repeat(auto-fill, 4);
+            grid-template-areas: "breadCrumbs breadCrumbs"
+                                 "productImages productImages"
+                                 "productBuy productBuy"
+                                 "specifications specifications";
+        }
+        @media all and(max-width: 600px) {
+            .row {
+                p:nth-child(1) {
+                    font-size: 15px;
+                }
+            }
+            .productImages {
+                &__wrapper {
+                    min-width: 300px;
+                }
+                &__currentImg {
+                    img {
+                        cursor: pointer;
+                        max-width: 150px;
+                    }
+                }
+            }
+            .specifications {
+                .wrapper {
+                    grid-template-rows: repeat(auto-fill, 1fr);
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+        }
+        @media all and(max-width: 385px) {
+            .productImages {
+                &__wrapper {
+                    min-width: 220px;
+                }
+                &__currentImg {
+                    img {
+                        cursor: pointer;
+                        max-width: 120px;
+                    }
+                }
+                &__imgBar img {
+                    max-width: 70px;
+                    height: 60px;
+                }
+            }
+            .specifications {
+                .wrapper {
+                    grid-template-rows: repeat(auto-fill, 1fr);
+                    grid-template-columns: 1fr;
+                }
+            }
+        }
+    }
+}

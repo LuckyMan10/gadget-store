@@ -31,6 +31,8 @@ export const StyledMobileMenu = styled.article<mobileMenuStyles>`
       width: 45px;
     }
     p {
+      font-family: "Roboto";
+      font-weight: 600;
       opacity: 0.7;
       text-align: center;
       max-width: 170px;
@@ -38,7 +40,8 @@ export const StyledMobileMenu = styled.article<mobileMenuStyles>`
     width: 183px;
     height: 136px;
   }
-  .header__button {
+  .clickButton {
+    font-family: "Roboto";
     img {
       display: none;
     }
@@ -57,6 +60,11 @@ export const StyledMobileMenu = styled.article<mobileMenuStyles>`
     font-weight: 400;
     &:hover {
       opacity: 1;
+    }
+    &:active {
+      background-color: rgba(61, 171, 85, 1);
+      transform: scale(0.98);
+      transition: 0.2s;
     }
   }
   @media (max-width: 400px) {

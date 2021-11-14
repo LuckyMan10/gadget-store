@@ -4,12 +4,15 @@
 .productImages {
     &__productTitle {
         font-size: 30px;
+        margin-bottom: 20px;
+        padding: 0 10px;
     }
     &__wrapper {
         padding: 20px;
         border-radius: 20px;
         background-color: white;
         max-width: 600px;
+        min-width: 600px;
         @include flex_center-v-h();
     }
     &__currentImg {

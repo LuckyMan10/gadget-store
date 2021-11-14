@@ -2,8 +2,8 @@ import { StyledMobileMenu } from "./mobileMenuStyles";
 import { Search } from "components/header/search";
 import { NavBar } from "components/navbar/navbar";
 import React, { useEffect, useState } from "react";
-import { ButtonComponent } from "components/header/ButtonComponent";
-import {MenuButton} from 'components/header/menuButton';
+import {MenuButton} from "components/header/menuButton";
+import {DynamicButtonComponent} from "components/buttons/Buttons";
 
 type MobileMenuType = {
   setMenuVisible(value: boolean): void;
@@ -17,6 +17,10 @@ export const MobileMenu = ({setMenuVisible, menuVisible}:MobileMenuType) => {
     setScrollHeight(document.body.scrollHeight);
   }, []);
 
+  const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
+    console.log(e);
+  }
+
   const mobileMenuButtons = [
     { id: 1, text: "Избранное" },
     { id: 2, text: "Корзина" },
@@ -27,9 +31,9 @@ export const MobileMenu = ({setMenuVisible, menuVisible}:MobileMenuType) => {
     <StyledMobileMenu scrollHeight={scrollHeight}>
       <MenuButton setMenuVisible={setMenuVisible} menuVisible={menuVisible}/>
       <Search hideMenu={true} />
-      <NavBar />
+      <NavBar navBarClick={navBarClick}/>
       {mobileMenuButtons.map((el) => {
-        return <ButtonComponent key={el.id} text={el.text} />;
+        return <DynamicButtonComponent id={String(el.id)} key={el.id} text={el.text} />;
       })}
     </StyledMobileMenu>
   );

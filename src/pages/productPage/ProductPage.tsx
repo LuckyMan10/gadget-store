@@ -32,12 +32,15 @@ export const ProductPage: FC = () => {
       navigate(e);
     }
   }
+  const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
+    console.log(e);
+  }
 
   return (
     <div className="productPage">
       <main>
         <BreadCrumbs category={category} />
-        {!isMobile && <NavBar />}
+        {!isMobile && <NavBar navBarClick={navBarClick}/>}
         <Products
         toProductHandler={toProductHandler}
         />

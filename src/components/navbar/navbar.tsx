@@ -9,7 +9,11 @@ interface someDataI {
   route: string;
 }
 
-export const NavBar = () => {
+interface navBarI {
+  navBarClick(e: React.MouseEvent<HTMLUListElement>): void;
+}
+
+export const NavBar = ({navBarClick}: navBarI) => {
   const someData: Array<someDataI> = [
     { id: 1, route: "/smartphones", name: "Смартфоны", img: "navIcon0" },
     { id: 2, route: "/tablets", name: "Планшеты", img: "navIcon1" },
@@ -44,14 +48,14 @@ export const NavBar = () => {
   return (
     <nav className="navbar">
       <div className="navbar__wrapper">
-        <ul className="navbar__list">
+        <ul onClick={navBarClick} className="navbar__list">
           {someData.map((el: someDataI) => {
             return (
-              <Link key={el.id} to={el.route}>
-                <li className="navbar__list-item">
-                  <button className="navbar__button">
-                    <img src={icons[el.img]} alt="category logo" />
-                    <p>{el.name}</p>
+              <Link id={String(el.id)} key={el.id} to={el.route}>
+                <li id={String(el.id)} className="navbar__list-item">
+                  <button id={String(el.id)} className="navbar__button">
+                    <img id={String(el.id)} src={icons[el.img]} alt="category logo" />
+                    <p id={String(el.id)}>{el.name}</p>
                   </button>
                 </li>
               </Link>

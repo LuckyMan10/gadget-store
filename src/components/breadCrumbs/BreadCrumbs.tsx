@@ -22,6 +22,7 @@ const StyledBreadCrumbs = styled.ul`
 
 export const BreadCrumbs = ({ category, item }: BreadCrumbsI) => {
   return (
+    <article className="BreadCrumbs">
     <StyledBreadCrumbs>
       <li>
         <Link to="/">Главная</Link>
@@ -33,5 +34,6 @@ export const BreadCrumbs = ({ category, item }: BreadCrumbsI) => {
       <span>/</span>
       {item && <li>{item}</li>}
     </StyledBreadCrumbs>
+    </article>
   );
 };

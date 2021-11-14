@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 @mixin menu_buttons($imgSize, $fontSize, $border, $hoverColor) {
     transition: 0.2s;
     font-size: $fontSize;
@@ -58,4 +60,62 @@
     display: grid;
     grid-template-rows: repeat(auto-fill, 1fr);
     grid-template-columns: repeat(2, 1fr);
+}
+
+@mixin buy-btn-var-1() {
+    margin: 16px;
+    &__wrapper {
+        padding: 20px;
+        border-radius: 20px;
+        background-color: white;
+        max-width: 300px;
+        grid-gap: 20px;
+        display: grid;
+        justify-content: space-around;
+        grid-template-columns: repeat(auto-fill, 2);
+        grid-template-rows: repeat(auto-fill, 2);
+        grid-template-areas: "price toFav"
+                             "buyBtn buyBtn";
+    }
+
+    &__price {
+        font-weight: 500;
+        color: $green_color_soft;
+        font-size: 50px;
+        grid-area: price;
+    }
+    &__toFav {
+        grid-area: toFav;
+    }
+    &__toBuy {
+        display: flex;
+        justify-content: center;
+        grid-area: buyBtn;
+        button {
+            font-size: 50px;
+            padding: 10px;
+        }
+    }
+}
+
+@mixin clickEffect-1($scale) {
+    transition: 0.2s;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    &:active {
+        background: $green_color_darker;
+        box-shadow: none;
+        transition: 0.2s;
+        transform: scale($scale);
+    }
+}
+
+@mixin clickEffect-2($scale) {
+    transition: 0.2s;
+    &:active {
+        img {
+            opacity: 0.9;
+        }
+        transition: 0.2s;
+        transform: scale($scale);
+    }
 }

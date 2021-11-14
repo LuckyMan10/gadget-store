@@ -9,10 +9,15 @@ import {CompanySlider} from 'components/sliders/company-slider/companySlider';
 import {Footer} from 'components/footer/footer';
 
 export const HomePage: FC = () => {
+
+  const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
+    console.log(e);
+  }
+
   return (
     <div className="homePage">
       <main>
-        <NavBar/>
+        <NavBar navBarClick={navBarClick}/>
         <TopSlider />
         <Stock />
         <CurrentOffers />

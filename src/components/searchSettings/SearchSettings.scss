@@ -60,7 +60,8 @@
         
     }
 
-    .header__button {
-        @include button_default(10px, 14px, $green_lime_variant_1, 36px, white, 500);
+    .clickButton {
+        @include button_default(10px, 14px, $green_lime_variant_1, 35px, white, 600);
+        @include clickEffect-2(0.97);
     }
 }

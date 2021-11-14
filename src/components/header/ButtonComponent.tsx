@@ -5,7 +5,7 @@ interface ButtonComponentType {
   id?: string;
 }
 
-export const ButtonComponent = ({img, text, id}: ButtonComponentType) => {
+export const ButtonComponents = ({img, text, id}: ButtonComponentType) => {
 
   return (
     <button id={id ? id : 'button'} className="header__button">

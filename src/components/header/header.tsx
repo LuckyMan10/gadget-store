@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import "./header.scss";
 import { Logo } from "./logo";
 import { Search } from "./search";
-import { ButtonComponent } from "./ButtonComponent";
 import { MobileMenu } from "components/mobile-menu/mobileMenu";
 import { useMediaQuery } from "react-responsive";
 import { logo, heart, cart, account } from "./imports";
 import { MenuButton } from "./menuButton";
+import {DynamicButtonComponent} from "components/buttons/Buttons";
 
 export const Header = () => {
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
@@ -23,7 +23,7 @@ export const Header = () => {
       <Search hideMenu={false} />
       <section className="header__buttons">
         {headerButtons.map((el) => {
-          return <ButtonComponent key={el.id} img={el.img} text={el.text} />;
+          return <DynamicButtonComponent id={String(el.id)} key={el.id} img={el.img} text={el.text} />;
         })}
       </section>
       <section className="header__menu">
@@ -40,7 +40,7 @@ export const Header = () => {
               <Search hideMenu={true} />
               {headerButtons.map((el) => {
                 return (
-                  <ButtonComponent key={el.id} img={el.img} text={el.text} />
+                  <DynamicButtonComponent id={String(el.id)} key={el.id} img={el.img} text={el.text} />
                 );
               })}
             </div>

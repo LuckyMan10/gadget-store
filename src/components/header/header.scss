@@ -78,7 +78,7 @@
     grid-gap: 5px;
     font-family: inherit;
   }
-  &__button {
+  .clickButton {
     @include button_default(6px, 5px, white, 16px, rgba(0, 0, 0, 0.56), 600);
     &:hover {
       box-shadow: $button_hover_shadow;
@@ -102,7 +102,7 @@
       justify-content: center;
       align-items: flex-start;
     &-wrapper {
-      .header__button {
+      .clickButton {
         margin: 10px auto;
         width: 100%;
         @include menu_buttons(60px, 25px, 2px solid rgba(0, 0, 0, 0.1), rgba(241, 241, 241, 0.795));
