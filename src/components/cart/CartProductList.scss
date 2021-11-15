@@ -1,0 +1,49 @@
+@import "../mixins.scss";
+
+.cartProductList {
+    display: grid;
+    margin: 50px 0px;
+    padding: 0px 20px;
+    justify-content: space-around;
+    align-items: center;
+    grid-template-rows: repeat(auto-fill, 2);
+    grid-template-columns: repeat(auto-fill, 2);
+    grid-template-areas: "title title"
+                         "products buyBtn";
+    &__title {
+        grid-area: title;
+        font-size: 40px;
+        margin-bottom: 15px;
+        opacity: 0.75;
+    }
+    &__products {
+        grid-area: products;
+    }
+    &__wrapper {
+        border-radius: 20px;
+        min-height: 100px;
+        padding: 20px;
+        background-color: white;
+    }
+    .buyButton {
+        grid-area: buyBtn;
+        @include buy-btn-var-2();
+        button {
+            @include clickEffect-1(0.98);
+        }
+    }
+    @media all and(max-width: 760px) {
+        grid-template-rows: repeat(auto-fill, 3);
+        grid-template-columns: repeat(auto-fill, 1);
+        grid-template-areas: "title"
+                             "products"
+                             "buyBtn";
+        .buyButton {
+            display: flex;
+            justify-content: center;
+        }
+        &__title {
+            text-align: center;
+        }
+    }
+}

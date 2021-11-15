@@ -1,3 +1,6 @@
+import minus from "assets/icons/minus.svg"
+import plus from "assets/icons/plus.svg";
+
 type ClickButtonType = {
   text?: string;
   img?: string;
@@ -11,6 +14,11 @@ type BuyButtonType = {
   onClick(e: React.MouseEvent<HTMLButtonElement>): void;
   id: string;
 };
+type ChangeValueButtonType = {
+  value: number;
+  increment(): void;
+  decrement(): void;
+};
 
 export const DynamicButtonComponent = ({ text, img, id }: ClickButtonType) => {
   return (
@@ -18,6 +26,26 @@ export const DynamicButtonComponent = ({ text, img, id }: ClickButtonType) => {
       {img && <img id={id} src={img} alt="icon button" />}
       {text && <span id={id}>{text}</span>}
     </button>
+  );
+};
+
+export const ChangeValueButtonComponent = ({value, increment, decrement}: ChangeValueButtonType) => {
+  return (
+    <article className="ChangeValueButton">
+      <button
+      onClick={increment}
+      className="ChangeValueButton__increment"
+      >
+      <img src={plus} alt="increment"/>
+      </button>
+      <p>{value}</p>
+      <button
+      onClick={decrement}
+      className="ChangeValueButton__decrement"
+      >
+      <img src={minus} alt="decrement"/>
+      </button>
+    </article>
   );
 };
 
@@ -30,21 +58,21 @@ export const BuyButtonComponent = ({
   id,
 }: BuyButtonType) => {
   return (
-    <article id={id} className="buyButton">
-     <div className="buyButton__wrapper">
-      <section className="buyButton__price">
-        {isCart ? <p>К оплате: {price} рублей.</p> : <p>{price} P.</p>}
-      </section>
-      {toFav && (
-        <section id={id} className="buyButton__toFav">
-          <button>
-            <img id={id} src={toFav} alt="add to fav" />
-          </button>
+    <article onClick={onClick} id={id} className="buyButton">
+      <div className="buyButton__wrapper">
+        <section className="buyButton__price">
+          {isCart ? <p>К оплате: {price} рублей.</p> : <p>{price} P.</p>}
         </section>
-      )}
-      <section id={id} className="buyButton__toBuy">
-        <button id={id}>{isCart ? "Оплатить" : "Купить"}</button>
-      </section>
+        {toFav && (
+          <section id={id} className="buyButton__toFav">
+            <button>
+              <img id={id} src={toFav} alt="add to fav" />
+            </button>
+          </section>
+        )}
+        <section id={id} className="buyButton__toBuy">
+          <button id={id}>{isCart ? "Оплатить" : "Купить"}</button>
+        </section>
       </div>
     </article>
   );

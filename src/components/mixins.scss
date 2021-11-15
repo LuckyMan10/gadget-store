@@ -97,8 +97,42 @@
         }
     }
 }
+@mixin buy-btn-var-2() {
+    margin: 16px;
+    &__wrapper {
+        padding: 20px;
+        border-radius: 20px;
+        background-color: white;
+        max-width: 300px;
+    }
+    p {
+
+        font-size: 30px;
+    }
+    &__price {
+        font-weight: 500;
+        color: $gray_light_variant_1;
+        font-size: 50px;
+        grid-area: price;
+    }
+    &__toBuy {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        grid-area: buyBtn;
+        button {
+            color: white;
+            background: $green_color_soft;
+            border: none;
+            font-size: 40px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    }
+}
 
 @mixin clickEffect-1($scale) {
+    cursor: pointer;
     transition: 0.2s;
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     &:active {
@@ -110,6 +144,7 @@
 }
 
 @mixin clickEffect-2($scale) {
+    cursor: pointer;
     transition: 0.2s;
     &:active {
         img {

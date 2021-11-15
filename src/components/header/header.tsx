@@ -7,18 +7,38 @@ import { useMediaQuery } from "react-responsive";
 import { logo, heart, cart, account } from "./imports";
 import { MenuButton } from "./menuButton";
 import {DynamicButtonComponent} from "components/buttons/Buttons";
+import {useNavigate} from 'react-router-dom';
 
 export const Header = () => {
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
   const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
+  const navigate = useNavigate();
   const headerButtons = [
-    { id: 1, img: heart, text: "Избранное" },
-    { id: 2, img: cart, text: "Корзина" },
-    { id: 3, img: account, text: "Войти" },
+    { id: "favorite", img: heart, text: "Избранное" },
+    { id: "cart", img: cart, text: "Корзина" },
+    { id: "login", img: account, text: "Войти" },
   ];
+  const enum headerEnum {
+    CART = 'cart',
+    FAVORITE = 'favorite',
+    LOGIN = 'login',
+    HOME = '/'
+  }
+
+  const headerHandleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const id = (e.target as HTMLElement).id;
+    if(id) {
+      if(id === headerEnum.CART) {
+        navigate(headerEnum.CART);
+      }
+      if(id === headerEnum.HOME) {
+        navigate(headerEnum.HOME)
+      }
+    }
+  }
 
   return (
-    <header className="header">
+    <header onClick={headerHandleClick} className="header">
       <Logo />
       <Search hideMenu={false} />
       <section className="header__buttons">
@@ -40,7 +60,7 @@ export const Header = () => {
               <Search hideMenu={true} />
               {headerButtons.map((el) => {
                 return (
-                  <DynamicButtonComponent id={String(el.id)} key={el.id} img={el.img} text={el.text} />
+                  <DynamicButtonComponent id={el.id} key={el.id} img={el.img} text={el.text} />
                 );
               })}
             </div>

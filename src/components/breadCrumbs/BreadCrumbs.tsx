@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 interface BreadCrumbsI {
-  category: string;
+  category: string[];
   item?: string;
 }
 
@@ -29,7 +29,7 @@ export const BreadCrumbs = ({ category, item }: BreadCrumbsI) => {
       </li>
       <span>/</span>
       <li>
-        {item ? <Link to={`/${category}`}>{category}</Link> : category}
+        {item ? <Link to={`/${category[1]}`}>{category[0]}</Link> : category[0]}
       </li>
       <span>/</span>
       {item && <li>{item}</li>}

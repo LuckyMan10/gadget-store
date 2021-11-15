@@ -29,9 +29,8 @@ export const ProductImages = () => {
         <section onClick={activeImageHandler} className="productImages__imgBar">
           {images.map((el) => {
             return (
-              <div className="barItem">
+              <div key={el.id} className="barItem">
               <img
-                key={el.id}
                 id={el.id}
                 src={el.img}
                 alt="product image"

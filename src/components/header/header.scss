@@ -22,6 +22,7 @@
   background-color: white;
   box-shadow: $boxShadow_2;
   &__logo {
+    cursor: pointer;
     min-width: 195px;
     position: relative;
     z-index: 51;
