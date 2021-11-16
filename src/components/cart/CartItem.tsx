@@ -29,14 +29,17 @@ export const CartItem = ({ name, price, img }: CartItemI) => {
       <div className="CartItem__wrapper">
         <h3 className="CartItem__title">{name}</h3>
         <div className="CartItem__buttons">
+        {/* don't important*/}
           <section className="CartItem__toFavBtn">
             <DynamicButtonComponent id="toFavorite" text="В избранное" />
           </section>
+        {/* don't important*/}
           <section className="CartItem__toRemoveBtn">
             <DynamicButtonComponent id="toRemove" text="Удалить" />
           </section>
         </div>
       </div>
+      {/* don't important*/}
       <section className="CartItem__toChangeValue">
         <ChangeValueButtonComponent
           value={valueOfProduct}

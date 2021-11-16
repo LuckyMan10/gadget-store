@@ -10,6 +10,7 @@ import { Header } from "components/header/header";
 import { Footer } from "components/footer/footer";
 import ErorGif from "assets/images/not_found.gif";
 import { ErrorComponent } from "components/Error/ErrorComponent";
+import { FavoritesPage } from "pages/favoritesPage/FavoritesPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/:category" element={<ProductPage />} />
         <Route path="/:category/:item" element={<ProductItemPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/favorite" element={<FavoritesPage />} />
         <Route
           path="*"
           element={

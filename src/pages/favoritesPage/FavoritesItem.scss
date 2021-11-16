@@ -1,0 +1,99 @@
+@import "components/mixins.scss";
+@import "components/variables.scss";
+
+.favoritesPage {
+.productItem {
+    background-color: white;
+    padding: 20px;
+    margin: 20px 0px;
+    border-radius: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-around;
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+    &__btn-1 {
+        button {
+            font-size: 20px;
+            padding: 20px;
+            background: $btn_success;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            @include clickEffect-2(0.97);
+        }
+    }
+    &__btn-2 {
+        button {
+            text-align: center;
+            font-size: 20px;
+            padding: 20px;
+            background: $btn_danger;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            @include clickEffect-2(0.97);
+        }
+    }
+    &__image {
+        img {
+            max-width: 200px;
+        }
+    }
+    &__title {
+        font-size: 30px;
+        margin-bottom: 25px;
+    }
+    &__buttons {
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    &__price {
+        text-align: end;
+        font-size: 35px;
+        font-weight: 500;
+        opacity: 0.8;
+    }
+}
+@media all and(max-width: 900px) {
+    .productItem {
+        &__buttons {
+            gap: 5px;
+        }
+    }
+}
+@media all and(max-width: 830px) {
+    .productItem {
+        &__btn-2, &__btn-1 {
+            button {
+                padding: 14px;
+            }
+        }
+        &__title {
+            font-size: 20px;
+        }
+        &__image {
+            img {
+                max-width: 150px;
+            }
+        }
+    }
+}
+@media all and(max-width: 600px) {
+    .productItem {
+        flex-direction: column;
+        &__buttons {
+            justify-content: center;
+        }
+    }
+}
+}

@@ -54,8 +54,10 @@ export const Header = () => {
       if (id === headerEnum.HOME) {
         navigate(headerEnum.HOME);
       }
+      if (id === headerEnum.FAVORITE) {
+        navigate(headerEnum.FAVORITE);
+      }
       if (id === headerEnum.LOGIN) {
-        console.log("modal pls");
         menuVisible && dispatch(setMenuVisible(!menuVisible));
         handleChangeVisibleAuthModal();
       }

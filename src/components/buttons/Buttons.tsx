@@ -15,9 +15,9 @@ type BuyButtonType = {
   id: string;
 };
 type ChangeValueButtonType = {
-  value: number;
-  increment(): void;
-  decrement(): void;
+  value?: number;
+  increment?(): void;
+  decrement?(): void;
 };
 
 export const DynamicButtonComponent = ({ text, img, id }: ClickButtonType) => {

@@ -1,0 +1,52 @@
+@import "components/mixins.scss";
+@import "components/variables.scss";
+
+.favoritesPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__products {
+      width: 70%;
+  }
+  &__buttons {
+    .clickButton {
+        margin: 40px 0px;
+        font-size: 20px;
+        padding: 20px;
+        background: $btn_success;
+        color: white;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        @include clickEffect-2(0.97);
+    }
+  }
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 40px 0px;
+  }
+  &__title {
+    font-size: 50px;
+    opacity: 0.8;
+  }
+  @media all and(max-width: 1270px) {
+      &__products {
+          width: 90%;
+      }
+  }
+  @media all and(max-width: 400px) {
+    &__header {
+        img {
+            max-width: 50px;
+        }
+        gap: 15px;
+        margin: 20px 0px;
+      }
+      &__title {
+          font-size: 30px;
+      }
+}
+}
