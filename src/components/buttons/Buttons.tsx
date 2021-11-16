@@ -1,4 +1,4 @@
-import minus from "assets/icons/minus.svg"
+import minus from "assets/icons/minus.svg";
 import plus from "assets/icons/plus.svg";
 
 type ClickButtonType = {
@@ -29,21 +29,19 @@ export const DynamicButtonComponent = ({ text, img, id }: ClickButtonType) => {
   );
 };
 
-export const ChangeValueButtonComponent = ({value, increment, decrement}: ChangeValueButtonType) => {
+export const ChangeValueButtonComponent = ({
+  value,
+  increment,
+  decrement,
+}: ChangeValueButtonType) => {
   return (
     <article className="ChangeValueButton">
-      <button
-      onClick={increment}
-      className="ChangeValueButton__increment"
-      >
-      <img src={plus} alt="increment"/>
+      <button onClick={decrement} className="ChangeValueButton__decrement">
+        <img src={minus} alt="decrement" />
       </button>
       <p>{value}</p>
-      <button
-      onClick={decrement}
-      className="ChangeValueButton__decrement"
-      >
-      <img src={minus} alt="decrement"/>
+      <button onClick={increment} className="ChangeValueButton__increment">
+        <img src={plus} alt="increment" />
       </button>
     </article>
   );

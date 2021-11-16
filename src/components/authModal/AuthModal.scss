@@ -1,0 +1,26 @@
+@import "../mixins.scss";
+
+.authModal {
+    z-index: 30;
+    position: fixed;
+    width: 100%;
+    top: 30%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    &__title {
+        font-size: 45px;
+        opacity: 0.8;
+    }
+    &__wrapper {
+        padding: 20px;
+        border-radius: 20px;
+        background: white;
+        max-width: 80%;
+        @include flex_center-v-h();
+    }
+    &__forms {
+        display: flex;
+    }
+}

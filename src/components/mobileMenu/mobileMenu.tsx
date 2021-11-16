@@ -17,8 +17,11 @@ export const MobileMenu = ({setMenuVisible, menuVisible}:MobileMenuType) => {
     setScrollHeight(document.body.scrollHeight);
   }, []);
 
-  const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     console.log(e);
+  }
+  const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
+    return null;
   }
 
   const mobileMenuButtons = [
@@ -28,7 +31,7 @@ export const MobileMenu = ({setMenuVisible, menuVisible}:MobileMenuType) => {
     { id: 4, text: "Регистрация" },
   ];
   return (
-    <StyledMobileMenu scrollHeight={scrollHeight}>
+    <StyledMobileMenu onClick={handleClick} scrollHeight={scrollHeight}>
       <MenuButton setMenuVisible={setMenuVisible} menuVisible={menuVisible}/>
       <Search hideMenu={true} />
       <NavBar navBarClick={navBarClick}/>

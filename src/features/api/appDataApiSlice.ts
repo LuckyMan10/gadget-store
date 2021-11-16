@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface appDataStateI {
+  menuVisible: boolean;
+  authModalVisible: boolean;
   appDataItems: Array<{
     id: string;
     route: string;
@@ -11,6 +13,8 @@ interface appDataStateI {
 }
 
 const initialState: appDataStateI = {
+  menuVisible: false,
+  authModalVisible: false,
   appDataItems: [
     {
       id: "1",
@@ -74,6 +78,15 @@ const initialState: appDataStateI = {
 const appDataSlice = createSlice({
   name: "appDataItems",
   initialState,
-  reducers: {},
+  reducers: {
+    setMenuVisible(state, action: PayloadAction<boolean>) {
+      state.menuVisible = action.payload;
+    },
+    setAuthModalVisible(state, action: PayloadAction<boolean>) {
+      state.authModalVisible = action.payload;
+    }
+  },
 });
+
+export const {setMenuVisible, setAuthModalVisible} = appDataSlice.actions;
 export default appDataSlice.reducer;

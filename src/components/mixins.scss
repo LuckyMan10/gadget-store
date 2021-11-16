@@ -55,6 +55,11 @@
     justify-content: center;
     align-items: center;
 }
+@mixin flex_column-center() {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 
 @mixin navbar-horizontal() {
     display: grid;
