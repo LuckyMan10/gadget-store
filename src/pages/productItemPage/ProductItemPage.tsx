@@ -5,17 +5,25 @@ import { BreadCrumbs } from "components/breadCrumbs/BreadCrumbs";
 import { ProductImages } from "components/productItemPage/productImages";
 import { Specifications } from "components/productItemPage/specifications";
 import { BuyButtonComponent } from "components/buttons/Buttons";
-import { useAppDispatch, useAppSelector } from "app/hooks";
 import heartImg from "assets/icons/heart_transparent.svg";
 import "./ProductItemPage.scss";
+import {useFetchNavDataQuery, useFetchOneProductQuery} from "features/api/appApiSlice";
+
+interface navbarDataItemI {
+    id: string;
+    category: string;
+    name: string;
+    companies: Array<string>;
+}
 
 export const ProductItemPage = () => {
   const { category, item } = useParams() as {
-    category: string;
+    category: string | string[];
     item: string;
   };
-  const appData = useAppSelector((state) => state.appData.appDataItems);
-  const categories = appData.filter((el) => el.categories[1] === category);
+  const { data = [], isFetching } = useFetchNavDataQuery();
+  const {data: productData, isFetching: productIsFetch} = useFetchOneProductQuery(item);
+  const categories = data.filter((el: navbarDataItemI) => el.category === category);
   const clickHandler = () => {};
   const buttonsData = [
     { id: "1", text: "Мобильная связь" },
@@ -30,10 +38,10 @@ export const ProductItemPage = () => {
   return (
     <div className="productItemPage">
       <main>
-      {categories[0] ?
+      {categories[0] && productData ?
       <>
-        <BreadCrumbs category={categories[0].categories} item={item} />
-        <ProductImages />
+        <BreadCrumbs category={categories[0].category} name={categories[0].name} item={item} />
+        {!productIsFetch && <ProductImages images={productData[0].images} title={data[0].name}/>}
         <BuyButtonComponent
           text="Купить"
           toFav={heartImg}
@@ -42,7 +50,7 @@ export const ProductItemPage = () => {
           onClick={clickHandler}
           id={"20"}
         />
-        <Specifications buttonsData={buttonsData} />
+        {!productIsFetch && <Specifications data={productData[0].description} />}
       </>
       : <div>Loading...</div>
       }

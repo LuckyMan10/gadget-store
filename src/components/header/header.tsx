@@ -12,12 +12,12 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import {
   setMenuVisible,
   setAuthModalVisible,
-} from "features/api/appDataApiSlice";
+} from "features/appVisible/appVisibleSlice";
 import { AuthModal } from "components/authModal/AuthModal";
 
 export const Header = () => {
   const { menuVisible, authModalVisible } = useAppSelector(
-    (state) => state.appData
+    (state) => state.appVisible
   );
   const dispatch = useAppDispatch();
   const handleChangeVisibleMenu = () => {

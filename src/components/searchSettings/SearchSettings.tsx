@@ -10,10 +10,9 @@ interface SearchSettingsI {
   category: string;
   appData: Array<{
     id: string;
-    route: string;
-    img: string;
-    categories: string[];
-    firms: string[];
+    category: string;
+    name: string;
+    companies: string[];
   }>;
   changePrice(event: Event, newValue: number | number[]): void;
   price: Array<number>;
@@ -27,7 +26,7 @@ export const SearchSettings = ({
   price,
   isMobile,
 }: SearchSettingsI) => {
-  const currentCategory = appData.filter((el) => el.categories[1] === category);
+  const currentCategory = appData.filter((el) => el.category === category);
   console.log(currentCategory);
   function valuetext(value: number) {
     return `${value}`;
@@ -36,7 +35,7 @@ export const SearchSettings = ({
   return (
     <article className="searchSettings">
       <div className="searchSettings__wrapper">
-        <h2 className="searchSettings__title">{currentCategory[0] ? currentCategory[0].categories[0] : "loading..."}</h2>
+        <h2 className="searchSettings__title">{currentCategory[0] ? currentCategory[0].name : "loading..."}</h2>
         <section className="searchSettings__companyList">
           <h3 className="searchSettings__listTitle">Производитель</h3>
           <ul>
@@ -46,7 +45,7 @@ export const SearchSettings = ({
                 <span className="list__text">Показать все</span>
               </label>
             </li>
-            {currentCategory[0] ? currentCategory[0].firms.map((el, index) => {
+            {currentCategory[0] ? currentCategory[0].companies.map((el, index) => {
               return (
                 <li className="list" key={index}>
                   <label className="label">

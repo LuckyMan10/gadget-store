@@ -1,10 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import addDataReducer from "features/api/appDataApiSlice";
+import appVisibleSlice from "features/appVisible/appVisibleSlice";
+import {apiSlice} from "features/api/appApiSlice";
 
 export const store = configureStore({
   reducer: {
-    appData: addDataReducer,
+    appVisible: appVisibleSlice,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(apiSlice.middleware);
+  }
 });
 
 export type AppDispatch = typeof store.dispatch;

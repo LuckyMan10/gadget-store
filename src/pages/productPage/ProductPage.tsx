@@ -11,12 +11,24 @@ import { useMediaQuery } from "react-responsive";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import ErorGif from "assets/images/not_found.gif";
 import { ErrorComponent } from "components/Error/ErrorComponent";
+import {useFetchNavDataQuery, useFetchCategoryQuery} from "features/api/appApiSlice";
+
+interface navbarDataItemI {
+    id: string;
+    category: string;
+    name: string;
+    companies: string[];
+}
 
 export const ProductPage: FC = () => {
-  const appData = useAppSelector((state) => state.appData.appDataItems);
   const { category } = useParams() as {
     category: string;
   };
+  const { data = [], isFetching } = useFetchNavDataQuery();
+  const categoryItems = useFetchCategoryQuery(category);
+  if(categoryItems.data) {
+    console.log(categoryItems.data);
+  }
   const [price, setPrice] = useState<number[]>([0, 5000]);
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
   const navigate = useNavigate();
@@ -25,26 +37,31 @@ export const ProductPage: FC = () => {
   };
   const toProductHandler = (e: string) => {
     if (e) {
+      console.log(e);
       navigate(e);
     }
   };
   const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
-    console.log(e);
+    const id = (e.target as HTMLElement).id;
+    if(id) {
+      const oneCategory = data.filter((el: any) => el.id === id);
+      console.log(oneCategory)
+    }
   };
-  const categories = appData.filter((el) => el.categories[1] === category);
+  const categories = data.filter((el: any) => el.category === category);
 
   return (
     <div className="productPage">
       {categories[0] ? (
         <main>
-          <BreadCrumbs category={categories[0].categories} />
+          <BreadCrumbs category={categories[0].category} name={categories[0].name}/>
           {!isMobile && <NavBar navBarClick={navBarClick} />}
-          <Products toProductHandler={toProductHandler} />
+          {categoryItems.data ? <Products products={categoryItems.data} toProductHandler={toProductHandler} /> : <div>Загрузка...</div>}
           <SearchSettings
             price={price}
             isMobile={isMobile}
             changePrice={changePrice}
-            appData={appData}
+            appData={data}
             category={category}
           />
         </main>

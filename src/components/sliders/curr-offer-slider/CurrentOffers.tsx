@@ -5,7 +5,25 @@ import React from "react";
 import Slider from "components/sliders/customSlider";
 import "./CurrentOffers.scss";
 
-export const CurrentOffers = () => {
+interface productI {
+  company: string;
+  name: string;
+  price: number;
+  images: Array<string>;
+  description: Array<any>;
+  category: string;
+  id: string;
+}
+
+interface currOffersI {
+  data: {
+    slides: Array<productI>;
+    slider: string;
+    _id: string;
+  };
+}
+
+export const CurrentOffers = ({ data }: currOffersI) => {
   const SliderProps = {
     zoomFactor: 5,
     slideMargin: 5,
@@ -18,45 +36,14 @@ export const CurrentOffers = () => {
     rightArrowImg: right_arrow,
     slidePadding: 20,
     slideBorderRadius: 10,
-    slideBoxShadow:
-      "none",
+    slideBoxShadow: "none",
     sliderBackground: "white",
     dots: false,
-    autoPlay: false
+    autoPlay: false,
   };
   const mocData = [
     {
       id: 1,
-      name: "Iphone 8",
-      price: "От 60 тыс. рублей.",
-      img: slideImg,
-    },
-    {
-      id: 2,
-      name: "Iphone 8",
-      price: "От 60 тыс. рублей.",
-      img: slideImg,
-    },
-    {
-      id: 3,
-      name: "Iphone 8",
-      price: "От 60 тыс. рублей.",
-      img: slideImg,
-    },
-    {
-      id: 4,
-      name: "Iphone 8",
-      price: "От 60 тыс. рублей.",
-      img: slideImg,
-    },
-    {
-      id: 5,
-      name: "Iphone 8",
-      price: "От 60 тыс. рублей.",
-      img: slideImg,
-    },
-    {
-      id: 6,
       name: "Iphone 8",
       price: "От 60 тыс. рублей.",
       img: slideImg,
@@ -67,14 +54,14 @@ export const CurrentOffers = () => {
     <div className="CurrentOffers">
       <h2 className="CurrentOffers__title">Актуальные предложения</h2>
       <Slider {...SliderProps}>
-        {mocData.map((slide) => (
+        {data.slides.map((slide) => (
           <div className="slide" key={slide.id}>
             <section className="slide__image">
-              <img src={slide.img} alt="character" />
+              <img src={slide.images[2]} alt="character" />
             </section>
             <section className="slide__text">
               <h2>{slide.name}</h2>
-              <p>{slide.price}</p>
+              <p>Цена: {slide.price} рублей.</p>
             </section>
           </div>
         ))}

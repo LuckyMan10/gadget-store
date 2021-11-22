@@ -2,7 +2,12 @@ import img1 from "assets/images/mocImages/img1.webp";
 import "./productImages.scss";
 import React, { useState } from "react";
 
-export const ProductImages = () => {
+interface productImagesI {
+  images: Array<string>;
+  title: string;
+}
+
+export const ProductImages = ({images, title}: productImagesI) => {
   const [activeImage, setActiveImage] = useState<number>(0);
   const activeImageHandler = (e: React.MouseEvent<HTMLImageElement>) => {
     const imgId = Number((e.target as HTMLElement).id);
@@ -12,30 +17,23 @@ export const ProductImages = () => {
     }
   };
 
-  const images = [
-    { id: "0", img: img1 },
-    { id: "1", img: img1 },
-    { id: "2", img: img1 },
-    { id: "3", img: img1 },
-  ];
-
   return (
     <article className="productImages">
-    <h1 className="productImages__productTitle">Смартфон Apple iPhone SE 2020 128 ГБ черный</h1>
+    <h1 className="productImages__productTitle">{title}</h1>
       <div className="productImages__wrapper">
         <section className="productImages__currentImg">
-          <img src={images[activeImage].img} alt="product image" />
+          <img src={images[activeImage]} alt="product image" />
         </section>
         <section onClick={activeImageHandler} className="productImages__imgBar">
-          {images.map((el) => {
+          {images.map((el, index) => {
             return (
-              <div key={el.id} className="barItem">
+              <div key={`${title}_${index}`} className="barItem">
               <img
-                id={el.id}
-                src={el.img}
+                id={`${index}`}
+                src={el}
                 alt="product image"
               />
-              <span className={`image ${activeImage === Number(el.id) ? "active" : ""}`}></span>
+              <span className={`image ${activeImage === index ? "active" : ""}`}></span>
               </div>
             );
           })}

@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 interface BreadCrumbsI {
-  category: string[];
+  category: string;
+  name: string;
   item?: string;
 }
 
@@ -20,7 +21,7 @@ const StyledBreadCrumbs = styled.ul`
   }
 `;
 
-export const BreadCrumbs = ({ category, item }: BreadCrumbsI) => {
+export const BreadCrumbs = ({ category, name, item }: BreadCrumbsI) => {
   return (
     <article className="BreadCrumbs">
     <StyledBreadCrumbs>
@@ -29,7 +30,7 @@ export const BreadCrumbs = ({ category, item }: BreadCrumbsI) => {
       </li>
       <span>/</span>
       <li>
-        {item ? <Link to={`/${category[1]}`}>{category[0]}</Link> : category[0]}
+        {item ? <Link to={`/${category}`}>{name}</Link> : category}
       </li>
       <span>/</span>
       {item && <li>{item}</li>}

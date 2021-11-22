@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 
 const carouselSchema = new mongoose.Schema({
   slider: { type: String, required: true },
-  slides: [
-    {type: String, required: true},
-  ],
-}, {collection: "gadgets"});
+  slides: {type: Array}
+}, {collection: "carouselData"});
 
-module.exports = mongoose.model("carousel", carouselSchema);
+module.exports = mongoose.model("Carousel", carouselSchema);

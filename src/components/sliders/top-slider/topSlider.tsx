@@ -2,7 +2,15 @@ import { topSliderSlides } from "../imports";
 import Slider from "components/sliders/customSlider";
 import "./topSlider.scss";
 
-export const TopSlider = () => {
+interface topSliderI {
+  data: {
+    slides: Array<string>;
+    slider: string;
+    _id: string;
+  };
+}
+
+export const TopSlider = ({ data }: topSliderI) => {
   const SliderProps = {
     zoomFactor: 0,
     slideMargin: 1,
@@ -16,14 +24,14 @@ export const TopSlider = () => {
     slideBoxShadow: "none",
     sliderBackground: "none",
     dots: true,
-    autoPlay: true
+    autoPlay: true,
   };
 
   return (
     <article className="topSlider">
       <div className="topSlider__wrapper">
         <Slider {...SliderProps}>
-          {topSliderSlides.map((el, index) => {
+          {data.slides.map((el: string, index: number) => {
             return (
               <div key={index} className="slide">
                 <img src={el} alt="slider img" />

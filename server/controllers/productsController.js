@@ -1,5 +1,6 @@
 const Product = require("../models/productModel");
 const navBar = require("../models/navbarModel");
+const Carousel = require("../models/carouselModel");
 
 class productController {
   async findById(req, res) {
@@ -12,6 +13,19 @@ class productController {
       res.status(200).json(product);
     } catch (e) {
       console.log("findById error: ", e);
+      res.status(500).json(e);
+    }
+  }
+  async getCategory(req, res) {
+    try {
+      const {name} = req.query;
+      if(!name) {
+        throw "Ошибка. Не указана категория.";
+      }
+      const products = await Product.find({category: name});
+      res.status(200).json(products);
+    } catch(e) {
+      console.log("getCategory error: ", e);
       res.status(500).json(e);
     }
   }
@@ -42,7 +56,12 @@ class productController {
 
   async carouselData(req, res) {
       try {
-
+        const {type} = req.query;
+        if(!type) {
+          throw "Ошибка. Указан несуществующий тип слайдера."
+        }
+        const slider = await Carousel.find({slider: type});
+        res.status(200).json(slider);
       } catch(e) {
           console.log("carouselData error: ", e);
           res.status(500).json(e);
