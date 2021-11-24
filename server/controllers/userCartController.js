@@ -34,18 +34,21 @@ class userController {
       }
       const token = req.headers.authorization.split(" ")[1];
       const decoded = tokenService.validateAccessToken(token);
-      const { updateItem, type } = req.body;
+      const {type, productId} = req.body;
+      if(!type || !productId) {
+        throw "Недостаточно данных для занесения в корзину.";
+      }
       const cart = await Cart.find({ userId: decoded.id });
       console.log("cart: ", cart);
       const newItem = cart[0].products.filter(
-        (el) => el.productId === updateItem.productId
+        (el) => el.productId === productId
       );
       if (!newItem[0]) {
         await Cart.findOneAndUpdate(
           { userId: decoded.id },
           {
             $push: {
-              products: updateItem,
+              products: {productId},
             },
           }
         );
@@ -60,7 +63,7 @@ class userController {
           throw "Неизвестный type. Допустимые значения INCREMENT или DECREMENT.";
         }
         await Cart.findOneAndUpdate(
-          { userId: decoded.id, "products.productId": updateItem.productId },
+          { userId: decoded.id, "products.productId": productId },
           {
             $inc: {
               "products.$.quantity": isChangeQuantity(
@@ -76,7 +79,7 @@ class userController {
       }
     } catch (e) {
       console.log("updateUserCart error: ", e);
-      return res.json({ message: e });
+      return res.status(400).json({ message: e });
     }
   }
   async deleteUserCart(req, res) {

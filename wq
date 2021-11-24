@@ -1,0 +1,83 @@
+[33mcommit 4ff8bb67006a917dcd3b625e56cfcdf6627093d4[m[33m ([m[1;36mHEAD -> [m[1;32mtests[m[33m)[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Wed Nov 24 18:07:01 2021 +0700
+
+    working version
+
+[33mcommit ebcb722fd3fb14475861e97667e8900e4d67c37a[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Mon Nov 22 20:55:11 2021 +0700
+
+    fetch navData & category & sliders & oneProduct. Created apiSlice.
+
+[33mcommit 09d9802c2f6e128295ae0f45d9fd1c05be1d12c7[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Mon Nov 22 13:03:03 2021 +0700
+
+    added server
+
+[33mcommit d88ccd884fa5e756d86f3cd86434261d6508275c[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Tue Nov 16 20:18:51 2021 +0700
+
+    cart page && product item component
+
+[33mcommit 71553685fcbc3d2faf2a03f980b7ed61d05f2cf3[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Tue Nov 16 16:29:28 2021 +0700
+
+    added modal window registration && open close functional && forms, validation forms with yup schema. For forms was used formik
+
+[33mcommit 113978a6cc749e03be932fb21dc8d02a7cc16f19[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Mon Nov 15 21:35:08 2021 +0700
+
+    redux toolkit added to project & cart page & autoRedirect & handling 404
+
+[33mcommit 66a2845fd18967ac7ac416072dfb6a68accbc659[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Sun Nov 14 20:07:09 2021 +0700
+
+    one component button & product item page & adaptive
+
+[33mcommit da9ce2db7022bd62bb78344791b6a3eebbc9c9c8[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Sun Nov 14 01:10:46 2021 +0700
+
+    work on product page
+
+[33mcommit 6671cffeb726850068488daec9c84b6d5dfe6af3[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Sat Nov 13 19:07:13 2021 +0700
+
+    remastered top slider & using custom slider & added new params for custom slider(dots, arrows)
+
+[33mcommit ac28591d8a88a6d369d2b76f854edc12b19b0e1a[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Sat Nov 13 06:12:11 2021 +0700
+
+    added breadcrumbs
+
+[33mcommit 4611cec10a7616a7bec4175ef90a165007a23664[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Sat Nov 13 03:42:15 2021 +0700
+
+    added variables & mixins. Created products page & adaptive.
+
+[33mcommit e24e18472103f6671f7f823cfafd39d51b604430[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Fri Nov 12 04:15:18 2021 +0700
+
+    hide menu on mobile
+
+[33mcommit a399a131ca21725e117c7cec0f5b5dee555d0a9b[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Thu Nov 11 20:46:58 2021 +0700
+
+    new project. Work on home page, use custom slider
+
+[33mcommit 74edd8b142a9b5a0a540acd98396a6855d5a154a[m[33m ([m[1;32mmaster[m[33m)[m
+Author: LuckyMan <danil.shemyakin.01@list.ru>
+Date:   Mon Nov 1 00:29:36 2021 +0700
+
+    Initialize project using Create React App

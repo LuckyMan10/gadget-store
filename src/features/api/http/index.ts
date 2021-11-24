@@ -11,11 +11,13 @@ interface hostI {
 interface createResponseI {
     method: string;
     url: string;
-    host: any;
+    httpHost: any;
     data?: {
         username?: string;
         email?: string;
         password?: string;
+        productId?: string;
+        type?: string;
     }
 }
 
@@ -27,20 +29,21 @@ export function host({withCredentials, baseURL, headers}: hostI) {
   });
 };
 
-export async function createResponse({method, url, host, data }: createResponseI) {
-    const response = await host[url](url, (data && data));
+export async function createResponse({method, url, httpHost, data }: createResponseI) {
+    const options = {
+        method,
+        url,
+        xsrfCookieName: 'XSRF-TOKEN',
+        xsrfHeaderName: 'X-XSRF-TOKEN'
+    }
+    if(data) {
+        //@ts-ignore
+        options.data = data;
+    }
+    console.log(options);
+    const response = await httpHost(options);
     return response;
 }
-/*
-Now, we can do this:
-    const headers = {
-        api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-        authorization: access_key
-    }
-    const httpHost = host(true, 'http://localhost:5000/api/user', headers);
-    const response = await createResponse("get", "/cart", httpHost);
-*/
-
 
 
 /*

@@ -1,4 +1,5 @@
 import axios from "axios";
+import {host, createResponse} from "./index";
 
 interface updateUserCartI {
     access_key: string;
@@ -16,6 +17,33 @@ interface deleteUserCartI {
 const baseUrl = "http://localhost:5000/api/user";
 const api_key = "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf";
 
+/*
+Now, we can do this:
+    const headers = {
+        api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+        authorization: access_key
+    }
+    const httpHost = host(true, 'http://localhost:5000/api/user', headers);
+    const response = await createResponse("get", "/cart", httpHost);
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 function host(baseURL: string, headers: {api_key: string, authorization: string}) {
   return axios.create({
     withCredentials: true,
@@ -47,3 +75,4 @@ const deleteUserCart = async ({access_key, id}: deleteUserCartI) => {
     }).delete(`/cart?id=${id}`);
     return response;
 }
+*/
