@@ -1,6 +1,8 @@
 import { Formik, Form, Field } from "formik";
 import { validationLogin } from "../validation";
 import "../formsDefaultStyles.scss";
+import {useAppDispatch} from "app/hooks";
+import {login} from "features/api/authApiSlice";
 
 type FormData = {
   email: string;
@@ -8,6 +10,7 @@ type FormData = {
 };
 
 export const AuthorizationForm = () => {
+  const dispatch = useAppDispatch();
   const initValues: FormData = {
     email: "",
     password: "",
@@ -19,7 +22,8 @@ export const AuthorizationForm = () => {
         initialValues={initValues}
         validationSchema={validationLogin}
         onSubmit={(values) => {
-          console.log("authorization: ", values);
+          const userData = Object.assign({}, values);
+          dispatch(login(userData));
         }}
       >
         {({ errors, touched }) => (

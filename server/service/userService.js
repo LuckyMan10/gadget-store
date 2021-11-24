@@ -58,6 +58,7 @@ class userService {
     }
   }
   async refreshProcess({ refreshToken }) {
+    try {
     if (!refreshToken) {
       throw "Требуется авторизация";
     }
@@ -71,8 +72,12 @@ class userService {
     const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return { ...tokens, user: userDto };
+    } catch(e) {
+      console.log("refreshProcess error: ", e)
+      throw e;
+    }
   }
-  async logout({refreshToken}) {
+  async logoutProcess({refreshToken}) {
     const token = await tokenService.removeToken(refreshToken);
     return token;
   }

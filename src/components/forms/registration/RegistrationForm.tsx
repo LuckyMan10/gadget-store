@@ -1,7 +1,8 @@
 import { Formik, Form, Field } from "formik";
 import {validationRegistration} from "../validation";
 import "../formsDefaultStyles.scss";
-
+import {useAppDispatch} from "app/hooks";
+import {registration} from "features/api/authApiSlice";
 
 interface FormValues {
   username: string;
@@ -11,6 +12,7 @@ interface FormValues {
 }
 
 export const RegistrationForm = () => {
+  const dispatch = useAppDispatch();
   const initValues: FormValues = {
     username: "",
     email: "",
@@ -23,7 +25,12 @@ export const RegistrationForm = () => {
         initialValues={initValues}
         validationSchema={validationRegistration}
         onSubmit={(values) => {
-          console.log("submit", values);
+          const userData = Object.assign({}, values);
+          delete userData.confirmPassword;
+          console.log("submit", userData);
+          dispatch(registration(userData)).then((data) => {
+            console.log("response: ", data);
+          })
         }}
       >
         {({ errors, touched }) => (

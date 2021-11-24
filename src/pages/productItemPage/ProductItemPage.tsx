@@ -8,6 +8,7 @@ import { BuyButtonComponent } from "components/buttons/Buttons";
 import heartImg from "assets/icons/heart_transparent.svg";
 import "./ProductItemPage.scss";
 import {useFetchNavDataQuery, useFetchOneProductQuery} from "features/api/appApiSlice";
+import {useAppSelector} from "app/hooks";
 
 interface navbarDataItemI {
     id: string;
@@ -21,26 +22,27 @@ export const ProductItemPage = () => {
     category: string | string[];
     item: string;
   };
+  const { isAuth } = useAppSelector((state) => state.auth);
   const { data = [], isFetching } = useFetchNavDataQuery();
   const {data: productData, isFetching: productIsFetch} = useFetchOneProductQuery(item);
-  const categories = data.filter((el: navbarDataItemI) => el.category === category);
-  const clickHandler = () => {};
-  const buttonsData = [
-    { id: "1", text: "Мобильная связь" },
-    { id: "2", text: "Заводские данные" },
-    { id: "3", text: "Внешний вид" },
-    { id: "4", text: "Общие параметры" },
-    { id: "5", text: "Экран" },
-    { id: "6", text: "Корпус и защита" },
-    { id: "7", text: "Система" },
-  ];
+  const [categories] = data.filter((el: navbarDataItemI) => el.category === category);
+  const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const id = (e.target as HTMLElement).id;
+    console.log('buy id: ', id);
+    if(isAuth) {
+      console.log('auth add')
+    } else {
+      console.log('not auth add')
+    }
+    
+  };
 
   return (
     <div className="productItemPage">
       <main>
-      {categories[0] && productData ?
+      {categories && productData ?
       <>
-        <BreadCrumbs category={categories[0].category} name={categories[0].name} item={item} />
+        <BreadCrumbs category={categories.category} name={categories.name} item={item} />
         {!productIsFetch && <ProductImages images={productData[0].images} title={data[0].name}/>}
         <BuyButtonComponent
           text="Купить"
@@ -48,7 +50,7 @@ export const ProductItemPage = () => {
           isCart={false}
           price={50000}
           onClick={clickHandler}
-          id={"20"}
+          id={productData[0].id}
         />
         {!productIsFetch && <Specifications data={productData[0].description} />}
       </>

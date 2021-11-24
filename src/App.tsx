@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./styles/reset.css";
 import "./styles/globals.css";
 import { HomePage } from "pages/homePage/HomePage";
@@ -11,8 +11,15 @@ import { Footer } from "components/footer/footer";
 import ErorGif from "assets/images/not_found.gif";
 import { ErrorComponent } from "components/Error/ErrorComponent";
 import { FavoritesPage } from "pages/favoritesPage/FavoritesPage";
+import {refresh} from "features/api/authApiSlice";
+import {useAppDispatch} from "app/hooks";
 
 function App() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(refresh());
+  }, [])
+
   return (
     <div className="App">
       <Header />

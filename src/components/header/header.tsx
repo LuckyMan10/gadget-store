@@ -19,6 +19,9 @@ export const Header = () => {
   const { menuVisible, authModalVisible } = useAppSelector(
     (state) => state.appVisible
   );
+  const {user, loading} = useAppSelector(
+    (state) => state.auth
+  )
   const dispatch = useAppDispatch();
   const handleChangeVisibleMenu = () => {
     dispatch(setMenuVisible(!menuVisible));
@@ -32,7 +35,7 @@ export const Header = () => {
   const headerButtons = [
     { id: "favorite", img: heart, text: "Избранное" },
     { id: "cart", img: cart, text: "Корзина" },
-    { id: "login", img: account, text: "Войти" },
+    { id: "login", img: account, text: loading ? user.user.username : "Войти" },
   ];
   const enum headerEnum {
     CART = "cart",

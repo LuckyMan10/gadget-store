@@ -11,10 +11,12 @@ export const Specifications = ({ data }: specificationsI) => {
 
   const [activeInfoId, setActiveInfoId] = useState<number>(0);
   const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
-    const id = Number((e.target as HTMLButtonElement).id);
+    const id = (e.target as HTMLButtonElement).id;
     if (id) {
-      setActiveInfoId(id);
+      const number_of_btn = Number(id.split("").pop());
+      setActiveInfoId(number_of_btn);
       setInfo(true);
+      console.log(data[number_of_btn]);
     }
   };
   return (
@@ -26,7 +28,7 @@ export const Specifications = ({ data }: specificationsI) => {
             <DynamicButtonComponent
               text={el.title}
               key={`${el.title}_${index}`}
-              id={`${el.title}_${index}`}
+              id={`specif_btn_${index}`}
             />
           ))}
         </div>
@@ -34,24 +36,24 @@ export const Specifications = ({ data }: specificationsI) => {
       {info && (
         <article className="specifications__table">
           <div className="table">
-          {
-            /*
-            <h2 className="title">{buttonsData[activeInfoId - 1].text}</h2>
-            <section className="information">
-              {data.map((el, index) => {
-                return (
-                  <div className="row">
-                    <div className="text">
-                      <p>Поддержка сетей 2G</p>
-                      <p>GSM 900, GSM 1900, GSM 1800, GSM 850</p>
-                    </div>
-                    <span></span>
-                  </div>
-                );
-              })}
-            </section>
-            */
-          }
+            {info && (
+              <>
+                <h2 className="title">{data[activeInfoId].title}</h2>
+                <section className="information">
+                  {Object.keys(data[activeInfoId]).slice(1).map((el: string, index: number) => {
+                    return (
+                      <div key={`table_key_${index}`} className="row">
+                        <div className="text">
+                          <p>{el}</p>
+                          <p>{data[activeInfoId][el]}</p>
+                        </div>
+                        <span></span>
+                      </div>
+                    );
+                  })}
+                </section>
+              </>
+            )}
           </div>
         </article>
       )}
