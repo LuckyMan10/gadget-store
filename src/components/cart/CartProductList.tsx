@@ -3,7 +3,11 @@ import "./CartItem.scss";
 import defaultImg from "assets/images/slider_2.webp";
 import { BuyButtonComponent } from "components/buttons/Buttons";
 import { ProductItemComponent } from "components/productItem/ProductItem";
-import React, { useState } from "react";
+import { useAppSelector, useAppDispatch } from "app/hooks";
+import React, { useState, useEffect } from "react";
+import { getUserCart, updateUserCart, deleteUserCart } from "features/api/userCartApiSlice";
+import {updateUserFavList} from "features/api/userFavListApiSlice";
+import { refresh } from "features/api/authApiSlice";
 
 interface cartProductListI {
   title: string;
@@ -13,56 +17,104 @@ const handleBuyClick = () => {
 };
 
 export const CartProductList = ({ title }: cartProductListI) => {
-  const [value, setValue] = useState<number>(0); // don't serious, just boilerplate
+  const dispatch = useAppDispatch();
+  const { isAuth, user } = useAppSelector((state) => state.auth);
+  const { userCart, loading } = useAppSelector((state) => state.cart);
+  useEffect(() => {
+    if (isAuth) {
+      dispatch(
+        getUserCart({
+          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+          access_key: user.accessToken,
+          baseURL: "http://localhost:5000/api/user",
+          method: "get",
+          url: "/cart",
+          withCredentials: true,
+        })
+      );
+    }
+  }, [isAuth]);
+  const btn_1 = { id: "toFavorite", text: "В избранное", type: "toFavorite" };
+  const btn_2 = { id: "toRemove", text: "Удалить", type: "toRemove" };
+  const clickHandler = (
+    e: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLElement>
+  ) => {
+    const productId = (e.target as HTMLElement).id;
+    const type = (e.target as HTMLElement).dataset.type;
+    const value = Number((e.target as HTMLElement).dataset.value);
+    if(type === "toRemove") {
+      dispatch(
+        deleteUserCart({
+          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+          access_key: user.accessToken,
+          baseURL: "http://localhost:5000/api/user",
+          method: "delete",
+          url: `/cart?id=${productId}`,
+          withCredentials: true
+        })
+      )
+      return null;
+    }
+    if(type === "toFavorite") {
+      const data = {productId};
+      dispatch(
+        updateUserFavList({
+          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+          access_key: user.accessToken,
+          baseURL: "http://localhost:5000/api/user",
+          method: "put",
+          url: `/favoriteList`,
+          withCredentials: true,
+          data
+        })
+      )
+      return null;
+    }
 
-  const btn_1 = { id: "toFavorite", text: "В избранное" };
-  const btn_2 = { id: "toRemove", text: "Удалить" };
-
-  const increment = () => {
-    setValue(value + 1);
-  };
-  const decrement = () => {
-    setValue(value - 1);
+    if(value === 1 && type === "DECREMENT") {
+      return null;
+    }
+    if (type && productId) {
+      const data = { type, productId };
+      dispatch(
+        updateUserCart({
+          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+          access_key: user.accessToken,
+          baseURL: "http://localhost:5000/api/user",
+          method: "put",
+          url: "/cart",
+          withCredentials: true,
+          data,
+        })
+      );
+    }
   };
 
   return (
     <article className="cartProductList">
       <h1 className="cartProductList__title">{title}</h1>
       <section className="cartProductList__products">
-        <div className="cartProductList__wrapper">
-          <ProductItemComponent
-            img={defaultImg}
-            name="Смартфон Apple iPhone SE 2020 128 ГБ черный"
-            btn_1={btn_1}
-            btn_2={btn_2}
-            isCounter={true}
-            counterValue={value}
-            increment={increment}
-            decrement={decrement}
-            price={50000}
-          />
-          <ProductItemComponent
-            img={defaultImg}
-            name="Смартфон Apple iPhone SE 2020 128 ГБ черный"
-            btn_1={btn_1}
-            btn_2={btn_2}
-            isCounter={true}
-            counterValue={value}
-            increment={increment}
-            decrement={decrement}
-            price={50000}
-          />
-          <ProductItemComponent
-            img={defaultImg}
-            name="Смартфон Apple iPhone SE 2020 128 ГБ черный"
-            btn_1={btn_1}
-            btn_2={btn_2}
-            isCounter={true}
-            counterValue={value}
-            increment={increment}
-            decrement={decrement}
-            price={50000}
-          />
+        <div onClick={clickHandler} className="cartProductList__wrapper">
+          {loading ?
+            userCart.products &&
+            userCart.products.length !== 0 &&
+            userCart.products.map((el, index) => {
+              return (
+                <ProductItemComponent
+                  key={`cartItemKey_${index}`}
+                  id={el.product.id}
+                  img={el.product.images[2]}
+                  name={el.product.name}
+                  btn_1={btn_1}
+                  btn_2={btn_2}
+                  isCounter={true}
+                  counterValue={el.quantity}
+                  price={el.quantity * el.product.price}
+                />
+              );
+            })
+            : <div>Загрузка...</div>
+            }
         </div>
       </section>
       <BuyButtonComponent

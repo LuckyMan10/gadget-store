@@ -3,6 +3,7 @@ const FavoriteList = require("../models/favoriteListModel");
 const Cart = require("../models/cartModel");
 const jwt = require("jsonwebtoken");
 const tokenService = require("../service/tokenService");
+const Product = require("../models/productModel");
 
 class userFavListController {
   async getFavList(req, res) {
@@ -21,25 +22,28 @@ class userFavListController {
     try {
       const token = req.headers.authorization.split(" ")[1];
       const decoded = tokenService.validateAccessToken(token);
-      const { updateItem } = req.body;
-      if (!updateItem) {
-        throw "Ошибка. Отсутствует товар, который нужно добавить в избранное.";
+      const { productId } = req.body;
+      if (!productId) {
+        throw "Ошибка. Необходимо указать id товара.";
       }
       const favoriteList = await FavoriteList.find({ userId: decoded.id });
-      const newItem = favoriteList[0].favoriteList.filter(
-        (el) => el.productId === updateItem.productId
+      const product = await Product.find({ id: productId });
+      if(!product[0]) {
+        throw "Указан id несуществующего продукта.";
+      }
+      const newItem = favoriteList[0].products.filter(
+        (el) => el.productId === productId
       );
       if (!newItem[0]) {
-        await FavoriteList.findOneAndUpdate(
+        const favList = await FavoriteList.findOneAndUpdate(
           { userId: decoded.id },
           {
             $push: {
-              favoriteList: updateItem,
+              products: {productId, product: product[0] },
             },
-          }
+          }, {new: true}
         );
-        const updatedFavList = await FavoriteList.find({ userId: decoded.id });
-        return res.json(updatedFavList);
+        return res.json(favList);
       }
       if (newItem[0]) {
         throw "Данный продукт уже есть в списке избранных.";
@@ -57,20 +61,15 @@ class userFavListController {
       if (!id) {
         return res.json({ message: "Недостаточно информации для удаления." })
       }
-      const favList = await FavoriteList.find({ userId: decoded.id });
-      const favListItem = favList[0].favoriteList.filter(
-        (el) => el.productId === id
-      );
-      await FavoriteList.findOneAndUpdate(
+      const favList = await FavoriteList.findOneAndUpdate(
         { userId: decoded.id },
         {
           $pull: {
-            favoriteList: { productId: id },
+            products: { productId: id },
           },
-        }
+        }, {new: true}
       );
-      const updatedFavList = await FavoriteList.find({ userId: decoded.id });
-      return res.json(updatedFavList);
+      return res.json(favList);
     } catch (e) {
       console.log("deleteFavList error: ", e);
       return res.json({ message: e });

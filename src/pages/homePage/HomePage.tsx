@@ -15,14 +15,13 @@ export const HomePage: FC = () => {
   const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
     console.log('e: ', e);
   }
-  console.log(isTopSliderFetching)
   return (
     <div className="homePage">
       <main>
         <NavBar navBarClick={navBarClick}/>
-        {!isTopSliderFetching ? <TopSlider data={topSlider[0]}/> : <div>Загрузка...</div>}
+        {!isTopSliderFetching && topSlider[0] ? <TopSlider data={topSlider[0]}/> : <div>Загрузка...</div>}
         <Stock />
-        {!isCurrOffFetching ? <CurrentOffers data={currOffSlider[0]}/> : <div>Загрузка...</div>}
+        {!isCurrOffFetching && topSlider[0] ? <CurrentOffers data={currOffSlider[0]}/> : <div>Загрузка...</div>}
         <CompanySlider />
       </main>
     </div>

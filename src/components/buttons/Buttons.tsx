@@ -4,6 +4,7 @@ import plus from "assets/icons/plus.svg";
 type ClickButtonType = {
   text?: string;
   img?: string;
+  type?: string;
   id: string;
 };
 type BuyButtonType = {
@@ -16,32 +17,30 @@ type BuyButtonType = {
 };
 type ChangeValueButtonType = {
   value?: number;
-  increment?(): void;
-  decrement?(): void;
+  id: string;
 };
 
-export const DynamicButtonComponent = ({ text, img, id }: ClickButtonType) => {
+export const DynamicButtonComponent = ({ text, img, id, type }: ClickButtonType) => {
   return (
-    <button id={id} className="clickButton">
-      {img && <img id={id} src={img} alt="icon button" />}
-      {text && <span id={id}>{text}</span>}
+    <button data-type={type} id={id} className="clickButton">
+      {img && <img data-type={type} id={id} src={img} alt="icon button" />}
+      {text && <span data-type={type} id={id}>{text}</span>}
     </button>
   );
 };
 
 export const ChangeValueButtonComponent = ({
   value,
-  increment,
-  decrement,
+  id
 }: ChangeValueButtonType) => {
   return (
-    <article className="ChangeValueButton">
-      <button onClick={decrement} className="ChangeValueButton__decrement">
-        <img src={minus} alt="decrement" />
+    <article id={id} className="ChangeValueButton">
+      <button data-type="DECREMENT" data-value={value} id={id} className="ChangeValueButton__decrement">
+        <img data-type="DECREMENT" data-value={value} id={id} src={minus} alt="decrement" />
       </button>
-      <p>{value}</p>
-      <button onClick={increment} className="ChangeValueButton__increment">
-        <img src={plus} alt="increment" />
+      <p id={id}>{value}</p>
+      <button data-type="INCREMENT" data-value={value} id={id} className="ChangeValueButton__increment">
+        <img data-type="INCREMENT" data-value={value} id={id} src={plus} alt="increment" />
       </button>
     </article>
   );

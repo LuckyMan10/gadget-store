@@ -47,7 +47,6 @@ export const Header = () => {
   const headerHandleClick = (
     e: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLElement>
   ) => {
-    console.log(e);
     const id = (e.target as HTMLElement).id;
     if (id) {
       if (id === headerEnum.CART) {

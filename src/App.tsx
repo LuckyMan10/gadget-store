@@ -18,6 +18,7 @@ function App() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(refresh());
+    console.log('check!')
   }, [])
 
   return (

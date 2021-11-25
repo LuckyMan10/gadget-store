@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const Cart = require("../models/cartModel");
+const Product = require("../models/productModel");
 const jwt = require("jsonwebtoken");
 const tokenService = require("../service/tokenService");
 
@@ -9,6 +10,7 @@ class userController {
       const token = req.headers.authorization.split(" ")[1];
       const decoded = tokenService.validateAccessToken(token);
       const userCart = await Cart.find({ userId: decoded.id });
+      console.log("cart: ", userCart);
       return res.json(userCart);
     } catch (e) {
       console.log("getUserCart error: ", e);
@@ -34,48 +36,49 @@ class userController {
       }
       const token = req.headers.authorization.split(" ")[1];
       const decoded = tokenService.validateAccessToken(token);
-      const {type, productId} = req.body;
-      if(!type || !productId) {
+      const { type, productId } = req.body;
+      if (!type || !productId) {
         throw "Недостаточно данных для занесения в корзину.";
       }
-      const cart = await Cart.find({ userId: decoded.id });
-      console.log("cart: ", cart);
-      const newItem = cart[0].products.filter(
-        (el) => el.productId === productId
+      const product = await Product.find({ id: productId });
+      if (!product[0]) {
+        throw "Указан id несуществующего продукта.";
+      }
+      const userCart = await Cart.find({ userId: decoded.id });
+      const check = userCart[0].products.filter(
+        (el) => el.product.id === productId
       );
-      if (!newItem[0]) {
-        await Cart.findOneAndUpdate(
+      if (!check[0]) {
+        const newItem = await Cart.findOneAndUpdate(
           { userId: decoded.id },
           {
             $push: {
-              products: {productId},
+              products: { quantity: 1, productId, product: product[0] },
             },
-          }
+          }, {new: true}
         );
-        const updatedCart = await Cart.find({ userId: decoded.id });
-        return res.json(updatedCart);
+        return res.json(newItem);
       }
-      if (newItem[0]) {
+      if (check[0]) {
         if (!type) {
           throw "Необходимо указать type (INCREMENT или DECREMENT)";
         }
         if (!quantity_values[type]) {
           throw "Неизвестный type. Допустимые значения INCREMENT или DECREMENT.";
         }
-        await Cart.findOneAndUpdate(
+        const newItem = await Cart.findOneAndUpdate(
           { userId: decoded.id, "products.productId": productId },
           {
             $inc: {
               "products.$.quantity": isChangeQuantity(
                 type,
-                newItem[0].quantity,
+                check[0].quantity,
                 quantity_values
               ),
             },
-          }
+          }, {new: true}
         );
-        const updatedCart = await Cart.find({ userId: decoded.id });
-        return res.json(updatedCart);
+        return res.json(newItem);
       }
     } catch (e) {
       console.log("updateUserCart error: ", e);
@@ -92,16 +95,15 @@ class userController {
       }
       const cart = await Cart.find({ userId: decoded.id });
       const cartItem = cart[0].products.filter((el) => el.productId === id);
-      await Cart.findOneAndUpdate(
+      const update = await Cart.findOneAndUpdate(
         { userId: decoded.id },
         {
           $pull: {
             products: { productId: id },
           },
-        }
+        }, {new: true}
       );
-      const updatedCart = await Cart.find({ userId: decoded.id });
-      return res.json(updatedCart);
+      return res.json(update);
     } catch (e) {
       console.log("deleteUserCart: ", e);
       return res.status(400).json({ message: e });

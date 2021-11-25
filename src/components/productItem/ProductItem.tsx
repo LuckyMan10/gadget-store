@@ -9,11 +9,10 @@ interface productItemI {
   name: string;
   isCounter: boolean;
   price: number;
-  btn_1?: { id: string; text: string };
-  btn_2?: { id: string; text: string };
+  btn_1?: { id: string; text: string; type: string; };
+  btn_2?: { id: string; text: string; type: string; };
   counterValue?: number;
-  increment?(): void;
-  decrement?(): void;
+  id: string;
 }
 
 export const ProductItemComponent = ({
@@ -24,8 +23,7 @@ export const ProductItemComponent = ({
   isCounter,
   counterValue,
   price,
-  increment,
-  decrement
+  id
 }: productItemI) => {
   return (
     <article className="productItem">
@@ -37,12 +35,12 @@ export const ProductItemComponent = ({
         <div className="productItem__buttons">
           {btn_1 && (
             <section className="productItem__btn-1">
-              <DynamicButtonComponent id={btn_1.id} text={btn_1.text} />
+              <DynamicButtonComponent type={btn_1.type} id={id} text={btn_1.text} />
             </section>
           )}
           {btn_2 && (
             <section className="productItem__btn-2">
-              <DynamicButtonComponent id={btn_2.id} text={btn_2.text} />
+              <DynamicButtonComponent type={btn_2.type} id={id} text={btn_2.text} />
             </section>
           )}
         </div>
@@ -50,9 +48,8 @@ export const ProductItemComponent = ({
       {isCounter && (
         <section className="productItem__counter">
           <ChangeValueButtonComponent
+            id={id}
             value={counterValue}
-            increment={increment}
-            decrement={decrement}
           />
         </section>
       )}

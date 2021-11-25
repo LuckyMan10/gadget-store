@@ -20,14 +20,6 @@ interface navbarDataItemI {
   name: string;
   companies: Array<string>;
 }
-/*
-    api_key: string;
-    access_key: string;
-    baseUrl: string;
-    method: string;
-    url: string;
-    withCredentials: boolean;
-*/
 
 export const ProductItemPage = () => {
   const { category, item } = useParams() as {

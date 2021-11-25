@@ -10,7 +10,7 @@
     display: flex;
     gap: 15px;
         
-    #toFavorite {
+    button[data-type='toFavorite'] {
       min-width: 205px;
       font-size: 20px;
       padding: 20px;
@@ -23,7 +23,7 @@
       @include clickEffect-2(0.97);
     }
        
-    #toRemove {
+    button[data-type='toRemove'] {
       text-align: center;
       font-size: 20px;
       padding: 20px;

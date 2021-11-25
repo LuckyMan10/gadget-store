@@ -12,19 +12,7 @@ interface productI {
   id: string;
 }
 
-interface initialStateI {
-  userCart: {
-    userId: string;
-    products: Array<{
-      productId: string;
-      quantity: number;
-      product: productI;
-    }>
-  };
-  loading: boolean;
-}
-
-interface userCartI {
+interface userFavI {
   api_key: string;
   access_key: string;
   baseURL: string;
@@ -32,16 +20,23 @@ interface userCartI {
   url: string;
   withCredentials: boolean;
   data?: {
-    username?: string;
-    email?: string;
-    password?: string;
-    productId?: string;
-    type?: string;
+    productId: string;
   };
+};
+
+interface initialStateI {
+  userFavList: {
+    userId: string;
+    products: Array<{
+      productId: string;
+      product: productI;
+    }>
+  };
+  loading: boolean;
 }
 
-export const getUserCart = createAsyncThunk(
-  "user/getCart",
+export const getUserFavList = createAsyncThunk(
+  "user/getFavList",
   async ({
     api_key,
     access_key,
@@ -49,7 +44,7 @@ export const getUserCart = createAsyncThunk(
     method,
     url,
     withCredentials,
-  }: userCartI) => {
+  }: userFavI) => {
     const headers = {
       api_key,
       authorization: `Bearer ${access_key}`,
@@ -60,8 +55,8 @@ export const getUserCart = createAsyncThunk(
   }
 );
 
-export const updateUserCart = createAsyncThunk(
-  "user/putCart",
+export const updateUserFavList = createAsyncThunk(
+  "user/putFavList",
   async ({
     api_key,
     access_key,
@@ -70,7 +65,7 @@ export const updateUserCart = createAsyncThunk(
     url,
     withCredentials,
     data,
-  }: userCartI) => {
+  }: userFavI) => {
     const headers = {
       api_key,
       authorization: `Bearer ${access_key}`,
@@ -81,16 +76,16 @@ export const updateUserCart = createAsyncThunk(
   }
 );
 
-export const deleteUserCart = createAsyncThunk(
-  "user/delCart",
+export const deleteUserFavList = createAsyncThunk(
+  "user/delFavList",
   async ({
     api_key,
     access_key,
     baseURL,
     method,
     url,
-    withCredentials
-  }: userCartI) => {
+    withCredentials,
+  }: userFavI) => {
     const headers = {
       api_key,
       authorization: `Bearer ${access_key}`,
@@ -99,46 +94,43 @@ export const deleteUserCart = createAsyncThunk(
     const response = await createResponse({ method, url, httpHost });
     return response.data;
   }
-)
+);
 
 const initialState = {
-  userCart: {
+  userFavList: {
     userId: "",
     products: [],
   },
   loading: false,
 } as initialStateI;
 
-const cartSlice = createSlice({
-  name: "authCart",
+const favListSlice = createSlice({
+  name: "favList",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-
-    builder.addCase(getUserCart.fulfilled, (state, action) => {
-      if (action.payload[0]) {
-        state.userCart.userId = action.payload[0].userId;
-        state.userCart.products = action.payload[0].products;
-        state.loading = true;
-      }
-    });
-
-    builder.addCase(updateUserCart.fulfilled, (state, action) => {
+    builder.addCase(getUserFavList.fulfilled, (state, action) => {
       if (action.payload) {
-        state.userCart.userId = action.payload.userId;
-        state.userCart.products = action.payload.products;
+        state.userFavList.userId = action.payload[0].userId;
+        state.userFavList.products = action.payload[0].products;
         state.loading = true;
       }
     });
-
-    builder.addCase(deleteUserCart.fulfilled, (state, action) => {
-      if(action.payload) {
-        state.userCart.userId = action.payload.userId;
-        state.userCart.products = action.payload.products;
+    builder.addCase(updateUserFavList.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.userFavList.userId = action.payload.userId;
+        state.userFavList.products = action.payload.products;
         state.loading = true;
       }
-    })
+    });
+    builder.addCase(deleteUserFavList.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.userFavList.userId = action.payload.userId;
+        state.userFavList.products = action.payload.products;
+        state.loading = true;
+      }
+    });
   },
 });
 
-export default cartSlice.reducer;
+export default favListSlice.reducer;
