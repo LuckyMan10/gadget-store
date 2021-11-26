@@ -5,15 +5,17 @@ import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import { useMediaQuery } from "react-responsive";
 import { DynamicButtonComponent } from "components/buttons/Buttons";
+import { useAppSelector, useAppDispatch } from "app/hooks";
+import {searchProduct} from "features/api/productsApiSlice";
 
 interface SearchSettingsI {
   category: string;
-  appData: Array<{
+  appData: {
     id: string;
     category: string;
     name: string;
     companies: string[];
-  }>;
+  }
   isMobile: boolean;
 }
 interface currCategoryI {
@@ -31,23 +33,28 @@ export const SearchSettings = ({
   appData,
   isMobile,
 }: SearchSettingsI) => {
+  const dispatch = useAppDispatch();
+  const {user, isAuth} = useAppSelector((state) => state.auth);
   const [items, setItems] = useState<itemI>({});
-  const [currCategory, setCurrCategory] = useState<currCategoryI>({ name: "", companies: [], category: "" });
+  const [currCategory, setCurrCategory] = useState<currCategoryI>({
+    name: "",
+    companies: [],
+    category: "",
+  });
   const [defaultBox, setDefaultBox] = useState<boolean>(false);
   const [price, setPrice] = useState<number[]>([0, 5000]);
   const changePrice = (event: Event, newValue: number | number[]) => {
     setPrice(newValue as number[]);
   };
   useEffect(() => {
-    const currentCategory = appData.filter((el) => el.category === category);
     let itemsState = {};
-    currentCategory[0].companies.forEach((el) => {
+    appData.companies.forEach((el) => {
       //@ts-ignore
       itemsState[el] = false;
     });
-    setCurrCategory(currentCategory[0]);
+    setCurrCategory(appData);
     setItems(itemsState);
-  }, []);
+  }, [appData]);
   function valuetext(value: number) {
     return `${value}`;
   }
@@ -61,11 +68,26 @@ export const SearchSettings = ({
     setItems(checkboxItems);
   }
   function searchClick() {
-    console.log({
-      price,
-      companies: items,
-      category: currCategory.category,
-    });
+    if(isAuth) {
+      const data = {
+        price,
+        companies: items,
+        category: currCategory.category,
+      }
+      dispatch(
+        searchProduct({
+          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+          access_key: user.accessToken,
+          baseURL: "http://localhost:5000/api/products",
+          method: "post",
+          url: "/searchBar",
+          withCredentials: true,
+          data
+        })
+      ).then((data) => {
+        console.log('result: ', data);
+      })
+    };
   }
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
     const id = (e.target as HTMLElement).id;

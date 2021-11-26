@@ -32,11 +32,18 @@ class productController {
   async searchBar(req, res) {
     try {
       const { price, companies, category } = req.body;
+      console.log(req.body);
       if(!category || !price || !companies) {
         throw "Недостаточно данных для сортировки."
       }
+      let company_list = [];
+      Object.keys(companies).forEach((el) => {
+        if(companies[el]) {
+          company_list.push(el);
+        }
+      });
       const products = await Product.find({
-        $and: [{ price: { $gte: price[0] } }, { price: { $lte: price[1]} }, {company: {$in: companies}}, {category} ],
+        $and: [{ price: { $gte: price[0] } }, { price: { $lte: price[1]} }, {company: {$in: company_list}}, {category} ],
       });
       res.status(200).json(products);
     } catch (e) {

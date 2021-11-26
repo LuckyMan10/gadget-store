@@ -7,11 +7,12 @@
     grid-gap: 20px;
     margin-bottom: 40px;
     justify-content: space-around;
-    grid-template-rows: repeat(auto-fill, 2);
+    grid-template-rows: repeat(auto-fill, 3);
     grid-template-columns: repeat(auto-fill, 4);
     grid-template-areas:
       "breadCrumbs breadCrumbs breadCrumbs breadCrumbs"
-      "navbar products products searchSettings";
+      "navbar products products searchSettings"
+      "... pagination pagination ...";
     .BreadCrumbs {
       grid-area: breadCrumbs;
     }
@@ -26,6 +27,9 @@
       &__wrapper {
         max-width: 400px;
       }
+    }
+    .pagination {
+      grid-area: pagination;
     }
     @media all and(max-width: 1200px) and(min-width: 850px) {
       .navbar {

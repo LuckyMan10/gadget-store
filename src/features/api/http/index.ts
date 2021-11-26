@@ -18,6 +18,9 @@ interface createResponseI {
         password?: string;
         productId?: string;
         type?: string;
+        price?: number[];
+        companies?: {[key: string]: boolean};
+        category?: string;
     }
 }
 

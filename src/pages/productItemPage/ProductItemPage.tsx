@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Header } from "components/header/header";
 import { Footer } from "components/footer/footer";
@@ -7,12 +8,10 @@ import { Specifications } from "components/productItemPage/specifications";
 import { BuyButtonComponent } from "components/buttons/Buttons";
 import heartImg from "assets/icons/heart_transparent.svg";
 import "./ProductItemPage.scss";
-import {
-  useFetchNavDataQuery,
-  useFetchOneProductQuery,
-} from "features/api/appApiSlice";
+import { useFetchNavDataQuery } from "features/api/appApiSlice";
 import { useAppSelector, useAppDispatch } from "app/hooks";
 import { updateUserCart } from "features/api/userCartApiSlice";
+import { getOneProduct } from "features/api/productsApiSlice";
 
 interface navbarDataItemI {
   id: string;
@@ -28,9 +27,22 @@ export const ProductItemPage = () => {
   };
   const dispatch = useAppDispatch();
   const { isAuth, user } = useAppSelector((state) => state.auth);
+  useEffect(() => {
+    dispatch(
+      getOneProduct({
+        api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+        access_key: user.accessToken,
+        baseURL: "http://localhost:5000/api/products",
+        method: "get",
+        url: `/find?id=${item}`,
+        withCredentials: true,
+      })
+    );
+  }, []);
+  const { oneProduct, isWasFetched, loading } = useAppSelector(
+    (state) => state.products
+  );
   const { data = [], isFetching } = useFetchNavDataQuery();
-  const { data: productData, isFetching: productIsFetch } =
-    useFetchOneProductQuery(item);
   const [categories] = data.filter(
     (el: navbarDataItemI) => el.category === category
   );
@@ -38,7 +50,6 @@ export const ProductItemPage = () => {
     const id = (e.target as HTMLElement).id;
     console.log("buy id: ", id);
     if (isAuth) {
-      console.log("auth add");
       dispatch(
         updateUserCart({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
@@ -49,12 +60,10 @@ export const ProductItemPage = () => {
           withCredentials: true,
           data: {
             productId: id,
-            type: "INCREMENT"
-          }
+            type: "INCREMENT",
+          },
         })
-      ).then((data) => {
-        console.log(data);
-      });
+      );
     } else {
       console.log("not auth add");
     }
@@ -63,33 +72,29 @@ export const ProductItemPage = () => {
   return (
     <div className="productItemPage">
       <main>
-        {categories && productData ? (
+        {categories && loading && isWasFetched ? (
           <>
             <BreadCrumbs
               category={categories.category}
               name={categories.name}
               item={item}
             />
-            {!productIsFetch && (
-              <ProductImages
-                images={productData[0].images}
+            <ProductImages
+                images={oneProduct.images}
                 title={data[0].name}
-              />
-            )}
+            />
             <BuyButtonComponent
               text="Купить"
               toFav={heartImg}
               isCart={false}
               price={50000}
               onClick={clickHandler}
-              id={productData[0].id}
+              id={oneProduct.id}
             />
-            {!productIsFetch && (
-              <Specifications data={productData[0].description} />
-            )}
+            <Specifications data={oneProduct.description} />
           </>
         ) : (
-          <div>Loading...</div>
+          <div>Загрузка...</div>
         )}
       </main>
     </div>

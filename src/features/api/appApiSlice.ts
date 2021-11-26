@@ -42,11 +42,6 @@ export const apiSlice = createApi({
           return `/products/navData`;
         },
       }),
-      fetchCategory: builder.query<productI[], string>({
-        query(category) {
-          return `/products/category?name=${category}`;
-        },
-      }),
       fetchTopSlider: builder.query<topSliderI[], string>({
         query(type) {
           return `/products/carouselData?type=${type}`;
@@ -56,11 +51,6 @@ export const apiSlice = createApi({
         query(type) {
           return `/products/carouselData?type=${type}`;
         },
-      }),
-      fetchOneProduct: builder.query<productI[], string>({
-        query(id) {
-          return `/products/find?id=${id}`;
-        },
       })
     };
   },
@@ -68,8 +58,6 @@ export const apiSlice = createApi({
 
 export const {
   useFetchNavDataQuery,
-  useFetchCategoryQuery,
   useFetchTopSliderQuery,
-  useFetchCurrOffersSliderQuery,
-  useFetchOneProductQuery,
+  useFetchCurrOffersSliderQuery
 } = apiSlice;

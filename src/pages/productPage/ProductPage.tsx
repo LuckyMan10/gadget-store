@@ -11,24 +11,46 @@ import { useMediaQuery } from "react-responsive";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import ErorGif from "assets/images/not_found.gif";
 import { ErrorComponent } from "components/Error/ErrorComponent";
-import {useFetchNavDataQuery, useFetchCategoryQuery} from "features/api/appApiSlice";
+import { useFetchNavDataQuery } from "features/api/appApiSlice";
+import { getProductCategory, toBackPage, toForwardPage } from "features/api/productsApiSlice";
+import { DynamicButtonComponent } from "components/buttons/Buttons";
+import {Pagination} from "components/pagination/Pagination";
 
 interface navbarDataItemI {
-    id: string;
-    category: string;
-    name: string;
-    companies: string[];
+  id: string;
+  category: string;
+  name: string;
+  companies: string[];
 }
 
 export const ProductPage: FC = () => {
   const { category } = useParams() as {
     category: string;
   };
+  const { currentPage, allPages, currentProducts, isWasFetched, loading } = useAppSelector(
+    (state) => state.products
+  );
   const { data = [], isFetching } = useFetchNavDataQuery();
-  const categoryItems = useFetchCategoryQuery(category);
-  if(categoryItems.data) {
-    console.log(categoryItems.data);
-  }
+  const categories = data.filter((el: any) => el.category === category);
+
+  const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const [activeCategory, setActiveCategory] = useState<navbarDataItemI>();
+  useEffect(() => {
+    const currCategory = data.filter((el: any) => el.category === category);
+    setActiveCategory(currCategory[0]);
+    dispatch(
+      getProductCategory({
+        api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+        access_key: user.accessToken,
+        baseURL: "http://localhost:5000/api/products",
+        method: "get",
+        url: `/category?name=${category}`,
+        withCredentials: true,
+      })
+    );
+  }, [activeCategory, isFetching]);
+
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
   const navigate = useNavigate();
   const toProductHandler = (e: string) => {
@@ -39,25 +61,53 @@ export const ProductPage: FC = () => {
   };
   const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
     const id = (e.target as HTMLElement).id;
-    if(id) {
+    if (id) {
       const oneCategory = data.filter((el: any) => el.id === id);
-      console.log(oneCategory)
+      setActiveCategory(oneCategory[0]);
     }
   };
-  const categories = data.filter((el: any) => el.category === category);
+  const paginationHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    const id = (e.target as HTMLElement).id;
+    if(id && id === "toBack") {
+      dispatch(toBackPage());
+    }
+    if(id && id === "toForvard") {
+      dispatch(toForwardPage());
+    }
+  }
 
   return (
     <div className="productPage">
       {categories[0] ? (
         <main>
-          <BreadCrumbs category={categories[0].category} name={categories[0].name}/>
-          {!isMobile && <NavBar navBarClick={navBarClick} />}
-          {categoryItems.data ? <Products products={categoryItems.data} toProductHandler={toProductHandler} /> : <div>Загрузка...</div>}
-          <SearchSettings
-            isMobile={isMobile}
-            appData={data}
-            category={category}
+          <BreadCrumbs
+            category={categories[0].category}
+            name={categories[0].name}
           />
+          {!isMobile && <NavBar navBarClick={navBarClick} />}
+          {loading &&
+          currentProducts &&
+          currentProducts.length !== 0 &&
+          isWasFetched ? (
+            <Products
+              products={currentProducts}
+              toProductHandler={toProductHandler}
+            />
+          ) : (
+            <div>Загрузка...</div>
+          )}
+          {activeCategory && (
+            <SearchSettings
+              isMobile={isMobile}
+              appData={activeCategory}
+              category={category}
+            />
+          )}
+          <Pagination
+            currentPage={currentPage}
+            paginationHandler={paginationHandler}
+            allPages={allPages}
+            />
         </main>
       ) : (
         <ErrorComponent
