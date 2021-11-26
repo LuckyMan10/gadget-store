@@ -1,5 +1,5 @@
 import "./SearchSettings.scss";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Slider } from "@mui/material";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
@@ -14,49 +14,105 @@ interface SearchSettingsI {
     name: string;
     companies: string[];
   }>;
-  changePrice(event: Event, newValue: number | number[]): void;
-  price: Array<number>;
   isMobile: boolean;
+}
+interface currCategoryI {
+  name: string;
+  companies: Array<string>;
+  category: string;
+}
+
+interface itemI {
+  [key: string]: boolean;
 }
 
 export const SearchSettings = ({
   category,
   appData,
-  changePrice,
-  price,
   isMobile,
 }: SearchSettingsI) => {
-  const currentCategory = appData.filter((el) => el.category === category);
-  console.log(currentCategory);
+  const [items, setItems] = useState<itemI>({});
+  const [currCategory, setCurrCategory] = useState<currCategoryI>({ name: "", companies: [], category: "" });
+  const [defaultBox, setDefaultBox] = useState<boolean>(false);
+  const [price, setPrice] = useState<number[]>([0, 5000]);
+  const changePrice = (event: Event, newValue: number | number[]) => {
+    setPrice(newValue as number[]);
+  };
+  useEffect(() => {
+    const currentCategory = appData.filter((el) => el.category === category);
+    let itemsState = {};
+    currentCategory[0].companies.forEach((el) => {
+      //@ts-ignore
+      itemsState[el] = false;
+    });
+    setCurrCategory(currentCategory[0]);
+    setItems(itemsState);
+  }, []);
   function valuetext(value: number) {
     return `${value}`;
   }
-
+  function defaultBoxClick() {
+    setDefaultBox(!defaultBox);
+    let checkboxItems = {};
+    currCategory.companies.forEach((el) => {
+      //@ts-ignore
+      checkboxItems[el] = !defaultBox;
+    });
+    setItems(checkboxItems);
+  }
+  function searchClick() {
+    console.log({
+      price,
+      companies: items,
+      category: currCategory.category,
+    });
+  }
+  function handleClick(e: React.MouseEvent<HTMLDivElement>) {
+    const id = (e.target as HTMLElement).id;
+    const datasetValue = (e.target as HTMLElement).dataset.key;
+    if (id) {
+      if (id === "defaultBox") {
+        return defaultBoxClick();
+      }
+      if (id === "search") {
+        return searchClick();
+      }
+      const changeItems = Object.assign({}, items);
+      changeItems[id] = !changeItems[id];
+      setItems(changeItems);
+    }
+  }
   return (
     <article className="searchSettings">
-      <div className="searchSettings__wrapper">
-        <h2 className="searchSettings__title">{currentCategory[0] ? currentCategory[0].name : "loading..."}</h2>
+      <div onClick={handleClick} className="searchSettings__wrapper">
+        <h2 className="searchSettings__title">
+          {currCategory ? currCategory.name : "loading..."}
+        </h2>
         <section className="searchSettings__companyList">
           <h3 className="searchSettings__listTitle">Производитель</h3>
           <ul>
             <li className="list">
               <label className="label">
-                <Checkbox defaultChecked />
+                <Checkbox id="defaultBox" checked={defaultBox} />
                 <span className="list__text">Показать все</span>
               </label>
             </li>
-            {currentCategory[0] ? currentCategory[0].companies.map((el, index) => {
-              return (
-                <li className="list" key={index}>
-                  <label className="label">
-                    <Checkbox />
-                    <span className="list__text">{el}</span>
-                  </label>
-                </li>
-              );
-            })
-            : <div>loading...</div>
-            }
+            {currCategory ? (
+              currCategory.companies.map((el, index) => {
+                return (
+                  <li id={el} data-key={index} className="list" key={index}>
+                    <label id={el} data-key={index} className="label">
+                      <Checkbox id={el} checked={items[el]} />
+                      <span id={el} data-key={index} className="list__text">
+                        {el}
+                      </span>
+                    </label>
+                  </li>
+                );
+              })
+            ) : (
+              <div>loading...</div>
+            )}
           </ul>
         </section>
         <section className="searchSettings__PriceSlider">

@@ -6,15 +6,22 @@ import { ProductItemComponent } from "components/productItem/ProductItem";
 import productImg from "assets/images/slider_2.webp";
 import { useAppSelector, useAppDispatch } from "app/hooks";
 import React, { useEffect } from "react";
-import { getUserFavList, deleteUserFavList } from "features/api/userFavListApiSlice";
+import {
+  getUserFavList,
+  deleteUserFavList,
+} from "features/api/userFavListApiSlice";
 import { updateUserCart } from "features/api/userCartApiSlice";
+import { useNavigate } from "react-router-dom";
 
 export const FavoritesPage = () => {
   const button_1 = { id: "toCart", text: "Добавить в корзину", type: "toCart" };
   const button_2 = { id: "toRemove", text: "Удалить", type: "toRemove" };
   const dispatch = useAppDispatch();
   const { isAuth, user } = useAppSelector((state) => state.auth);
-  const { userFavList, loading } = useAppSelector((state) => state.favList);
+  const { userFavList, loading, isWasFetched } = useAppSelector(
+    (state) => state.favList
+  );
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuth) {
@@ -31,11 +38,13 @@ export const FavoritesPage = () => {
     }
   }, [isAuth]);
 
-  const clickHandler = (e: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLElement>) => {
+  const clickHandler = (
+    e: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLElement>
+  ) => {
     const productId = (e.target as HTMLElement).id;
     const type = (e.target as HTMLElement).dataset.type;
-    if(type && productId) {
-      if(type === "toCart") {
+    if (type && productId) {
+      if (type === "toCart") {
         const data = { type, productId };
         dispatch(
           updateUserCart({
@@ -47,9 +56,9 @@ export const FavoritesPage = () => {
             withCredentials: true,
             data,
           })
-        )
+        );
       }
-      if(type === "toRemove") {
+      if (type === "toRemove") {
         dispatch(
           deleteUserFavList({
             api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
@@ -57,14 +66,18 @@ export const FavoritesPage = () => {
             baseURL: "http://localhost:5000/api/user",
             method: "delete",
             url: `/favoriteList?id=${productId}`,
-            withCredentials: true
+            withCredentials: true,
           })
-        )
+        );
       }
     }
-    console.log('type: ', type)
-    console.log('id: ', productId);
-  }
+  };
+  const buttonsClickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    const id = (e.target as HTMLElement).id;
+    if (id && id === "/") {
+      navigate("/");
+    }
+  };
 
   return (
     <div className="favoritesPage">
@@ -73,29 +86,32 @@ export const FavoritesPage = () => {
         <h1 className="favoritesPage__title">Избранное</h1>
       </section>
       <section onClick={clickHandler} className="favoritesPage__products">
-        {console.log('fav: ', userFavList.products)}
+        {console.log("fav: ", userFavList.products)}
         {loading ? (
           userFavList.products &&
-          userFavList.products.length !== 0 &&
-          userFavList.products.map((el, index) => {
-            return (
-              <ProductItemComponent
-                key={`favItemKey_${index}`}
-                img={el.product.images[2]}
-                id={el.product.id}
-                name={el.product.name}
-                isCounter={false}
-                btn_1={button_1}
-                btn_2={button_2}
-                price={el.product.price}
-              />
-            );
-          })
+          (isWasFetched && userFavList.products.length !== 0 ? (
+            userFavList.products.map((el, index) => {
+              return (
+                <ProductItemComponent
+                  key={`favItemKey_${index}`}
+                  img={el.product.images[2]}
+                  id={el.product.id}
+                  name={el.product.name}
+                  isCounter={false}
+                  btn_1={button_1}
+                  btn_2={button_2}
+                  price={el.product.price}
+                />
+              );
+            })
+          ) : (
+            <div>Список избранных товаров пуст</div>
+          ))
         ) : (
           <div>Загрузка...</div>
         )}
       </section>
-      <section className="favoritesPage__buttons">
+      <section onClick={buttonsClickHandler} className="favoritesPage__buttons">
         <DynamicButtonComponent text="Вернуться на главную" id="/" />
       </section>
     </div>

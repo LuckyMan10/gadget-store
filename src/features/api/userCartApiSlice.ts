@@ -22,6 +22,7 @@ interface initialStateI {
     }>
   };
   loading: boolean;
+  isWasFetched: boolean;
 }
 
 interface userCartI {
@@ -106,6 +107,7 @@ const initialState = {
     userId: "",
     products: [],
   },
+  isWasFetched: false,
   loading: false,
 } as initialStateI;
 
@@ -120,6 +122,7 @@ const cartSlice = createSlice({
         state.userCart.userId = action.payload[0].userId;
         state.userCart.products = action.payload[0].products;
         state.loading = true;
+        state.isWasFetched = true;
       }
     });
 
@@ -128,6 +131,7 @@ const cartSlice = createSlice({
         state.userCart.userId = action.payload.userId;
         state.userCart.products = action.payload.products;
         state.loading = true;
+        state.isWasFetched = true;
       }
     });
 
@@ -136,6 +140,7 @@ const cartSlice = createSlice({
         state.userCart.userId = action.payload.userId;
         state.userCart.products = action.payload.products;
         state.loading = true;
+        state.isWasFetched = true;
       }
     })
   },

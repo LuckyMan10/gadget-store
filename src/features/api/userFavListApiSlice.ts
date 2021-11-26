@@ -33,6 +33,7 @@ interface initialStateI {
     }>
   };
   loading: boolean;
+  isWasFetched: boolean;
 }
 
 export const getUserFavList = createAsyncThunk(
@@ -102,6 +103,7 @@ const initialState = {
     products: [],
   },
   loading: false,
+  isWasFetched: false,
 } as initialStateI;
 
 const favListSlice = createSlice({
@@ -114,6 +116,7 @@ const favListSlice = createSlice({
         state.userFavList.userId = action.payload[0].userId;
         state.userFavList.products = action.payload[0].products;
         state.loading = true;
+        state.isWasFetched = true;
       }
     });
     builder.addCase(updateUserFavList.fulfilled, (state, action) => {
@@ -121,6 +124,7 @@ const favListSlice = createSlice({
         state.userFavList.userId = action.payload.userId;
         state.userFavList.products = action.payload.products;
         state.loading = true;
+        state.isWasFetched = true;
       }
     });
     builder.addCase(deleteUserFavList.fulfilled, (state, action) => {
@@ -128,6 +132,7 @@ const favListSlice = createSlice({
         state.userFavList.userId = action.payload.userId;
         state.userFavList.products = action.payload.products;
         state.loading = true;
+        state.isWasFetched = true;
       }
     });
   },

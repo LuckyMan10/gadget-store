@@ -29,12 +29,8 @@ export const ProductPage: FC = () => {
   if(categoryItems.data) {
     console.log(categoryItems.data);
   }
-  const [price, setPrice] = useState<number[]>([0, 5000]);
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
   const navigate = useNavigate();
-  const changePrice = (event: Event, newValue: number | number[]) => {
-    setPrice(newValue as number[]);
-  };
   const toProductHandler = (e: string) => {
     if (e) {
       console.log(e);
@@ -58,9 +54,7 @@ export const ProductPage: FC = () => {
           {!isMobile && <NavBar navBarClick={navBarClick} />}
           {categoryItems.data ? <Products products={categoryItems.data} toProductHandler={toProductHandler} /> : <div>Загрузка...</div>}
           <SearchSettings
-            price={price}
             isMobile={isMobile}
-            changePrice={changePrice}
             appData={data}
             category={category}
           />

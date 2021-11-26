@@ -61,7 +61,7 @@ export const apiSlice = createApi({
         query(id) {
           return `/products/find?id=${id}`;
         },
-      }),
+      })
     };
   },
 });
@@ -71,5 +71,5 @@ export const {
   useFetchCategoryQuery,
   useFetchTopSliderQuery,
   useFetchCurrOffersSliderQuery,
-  useFetchOneProductQuery
+  useFetchOneProductQuery,
 } = apiSlice;

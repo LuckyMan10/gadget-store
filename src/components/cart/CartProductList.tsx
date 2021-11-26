@@ -5,8 +5,12 @@ import { BuyButtonComponent } from "components/buttons/Buttons";
 import { ProductItemComponent } from "components/productItem/ProductItem";
 import { useAppSelector, useAppDispatch } from "app/hooks";
 import React, { useState, useEffect } from "react";
-import { getUserCart, updateUserCart, deleteUserCart } from "features/api/userCartApiSlice";
-import {updateUserFavList} from "features/api/userFavListApiSlice";
+import {
+  getUserCart,
+  updateUserCart,
+  deleteUserCart,
+} from "features/api/userCartApiSlice";
+import { updateUserFavList } from "features/api/userFavListApiSlice";
 import { refresh } from "features/api/authApiSlice";
 
 interface cartProductListI {
@@ -19,7 +23,9 @@ const handleBuyClick = () => {
 export const CartProductList = ({ title }: cartProductListI) => {
   const dispatch = useAppDispatch();
   const { isAuth, user } = useAppSelector((state) => state.auth);
-  const { userCart, loading } = useAppSelector((state) => state.cart);
+  const { userCart, loading, isWasFetched } = useAppSelector(
+    (state) => state.cart
+  );
   useEffect(() => {
     if (isAuth) {
       dispatch(
@@ -42,7 +48,7 @@ export const CartProductList = ({ title }: cartProductListI) => {
     const productId = (e.target as HTMLElement).id;
     const type = (e.target as HTMLElement).dataset.type;
     const value = Number((e.target as HTMLElement).dataset.value);
-    if(type === "toRemove") {
+    if (type === "toRemove") {
       dispatch(
         deleteUserCart({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
@@ -50,13 +56,13 @@ export const CartProductList = ({ title }: cartProductListI) => {
           baseURL: "http://localhost:5000/api/user",
           method: "delete",
           url: `/cart?id=${productId}`,
-          withCredentials: true
+          withCredentials: true,
         })
-      )
+      );
       return null;
     }
-    if(type === "toFavorite") {
-      const data = {productId};
+    if (type === "toFavorite") {
+      const data = { productId };
       dispatch(
         updateUserFavList({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
@@ -65,13 +71,13 @@ export const CartProductList = ({ title }: cartProductListI) => {
           method: "put",
           url: `/favoriteList`,
           withCredentials: true,
-          data
+          data,
         })
-      )
+      );
       return null;
     }
 
-    if(value === 1 && type === "DECREMENT") {
+    if (value === 1 && type === "DECREMENT") {
       return null;
     }
     if (type && productId) {
@@ -95,26 +101,30 @@ export const CartProductList = ({ title }: cartProductListI) => {
       <h1 className="cartProductList__title">{title}</h1>
       <section className="cartProductList__products">
         <div onClick={clickHandler} className="cartProductList__wrapper">
-          {loading ?
+          {loading ? (
             userCart.products &&
-            userCart.products.length !== 0 &&
-            userCart.products.map((el, index) => {
-              return (
-                <ProductItemComponent
-                  key={`cartItemKey_${index}`}
-                  id={el.product.id}
-                  img={el.product.images[2]}
-                  name={el.product.name}
-                  btn_1={btn_1}
-                  btn_2={btn_2}
-                  isCounter={true}
-                  counterValue={el.quantity}
-                  price={el.quantity * el.product.price}
-                />
-              );
-            })
-            : <div>Загрузка...</div>
-            }
+            (isWasFetched && userCart.products.length !== 0 ? (
+              userCart.products.map((el, index) => {
+                return (
+                  <ProductItemComponent
+                    key={`cartItemKey_${index}`}
+                    id={el.product.id}
+                    img={el.product.images[2]}
+                    name={el.product.name}
+                    btn_1={btn_1}
+                    btn_2={btn_2}
+                    isCounter={true}
+                    counterValue={el.quantity}
+                    price={el.quantity * el.product.price}
+                  />
+                );
+              })
+            ) : (
+              <div>Ваша корзина пуста</div>
+            ))
+          ) : (
+            <div>Загрузка...</div>
+          )}
         </div>
       </section>
       <BuyButtonComponent
@@ -126,3 +136,4 @@ export const CartProductList = ({ title }: cartProductListI) => {
     </article>
   );
 };
+

@@ -14,9 +14,7 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware({
-      serializableCheck: false,
-    })
+    return getDefaultMiddleware().concat(apiSlice.middleware);
   }
 });
 
