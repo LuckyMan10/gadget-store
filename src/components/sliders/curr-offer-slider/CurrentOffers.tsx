@@ -4,6 +4,7 @@ import left_arrow from "assets/icons/left_arrow.svg";
 import React from "react";
 import Slider from "components/sliders/customSlider";
 import "./CurrentOffers.scss";
+import { useNavigate } from "react-router-dom";
 
 interface productI {
   company: string;
@@ -41,27 +42,49 @@ export const CurrentOffers = ({ data }: currOffersI) => {
     dots: false,
     autoPlay: false,
   };
-  const mocData = [
-    {
-      id: 1,
-      name: "Iphone 8",
-      price: "От 60 тыс. рублей.",
-      img: slideImg,
-    },
-  ];
+  const navigate = useNavigate();
+  function clickHandler(e: React.MouseEvent<HTMLDivElement>) {
+    const id = (e.target as HTMLElement).id;
+    const category = (e.target as HTMLElement).dataset.category;
+    if (id && category) {
+      navigate(`${category}/${id}`);
+    }
+  }
 
   return (
-    <div className="CurrentOffers">
+    <div onClick={clickHandler} className="CurrentOffers">
       <h2 className="CurrentOffers__title">Актуальные предложения</h2>
       <Slider {...SliderProps}>
         {data.slides.map((slide) => (
-          <div className="slide" key={slide.id}>
-            <section className="slide__image">
-              <img src={slide.images[2]} alt="character" />
+          <div
+            data-category={slide.category}
+            id={slide.id}
+            className="slide"
+            key={slide.id}
+          >
+            <section
+              data-category={slide.category}
+              id={slide.id}
+              className="slide__image"
+            >
+              <img
+                data-category={slide.category}
+                id={slide.id}
+                src={slide.images[2]}
+                alt="character"
+              />
             </section>
-            <section className="slide__text">
-              <h2>{slide.name}</h2>
-              <p>Цена: {slide.price} рублей.</p>
+            <section
+              data-category={slide.category}
+              id={slide.id}
+              className="slide__text"
+            >
+              <h2 data-category={slide.category} id={slide.id}>
+                {slide.name}
+              </h2>
+              <p data-category={slide.category} id={slide.id}>
+                Цена: {slide.price} рублей.
+              </p>
             </section>
           </div>
         ))}

@@ -12,9 +12,13 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import ErorGif from "assets/images/not_found.gif";
 import { ErrorComponent } from "components/Error/ErrorComponent";
 import { useFetchNavDataQuery } from "features/api/appApiSlice";
-import { getProductCategory, toBackPage, toForwardPage } from "features/api/productsApiSlice";
+import {
+  getProductCategory,
+  toBackPage,
+  toForwardPage,
+} from "features/api/productsApiSlice";
 import { DynamicButtonComponent } from "components/buttons/Buttons";
-import {Pagination} from "components/pagination/Pagination";
+import { Pagination } from "components/pagination/Pagination";
 
 interface navbarDataItemI {
   id: string;
@@ -24,12 +28,12 @@ interface navbarDataItemI {
 }
 
 export const ProductPage: FC = () => {
-  const { category } = useParams() as {
+  const { category, company } = useParams() as {
     category: string;
+    company?: string;
   };
-  const { currentPage, allPages, currentProducts, isWasFetched, loading } = useAppSelector(
-    (state) => state.products
-  );
+  const { currentPage, allPages, currentProducts, isWasFetched, loading } =
+    useAppSelector((state) => state.products);
   const { data = [], isFetching } = useFetchNavDataQuery();
   const categories = data.filter((el: any) => el.category === category);
 
@@ -45,7 +49,7 @@ export const ProductPage: FC = () => {
         access_key: user.accessToken,
         baseURL: "http://localhost:5000/api/products",
         method: "get",
-        url: `/category?name=${category}`,
+        url: `/category?name=${category}${company ? `&/company=${company}`: ''}`,
         withCredentials: true,
       })
     );
@@ -55,7 +59,6 @@ export const ProductPage: FC = () => {
   const navigate = useNavigate();
   const toProductHandler = (e: string) => {
     if (e) {
-      console.log(e);
       navigate(e);
     }
   };
@@ -68,53 +71,56 @@ export const ProductPage: FC = () => {
   };
   const paginationHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     const id = (e.target as HTMLElement).id;
-    if(id && id === "toBack") {
+    if (id && id === "toBack") {
       dispatch(toBackPage());
     }
-    if(id && id === "toForvard") {
+    if (id && id === "toForvard") {
       dispatch(toForwardPage());
     }
-  }
+  };
 
   return (
     <div className="productPage">
-      {categories[0] ? (
-        <main>
-          <BreadCrumbs
-            category={categories[0].category}
-            name={categories[0].name}
+      {categories[0] &&
+        (isWasFetched ? (
+          <main>
+            <BreadCrumbs
+              category={categories[0].category}
+              name={categories[0].name}
+            />
+            {!isMobile && <NavBar navBarClick={navBarClick} />}
+            {loading &&
+              currentProducts &&
+              (isWasFetched && currentProducts.length !== 0 ? (
+                <Products
+                  products={currentProducts}
+                  toProductHandler={toProductHandler}
+                />
+              ) : (
+                <div>Ничего не найдено</div>
+              ))}
+            {activeCategory && (
+              <SearchSettings
+                isMobile={isMobile}
+                appData={activeCategory}
+                category={category}
+              />
+            )}
+            {currentProducts.length !== 0 &&
+             allPages !== 1 && (
+              <Pagination
+                currentPage={currentPage}
+                paginationHandler={paginationHandler}
+                allPages={allPages}
+              />
+            )}
+          </main>
+        ) : (
+          <ErrorComponent
+            message="Упс, кажется такой страницы не существует"
+            img={ErorGif}
           />
-          {!isMobile && <NavBar navBarClick={navBarClick} />}
-          {loading &&
-          currentProducts &&
-          currentProducts.length !== 0 &&
-          isWasFetched ? (
-            <Products
-              products={currentProducts}
-              toProductHandler={toProductHandler}
-            />
-          ) : (
-            <div>Загрузка...</div>
-          )}
-          {activeCategory && (
-            <SearchSettings
-              isMobile={isMobile}
-              appData={activeCategory}
-              category={category}
-            />
-          )}
-          <Pagination
-            currentPage={currentPage}
-            paginationHandler={paginationHandler}
-            allPages={allPages}
-            />
-        </main>
-      ) : (
-        <ErrorComponent
-          message="Упс, кажется такой страницы не существует"
-          img={ErorGif}
-        />
-      )}
+        ))}
     </div>
   );
 };

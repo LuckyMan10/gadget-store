@@ -54,9 +54,11 @@ export const Header = () => {
         dispatch(setMenuVisible(!menuVisible));
       }
       if (id === headerEnum.HOME) {
+        menuVisible && dispatch(setMenuVisible(!menuVisible));
         navigate(headerEnum.HOME);
       }
       if (id === headerEnum.FAVORITE) {
+        menuVisible && dispatch(setMenuVisible(!menuVisible));
         navigate(headerEnum.FAVORITE);
       }
       if (id === headerEnum.LOGIN) {

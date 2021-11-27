@@ -26,7 +26,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/:category" element={<ProductPage />} />
+        <Route path="/:category/:company" element={<ProductPage />} />
         <Route path="/:category/:item" element={<ProductItemPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/favorite" element={<FavoritesPage />} />

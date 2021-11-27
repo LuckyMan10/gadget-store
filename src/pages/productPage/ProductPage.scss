@@ -43,18 +43,22 @@
         }
       }
       justify-content: center;
-      grid-template-rows: repeat(auto-fill, 3);
+      grid-template-rows: repeat(auto-fill, 4);
       grid-template-columns: repeat(auto-fill, 3);
       grid-template-areas:
       "breadCrumbs breadCrumbs breadCrumbs"
       "navbar navbar searchSettings"
-      "products products searchSettings";
+      "products products searchSettings"
+      "... pagination ...";
     }
     @media all and(max-width: 850px) {
       .searchSettings {
         &__wrapper {
           width: 50vw;
         }
+      }
+      .BreadCrumbs {
+        margin-bottom: 10px;
       }
       .Products {
         display: flex;
@@ -63,16 +67,17 @@
           width: 100%;
         }
       }
-      grid-gap: 5px;
+      grid-gap: 15px;
       justify-content: center;
       align-items: flex-start;
-      grid-template-rows: repeat(auto-fill, 4);
+      grid-template-rows: repeat(auto-fill, 5);
       grid-template-columns: repeat(auto-fill, 1);
       grid-template-areas:
       "breadCrumbs breadCrumbs breadCrumbs"
       "navbar navbar searchSettings"
       "navbar navbar searchSettings"
-      "products products products";
+      "products products products"
+      "pagination pagination pagination";
     }
     @media all and(max-width: 600px) {
       .Products {
@@ -81,7 +86,6 @@
         }
       }
       .card {
-        height: 130px;
         &__image {
           width: 100%;
         }
@@ -118,12 +122,13 @@
           margin: 0 auto;
         }
       }
-      grid-template-rows: repeat(auto-fill, 4);
+      grid-template-rows: repeat(auto-fill, 5);
       grid-template-columns: 100%;
       grid-template-areas:
       "breadCrumbs"
       "searchSettings"
-      "products";
+      "products"
+      "pagination";
     }
   }
 }

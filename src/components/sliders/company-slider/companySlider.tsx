@@ -1,6 +1,6 @@
 import "./companySlider.scss";
 import Slider from "components/sliders/customSlider";
-import left_arrow_gray from "assets/icons/left_arrow_gray.svg"
+import left_arrow_gray from "assets/icons/left_arrow_gray.svg";
 import right_arrow_gray from "assets/icons/right_arrow_gray.svg";
 import { companySlides } from "components/sliders/imports";
 import apple from "assets/images/company_logo/apple.svg";
@@ -9,25 +9,20 @@ import honor from "assets/images/company_logo/honor.svg";
 import huawei from "assets/images/company_logo/huawei.svg";
 import samsung from "assets/images/company_logo/samsung.svg";
 import xiaomi from "assets/images/company_logo/xiaomi.svg";
+import React from 'react';
 
-export const CompanySlider = () => {
+interface companiesI {
+  company: string;
+  category: string;
+  logo: string;
+}
+interface companySliderI {
+  data: Array<companiesI>;
+  companyClick(e: React.MouseEvent<HTMLDivElement>): void;
+}
 
-    const mocData = [
-      {id: 1, img: apple},
-      {id: 2, img: asus},
-      {id: 3, img: honor},
-      {id: 4, img: huawei},
-      {id: 5, img: samsung},
-      {id: 6, img: xiaomi},
-      {id: 7, img: apple},
-      {id: 8, img: asus},
-      {id: 9, img: honor},
-      {id: 10, img: huawei},
-      {id: 11, img: samsung},
-      {id: 12, img: xiaomi},
-    ]  
-
-    const SliderProps = {
+export const CompanySlider = ({data, companyClick}: companySliderI) => {
+  const SliderProps = {
     zoomFactor: 5,
     slideMargin: 5,
     maxVisibleSlides: 5,
@@ -44,16 +39,30 @@ export const CompanySlider = () => {
     sliderBackground: "none",
     maxImageWidth: 100,
     dots: false,
-    autoPlay: false
+    autoPlay: false,
   };
-  
+
   return (
-    <article className="CompanySlider">
+    <article onClick={companyClick} className="CompanySlider">
       <Slider {...SliderProps}>
-        {mocData.map((slide) => (
-          <div className="slide" key={slide.id}>
-            <section className="slide__image">
-              <img src={slide.img} alt="character" />
+        {data.map((slide, index) => (
+          <div
+            data-category={slide.category}
+            data-company={slide.company}
+            className="slide"
+            key={`company_key_carousel_${index}`}
+          >
+            <section
+              data-category={slide.category}
+              data-company={slide.company}
+              className="slide__image"
+            >
+              <img
+                data-category={slide.category}
+                data-company={slide.company}
+                src={slide.logo}
+                alt="character"
+              />
             </section>
           </div>
         ))}

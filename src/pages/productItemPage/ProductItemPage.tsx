@@ -72,27 +72,28 @@ export const ProductItemPage = () => {
   return (
     <div className="productItemPage">
       <main>
-        {categories && loading && isWasFetched ? (
-          <>
-            <BreadCrumbs
-              category={categories.category}
-              name={categories.name}
-              item={item}
-            />
-            <ProductImages
-                images={oneProduct.images}
-                title={data[0].name}
-            />
-            <BuyButtonComponent
-              text="Купить"
-              toFav={heartImg}
-              isCart={false}
-              price={50000}
-              onClick={clickHandler}
-              id={oneProduct.id}
-            />
-            <Specifications data={oneProduct.description} />
-          </>
+        {!isFetching && categories && loading ? (
+          isWasFetched && data[0] && oneProduct ? (
+            <>
+              <BreadCrumbs
+                category={categories.category}
+                name={categories.name}
+                item={item}
+              />
+              <ProductImages images={oneProduct.images} title={data[0].name} />
+              <BuyButtonComponent
+                text="Купить"
+                toFav={heartImg}
+                isCart={false}
+                price={50000}
+                onClick={clickHandler}
+                id={oneProduct.id}
+              />
+              <Specifications data={oneProduct.description} />
+            </>
+          ) : (
+            <div>Такой страницы не существует</div>
+          )
         ) : (
           <div>Загрузка...</div>
         )}

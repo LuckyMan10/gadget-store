@@ -41,7 +41,7 @@ export const SearchSettings = ({
     companies: [],
     category: "",
   });
-  const [defaultBox, setDefaultBox] = useState<boolean>(false);
+  const [defaultBox, setDefaultBox] = useState<boolean>(true);
   const [price, setPrice] = useState<number[]>([0, 5000]);
   const changePrice = (event: Event, newValue: number | number[]) => {
     setPrice(newValue as number[]);
@@ -69,20 +69,15 @@ export const SearchSettings = ({
   }
   function searchClick() {
     if(isAuth) {
-      const data = {
-        price,
-        companies: items,
-        category: currCategory.category,
-      }
+      const companies = Object.keys(items).filter((el) => items[el]);
       dispatch(
         searchProduct({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
           access_key: user.accessToken,
           baseURL: "http://localhost:5000/api/products",
-          method: "post",
-          url: "/searchBar",
-          withCredentials: true,
-          data
+          method: "get",
+          url: `/searchBar?companies=${companies.join("-")}&price=${price.join("-")}&category=${category}`,
+          withCredentials: true
         })
       ).then((data) => {
         console.log('result: ', data);
@@ -98,6 +93,9 @@ export const SearchSettings = ({
       }
       if (id === "search") {
         return searchClick();
+      }
+      if(defaultBox) {
+        setDefaultBox(!defaultBox);
       }
       const changeItems = Object.assign({}, items);
       changeItems[id] = !changeItems[id];

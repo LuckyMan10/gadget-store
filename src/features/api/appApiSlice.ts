@@ -25,6 +25,11 @@ interface currOffersSliderI {
   slides: Array<productI>;
   _id: string;
 }
+interface companiesI {
+  company: string;
+  category: string;
+  logo: string;
+}
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -51,6 +56,11 @@ export const apiSlice = createApi({
         query(type) {
           return `/products/carouselData?type=${type}`;
         },
+      }),
+      fetchCompanies: builder.query<companiesI[], string>({
+        query(type) {
+          return `/products/carouselData?type=${type}`;
+        }
       })
     };
   },
@@ -59,5 +69,6 @@ export const apiSlice = createApi({
 export const {
   useFetchNavDataQuery,
   useFetchTopSliderQuery,
-  useFetchCurrOffersSliderQuery
+  useFetchCurrOffersSliderQuery,
+  useFetchCompaniesQuery
 } = apiSlice;

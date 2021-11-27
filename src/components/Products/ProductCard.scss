@@ -10,7 +10,7 @@
     
     @include flex_center-v-h-row();
     &__image {
-        max-width: 180px;
+        max-width: 140px;
     }
     &__info {
         padding: 0px 20px;
@@ -20,11 +20,13 @@
         justify-content: space-around;
     }
     &__name {
+        padding-bottom: 10px;
         opacity: 0.8;
         max-width: 430px;
         font-size: 24px;
     }
     &__price {
+        padding-top: 15px;
         opacity: 0.6;
         font-size: 24px;
     }

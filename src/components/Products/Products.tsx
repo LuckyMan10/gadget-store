@@ -1,5 +1,6 @@
 import "./Products.scss";
 import { ProductCard } from "./ProductCard";
+import React from 'react';
 
 interface ProductsI {
   toProductHandler(id: string): void;
@@ -16,11 +17,18 @@ interface ProductsI {
 
 export const Products = ({ toProductHandler, products }: ProductsI) => {
 
+  function clickHandler(e: React.MouseEvent<HTMLElement>) {
+    const id = (e.target as HTMLElement).id;
+    if(id) {
+      toProductHandler(id);
+    }
+  }
+
   return (
     <article className="Products">
       <div className="Products__wrapper">
-        <h1 className="Products__title">Товары всех производителей</h1>
-        <section className="Products__cards">
+        <h1 className="Products__title">Товары</h1>
+        <section onClick={clickHandler} className="Products__cards">
           {products.map((el) => {
             return (
               <ProductCard
@@ -32,7 +40,6 @@ export const Products = ({ toProductHandler, products }: ProductsI) => {
                 description={el.description}
                 category={el.category}
                 company={el.company}
-                toProductHandler={toProductHandler}
               />
             );
           })}

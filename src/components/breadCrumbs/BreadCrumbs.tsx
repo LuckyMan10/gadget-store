@@ -30,7 +30,7 @@ export const BreadCrumbs = ({ category, name, item }: BreadCrumbsI) => {
       </li>
       <span>/</span>
       <li>
-        {item ? <Link to={`/${category}`}>{name}</Link> : category}
+        {item ? <Link to={`/${category}`}>{name}</Link> : name}
       </li>
       <span>/</span>
       {item && <li>{item}</li>}
