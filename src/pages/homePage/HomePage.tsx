@@ -16,13 +16,16 @@ export const HomePage: FC = () => {
   const {data: currOffSlider = [], isFetching: isCurrOffFetching} = useFetchCurrOffersSliderQuery("currentOffersSlider");
   const {data: companies = [], isFetching: isCompaniesFetching}= useFetchCompaniesQuery("companySlider");
   const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
-    console.log('e: ', e);
+    const category = (e.target as HTMLElement).dataset.category;
+    if(category) {
+      navigate(`${category}/all`)
+    }
   }
   const companyClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const category = (e.target as HTMLElement).dataset.category;
     const company = (e.target as HTMLElement).dataset.company;
     if(category && company) {
-      navigate(category);
+      navigate(`${category}/${company}`);
     }
   }
   return (

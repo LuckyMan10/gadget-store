@@ -20,6 +20,7 @@ class productController {
   async getCategory(req, res) {
     try {
       const { name, company } = req.query;
+      console.log(name, company)
       if (!name) {
         throw "Ошибка. Не указана категория.";
       }
@@ -29,6 +30,7 @@ class productController {
       }
       if (name && company) {
         const products = await Product.find({ category: name, company });
+        console.log(products)
         return res.json(products);
       }
     } catch (e) {

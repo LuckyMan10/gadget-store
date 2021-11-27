@@ -18,14 +18,12 @@ export const NavBar = ({navBarClick}: navBarI) => {
         <ul onClick={navBarClick} className="navbar__list">
           {data.map((el: any, index: any) => {
             return (
-              <Link id={el.id} key={el.id} to={`/${el.category}`}>
-                <li id={el.id} className="navbar__list-item">
-                  <button id={el.id} className="navbar__button">
+                <li data-category={el.category} id={el.id} className="navbar__list-item">
+                  <button data-category={el.category} id={el.id} className="navbar__button">
                     {/*<img id={el.id} src={icons[el.img]} alt="category logo" />*/}
-                    <p id={el.id}>{el.name}</p>
+                    <p data-category={el.category} id={el.id}>{el.name}</p>
                   </button>
                 </li>
-              </Link>
             );
           })}
         </ul>

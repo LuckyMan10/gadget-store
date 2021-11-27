@@ -47,7 +47,7 @@ export const CurrentOffers = ({ data }: currOffersI) => {
     const id = (e.target as HTMLElement).id;
     const category = (e.target as HTMLElement).dataset.category;
     if (id && category) {
-      navigate(`${category}/${id}`);
+      navigate(`${category}/product/${id}`);
     }
   }
 

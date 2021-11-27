@@ -49,10 +49,12 @@ export const ProductPage: FC = () => {
         access_key: user.accessToken,
         baseURL: "http://localhost:5000/api/products",
         method: "get",
-        url: `/category?name=${category}${company ? `&/company=${company}`: ''}`,
+        url: `/category?name=${category}${company && company !== "all" ? `&company=${company}`: ''}`,
         withCredentials: true,
       })
-    );
+    ).then((data) => {
+      console.log(data);
+    })
   }, [activeCategory, isFetching]);
 
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" });

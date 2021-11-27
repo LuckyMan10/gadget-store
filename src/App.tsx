@@ -27,7 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/:category/:company" element={<ProductPage />} />
-        <Route path="/:category/:item" element={<ProductItemPage />} />
+        <Route path="/:category/product/:item" element={<ProductItemPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/favorite" element={<FavoritesPage />} />
         <Route
@@ -35,7 +35,7 @@ function App() {
           element={
             <ErrorComponent
               message="Упс, кажется такой страницы не существует"
-              img={ErorGif}
+              img={'ErorGif'}
             />
           }
         />
