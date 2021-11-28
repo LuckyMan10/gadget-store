@@ -61,7 +61,7 @@ export const ProductPage: FC = () => {
   const navigate = useNavigate();
   const toProductHandler = (e: string) => {
     if (e) {
-      navigate(e);
+      navigate(`product/${e}`);
     }
   };
   const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {

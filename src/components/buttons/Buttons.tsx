@@ -1,5 +1,5 @@
-import minus from "assets/icons/minus.svg";
-import plus from "assets/icons/plus.svg";
+import styled from "styled-components";
+import {menu, close, minus, plus} from "components/staticImports";
 
 type ClickButtonType = {
   text?: string;
@@ -19,6 +19,23 @@ type ChangeValueButtonType = {
   value?: number;
   id: string;
 };
+type menuButtonType = {
+    setMenuVisible(value: boolean): void,
+    menuVisible: boolean
+}
+
+const StyledButton = styled.button`
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    img {
+        width: 60px;
+    }
+`
+
 
 export const DynamicButtonComponent = ({ text, img, id, type }: ClickButtonType) => {
   return (
@@ -72,5 +89,13 @@ export const BuyButtonComponent = ({
         </section>
       </div>
     </article>
+  );
+};
+
+export const MenuButton = ({setMenuVisible, menuVisible}: menuButtonType) => {
+  return (
+    <StyledButton onClick={() => setMenuVisible(!menuVisible)}>
+      <img src={menuVisible ? close : menu} alt="menu" />
+    </StyledButton>
   );
 };

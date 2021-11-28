@@ -1,6 +1,4 @@
-import slideImg from "assets/images/slider_2.webp";
-import right_arrow from "assets/icons/right_arrow.svg";
-import left_arrow from "assets/icons/left_arrow.svg";
+import {left_arrow, right_arrow} from "components/staticImports";
 import React from "react";
 import Slider from "components/sliders/customSlider";
 import "./CurrentOffers.scss";

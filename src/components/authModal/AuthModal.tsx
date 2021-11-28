@@ -1,7 +1,7 @@
 import "./AuthModal.scss";
 import { RegistrationForm } from "components/forms/registration/RegistrationForm";
 import { AuthorizationForm } from "components/forms/authorization/AuthorizationForm";
-import { MenuButton } from "components/header/menuButton";
+import { MenuButton } from "components/buttons/Buttons";
 
 interface AuthModalI {
   setMenuVisible(value: boolean): void;

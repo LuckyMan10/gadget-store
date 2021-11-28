@@ -1,4 +1,3 @@
-import { icons } from "./imports";
 import "./navbar.scss";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "app/hooks";
@@ -20,7 +19,6 @@ export const NavBar = ({navBarClick}: navBarI) => {
             return (
                 <li data-category={el.category} id={el.id} className="navbar__list-item">
                   <button data-category={el.category} id={el.id} className="navbar__button">
-                    {/*<img id={el.id} src={icons[el.img]} alt="category logo" />*/}
                     <p data-category={el.category} id={el.id}>{el.name}</p>
                   </button>
                 </li>

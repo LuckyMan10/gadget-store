@@ -1,14 +1,6 @@
 import "./companySlider.scss";
 import Slider from "components/sliders/customSlider";
-import left_arrow_gray from "assets/icons/left_arrow_gray.svg";
-import right_arrow_gray from "assets/icons/right_arrow_gray.svg";
-import { companySlides } from "components/sliders/imports";
-import apple from "assets/images/company_logo/apple.svg";
-import asus from "assets/images/company_logo/asus.svg";
-import honor from "assets/images/company_logo/honor.svg";
-import huawei from "assets/images/company_logo/huawei.svg";
-import samsung from "assets/images/company_logo/samsung.svg";
-import xiaomi from "assets/images/company_logo/xiaomi.svg";
+import {left_arrow_gray, right_arrow_gray} from "components/staticImports";
 import React from 'react';
 
 interface companiesI {

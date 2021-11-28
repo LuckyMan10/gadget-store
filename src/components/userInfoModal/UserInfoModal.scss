@@ -1,0 +1,25 @@
+.userInfoModal {
+    position: absolute;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 50;
+    //background-color: rgba(104, 105, 109, 1);
+    background: white;
+    right: 15px;
+    top: 100px;
+    color: black;
+    border: 2px solid rgba(104, 105, 109, 0.5);
+    font-size: 35px;
+    h2, p {
+        padding: 15px 0px;
+    }
+    p {
+        font-weight: 300;
+    }
+    .closeBtn-wrapper {
+        position: absolute;
+        right: 0;
+        top: 5px;
+        z-index: 200;
+    }
+}

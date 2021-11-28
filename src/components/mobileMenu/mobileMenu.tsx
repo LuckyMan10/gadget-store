@@ -2,7 +2,7 @@ import { StyledMobileMenu } from "./mobileMenuStyles";
 import { Search } from "components/header/search";
 import { NavBar } from "components/navbar/navbar";
 import React, { useEffect, useState } from "react";
-import {MenuButton} from "components/header/menuButton";
+import {MenuButton} from "components/buttons/Buttons";
 import {DynamicButtonComponent} from "components/buttons/Buttons";
 
 type MobileMenuType = {

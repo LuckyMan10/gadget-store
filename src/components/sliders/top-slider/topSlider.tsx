@@ -1,4 +1,3 @@
-import { topSliderSlides } from "../imports";
 import Slider from "components/sliders/customSlider";
 import "./topSlider.scss";
 

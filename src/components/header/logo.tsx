@@ -1,4 +1,4 @@
-import { logo } from "./imports";
+import { logo } from "components/staticImports";
 
 interface LogoI {
   onClick(): void;

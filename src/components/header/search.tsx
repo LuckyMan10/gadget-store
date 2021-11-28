@@ -1,4 +1,4 @@
-import { search } from "./imports";
+import { search } from "components/staticImports";
 
 interface searchI {
   hideMenu: boolean;

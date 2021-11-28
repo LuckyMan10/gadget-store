@@ -12,6 +12,7 @@ import {
 } from "features/api/userCartApiSlice";
 import { updateUserFavList } from "features/api/userFavListApiSlice";
 import { refresh } from "features/api/authApiSlice";
+import { NotificationModal } from "components/notificationModal/NotificationModal";
 
 interface cartProductListI {
   title: string;
@@ -22,6 +23,8 @@ const handleBuyClick = () => {
 
 export const CartProductList = ({ title }: cartProductListI) => {
   const dispatch = useAppDispatch();
+  const [message, setMessage] = useState<string>("");
+  const [notification, setNotification] = useState<boolean>(false);
   const { isAuth, user } = useAppSelector((state) => state.auth);
   const { userCart, loading, isWasFetched } = useAppSelector(
     (state) => state.cart
@@ -58,7 +61,13 @@ export const CartProductList = ({ title }: cartProductListI) => {
           url: `/cart?id=${productId}`,
           withCredentials: true,
         })
-      );
+      ).then(() => {
+        setMessage("Товар успешно удален");
+        setNotification(true);
+        setTimeout(() => {
+          setNotification(false);
+        }, 3200);
+      });
       return null;
     }
     if (type === "toFavorite") {
@@ -73,7 +82,21 @@ export const CartProductList = ({ title }: cartProductListI) => {
           withCredentials: true,
           data,
         })
-      );
+      ).then((data) => {
+        if(data && data.payload && data.payload.message) {
+          setMessage(data.payload.message);
+          setNotification(true);
+          setTimeout(() => {
+            setNotification(false);
+          }, 3200);
+        } else {
+          setMessage("Товар добавлен в избранные");
+          setNotification(true);
+          setTimeout(() => {
+            setNotification(false);
+          }, 3200);
+        }
+      });
       return null;
     }
 
@@ -98,6 +121,7 @@ export const CartProductList = ({ title }: cartProductListI) => {
 
   return (
     <article className="cartProductList">
+      <NotificationModal visible={notification} message={message} />
       <h1 className="cartProductList__title">{title}</h1>
       <section className="cartProductList__products">
         <div onClick={clickHandler} className="cartProductList__wrapper">
@@ -136,4 +160,3 @@ export const CartProductList = ({ title }: cartProductListI) => {
     </article>
   );
 };
-

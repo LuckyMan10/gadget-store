@@ -5,15 +5,18 @@ import { DynamicButtonComponent } from "components/buttons/Buttons";
 import { ProductItemComponent } from "components/productItem/ProductItem";
 import productImg from "assets/images/slider_2.webp";
 import { useAppSelector, useAppDispatch } from "app/hooks";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   getUserFavList,
   deleteUserFavList,
 } from "features/api/userFavListApiSlice";
 import { updateUserCart } from "features/api/userCartApiSlice";
 import { useNavigate } from "react-router-dom";
+import { NotificationModal } from "components/notificationModal/NotificationModal";
 
 export const FavoritesPage = () => {
+  const [message, setMessage] = useState<string>("");
+  const [notification, setNotification] = useState<boolean>(false);
   const button_1 = { id: "toCart", text: "Добавить в корзину", type: "toCart" };
   const button_2 = { id: "toRemove", text: "Удалить", type: "toRemove" };
   const dispatch = useAppDispatch();
@@ -56,7 +59,21 @@ export const FavoritesPage = () => {
             withCredentials: true,
             data,
           })
-        );
+        ).then((data) => {   
+          if(data.payload) {
+            setMessage("Товар успешно добавлен в корзину");
+            setNotification(true);
+            setTimeout(() => {
+              setNotification(false);
+            }, 3200);
+          } else {
+            setMessage("Товар уже есть в корзине");
+            setNotification(true);
+            setTimeout(() => {
+              setNotification(false);
+            }, 3200);
+          }
+        });
       }
       if (type === "toRemove") {
         dispatch(
@@ -68,7 +85,13 @@ export const FavoritesPage = () => {
             url: `/favoriteList?id=${productId}`,
             withCredentials: true,
           })
-        );
+        ).then((data) => {
+          setMessage("Товар успешно удален");
+          setNotification(true);
+          setTimeout(() => {
+            setNotification(false);
+          }, 3200);
+        });
       }
     }
   };
@@ -81,12 +104,12 @@ export const FavoritesPage = () => {
 
   return (
     <div className="favoritesPage">
+      <NotificationModal message={message} visible={notification} />
       <section className="favoritesPage__header">
         <img src={fillHeart} alt="heart" />
         <h1 className="favoritesPage__title">Избранное</h1>
       </section>
       <section onClick={clickHandler} className="favoritesPage__products">
-        {console.log("fav: ", userFavList.products)}
         {loading ? (
           userFavList.products &&
           (isWasFetched && userFavList.products.length !== 0 ? (

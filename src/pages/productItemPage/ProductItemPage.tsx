@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Header } from "components/header/header";
 import { Footer } from "components/footer/footer";
@@ -12,6 +12,7 @@ import { useFetchNavDataQuery } from "features/api/appApiSlice";
 import { useAppSelector, useAppDispatch } from "app/hooks";
 import { updateUserCart } from "features/api/userCartApiSlice";
 import { getOneProduct } from "features/api/productsApiSlice";
+import { NotificationModal } from "components/notificationModal/NotificationModal";
 
 interface navbarDataItemI {
   id: string;
@@ -27,6 +28,7 @@ export const ProductItemPage = () => {
   };
   const dispatch = useAppDispatch();
   const { isAuth, user } = useAppSelector((state) => state.auth);
+  const [notification, setNotification] = useState<boolean>(false);
   useEffect(() => {
     dispatch(
       getOneProduct({
@@ -49,7 +51,7 @@ export const ProductItemPage = () => {
   const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = (e.target as HTMLElement).id;
     console.log("buy id: ", id);
-    if (isAuth) {
+    if (isAuth && id) {
       dispatch(
         updateUserCart({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
@@ -63,7 +65,12 @@ export const ProductItemPage = () => {
             type: "INCREMENT",
           },
         })
-      );
+      ).then(() => {
+        setNotification(true);
+        setTimeout(() => {
+          setNotification(false);
+        }, 3200);
+      });
     } else {
       console.log("not auth add");
     }
@@ -71,6 +78,10 @@ export const ProductItemPage = () => {
 
   return (
     <div className="productItemPage">
+      <NotificationModal
+        visible={notification}
+        message={"Товар добавлен в корзину"}
+      />
       <main>
         {!isFetching && categories && loading ? (
           isWasFetched && data[0] && oneProduct ? (

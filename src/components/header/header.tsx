@@ -4,8 +4,8 @@ import { Logo } from "./logo";
 import { Search } from "./search";
 import { MobileMenu } from "components/mobileMenu/mobileMenu";
 import { useMediaQuery } from "react-responsive";
-import { logo, heart, cart, account } from "./imports";
-import { MenuButton } from "./menuButton";
+import { logo, heart, cart, account } from "components/staticImports";
+import { MenuButton } from "components/buttons/Buttons";
 import { DynamicButtonComponent } from "components/buttons/Buttons";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "app/hooks";
@@ -14,14 +14,19 @@ import {
   setAuthModalVisible,
 } from "features/appVisible/appVisibleSlice";
 import { AuthModal } from "components/authModal/AuthModal";
+import { UserInfoModal } from "components/userInfoModal/UserInfoModal";
 
 export const Header = () => {
   const { menuVisible, authModalVisible } = useAppSelector(
     (state) => state.appVisible
   );
-  const {user, loading} = useAppSelector(
-    (state) => state.auth
-  )
+  const { isAuth, user, loading } = useAppSelector((state) => state.auth);
+  const { userFavList, loading: isFavLoading } = useAppSelector(
+    (state) => state.favList
+  );
+  const { userCart, loading: isCartLoading } = useAppSelector(
+    (state) => state.cart
+  );
   const dispatch = useAppDispatch();
   const handleChangeVisibleMenu = () => {
     dispatch(setMenuVisible(!menuVisible));
@@ -43,6 +48,7 @@ export const Header = () => {
     LOGIN = "login",
     HOME = "/",
   }
+  const [userInfo, setUserInfo] = useState<boolean>(false);
 
   const headerHandleClick = (
     e: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLElement>
@@ -50,26 +56,44 @@ export const Header = () => {
     const id = (e.target as HTMLElement).id;
     if (id) {
       if (id === headerEnum.CART) {
+        setUserInfo(false);
         navigate(headerEnum.CART);
         dispatch(setMenuVisible(!menuVisible));
       }
       if (id === headerEnum.HOME) {
+        setUserInfo(false);
         menuVisible && dispatch(setMenuVisible(!menuVisible));
         navigate(headerEnum.HOME);
       }
       if (id === headerEnum.FAVORITE) {
+        setUserInfo(false);
         menuVisible && dispatch(setMenuVisible(!menuVisible));
         navigate(headerEnum.FAVORITE);
       }
       if (id === headerEnum.LOGIN) {
-        menuVisible && dispatch(setMenuVisible(!menuVisible));
-        handleChangeVisibleAuthModal();
+        if (!isAuth) {
+          menuVisible && dispatch(setMenuVisible(!menuVisible));
+          handleChangeVisibleAuthModal();
+        }
+        if(isAuth) {
+          setUserInfo(!userInfo);
+        }
       }
     }
   };
 
   return (
     <header onClick={headerHandleClick} className="header">
+      {isAuth && isCartLoading &&
+      isFavLoading && userInfo && (
+        <UserInfoModal
+          email={user.user.email}
+          cart_summ={userCart.products.length}
+          fav_summ={userFavList.products.length}
+          setUserInfo={setUserInfo}
+          userInfo={userInfo}
+        />
+      )}
       <Logo />
       <Search hideMenu={false} />
       <section className="header__buttons">
@@ -122,14 +146,14 @@ export const Header = () => {
           <span className="blackout"></span>
         </>
       )}
-      {authModalVisible &&
+      {authModalVisible && (
         <div className="auth">
           <AuthModal
             setMenuVisible={handleChangeVisibleAuthModal}
             menuVisible={authModalVisible}
           />
         </div>
-      }
+      )}
     </header>
   );
 };
