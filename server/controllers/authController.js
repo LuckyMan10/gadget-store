@@ -16,8 +16,7 @@ class authController {
       });
       res.status(200).json(userData);
     } catch (e) {
-      return res.status(400).json(e);
-      console.log("login error: ", e);
+      res.status(400).json({ error: e })
     }
   }
   async registration(req, res) {
@@ -37,7 +36,7 @@ class authController {
       });
       return res.status(200).json(userData);
     } catch (e) {
-      return res.status(400).json(e);
+      res.status(400).json({error: e});
       console.log("registration error: ", e);
     }
   }
@@ -48,7 +47,7 @@ class authController {
       res.clearCookie("refreshToken");
       return res.status(200).json(token);
     } catch (e) {
-      return res.status(400).json(e);
+      res.status(400).json({error: e});
       console.log("logout error: ", e);
     }
   }
@@ -62,7 +61,7 @@ class authController {
       });
       return res.status(200).json(userData);
     } catch (e) {
-      return res.status(400).json(e);
+      res.status(400).json({ error: e })
       console.log("refresh error: ", e);
     }
   }

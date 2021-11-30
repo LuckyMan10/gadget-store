@@ -3,6 +3,7 @@ import {validationRegistration} from "../validation";
 import "../formsDefaultStyles.scss";
 import {useAppDispatch} from "app/hooks";
 import {registration} from "features/api/authApiSlice";
+import Button from '@mui/material/Button';
 
 interface FormValues {
   username: string;
@@ -60,9 +61,11 @@ export const RegistrationForm = () => {
               placeholder="Подтвердите пароль"
               name="confirmPassword"
             />
-            <button className="submitBtn" type="submit">
-              Зарегистрироваться
-            </button>
+            <Button style={{backgroundColor: "rgba(64, 178, 89, 1)"}}
+            variant="contained"
+            type="submit">
+            Зарегистрироваться
+            </Button>
           </Form>
         )}
       </Formik>

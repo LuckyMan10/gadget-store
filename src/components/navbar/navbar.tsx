@@ -17,7 +17,7 @@ export const NavBar = ({navBarClick}: navBarI) => {
         <ul onClick={navBarClick} className="navbar__list">
           {data.map((el: any, index: any) => {
             return (
-                <li data-category={el.category} id={el.id} className="navbar__list-item">
+                <li key={`navbarKey_${index}`} data-category={el.category} id={el.id} className="navbar__list-item">
                   <button data-category={el.category} id={el.id} className="navbar__button">
                     <p data-category={el.category} id={el.id}>{el.name}</p>
                   </button>

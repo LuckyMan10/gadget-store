@@ -28,6 +28,10 @@ interface initialStateI {
   user: authDataI;
   isAuth: boolean;
   loading: boolean;
+  error: string;
+  isError: boolean;
+  refreshError: string;
+  isRefreshError: boolean;
 }
 
 export const registration = createAsyncThunk(
@@ -40,13 +44,23 @@ export const registration = createAsyncThunk(
 export const login = createAsyncThunk(
   "auth/login",
   async (userData: loginUserDataI) => {
-    const response = await getLogin(userData);
-    return response.data;
+    try {
+      const response = await getLogin(userData);
+      return response?.data;
+    } catch(e: any) {
+      const errorMessage = e?.error?.error;
+      throw errorMessage;
+    }
   }
 );
 export const refresh = createAsyncThunk("auth/refresh", async () => {
-  const response = await check();
-  return response.data;
+  try {
+    const response = await check();
+    return response.data;
+  } catch(e: any) {
+    const errorMessage = e?.error?.error;
+    throw errorMessage;
+  }
 });
 export const logout = createAsyncThunk("auth/logout", async () => {
   const response = await getLogout();
@@ -65,6 +79,10 @@ const initialState = {
   },
   isAuth: false,
   loading: false,
+  error: "",
+  refreshError: "",
+  isRefreshError: false,
+  isError: false,
 } as initialStateI;
 
 const authSlice = createSlice({
@@ -78,10 +96,17 @@ const authSlice = createSlice({
       state.isAuth = true;
     });
     builder.addCase(login.fulfilled, (state, action) => {
+      console.log('fulfilled: ', action)
       state.user = action.payload;
       state.loading = true;
       state.isAuth = true;
     });
+    builder.addCase(login.rejected, (state, action) => {
+      if(action.error && action.error.message) {
+        state.error = action.error.message;
+        state.isError = true;
+      }
+    })
     builder.addCase(refresh.fulfilled, (state, action) => {
       state.user = action.payload;
       state.loading = true;
@@ -99,6 +124,10 @@ const authSlice = createSlice({
       };
       state.loading = false;
       state.isAuth = false;
+      if(action.error && action.error.message) {
+        state.refreshError = action.error.message;
+        state.isRefreshError = true;
+      }
     });
     builder.addCase(logout.fulfilled, (state, action) => {
       state.user = {
@@ -117,4 +146,3 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-//dispatch(registration(123))

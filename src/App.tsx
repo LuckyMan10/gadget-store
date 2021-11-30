@@ -15,10 +15,11 @@ import { refresh } from "features/api/authApiSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { getUserCart } from "features/api/userCartApiSlice";
 import { getUserFavList } from "features/api/userFavListApiSlice";
+import {createAnonymUser, getAnonymUserCart} from "features/api/notAuthCartApiSlice";
 
 function App() {
   const dispatch = useAppDispatch();
-  const { isAuth, user, loading } = useAppSelector((state) => state.auth);
+  const { isAuth, user, loading, isRefreshError } = useAppSelector((state) => state.auth);
   useEffect(() => {
     dispatch(refresh()).then(() => {
       if (isAuth) {
@@ -43,8 +44,16 @@ function App() {
           })
         );
       }
+      if(!isAuth && isRefreshError) {
+        const checkAnonymUser = localStorage.getItem("anonymUser");
+        if(checkAnonymUser) {
+          dispatch(getAnonymUserCart());
+        } else {
+          dispatch(createAnonymUser());
+        }
+      }
     });
-  }, [isAuth]);
+  }, [isAuth, isRefreshError]);
 
   return (
     <div className="App">

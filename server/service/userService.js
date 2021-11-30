@@ -59,7 +59,7 @@ class userService {
   }
   async refreshProcess({ refreshToken }) {
     try {
-    if (!refreshToken) {
+    if (!refreshToken || refreshToken === "undefined") {
       throw "Требуется авторизация";
     }
     const userData = tokenService.validateRefreshToken(refreshToken);
@@ -73,6 +73,7 @@ class userService {
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return { ...tokens, user: userDto };
     } catch(e) {
+      console.log(typeof refreshToken)
       console.log("refreshProcess error: ", e)
       throw e;
     }

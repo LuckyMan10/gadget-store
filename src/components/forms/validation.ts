@@ -17,13 +17,13 @@ export const validationRegistration = Yup.object().shape({
       "Пароль должен содержать минимум 8 символов, 1 верхний регистр, 1 нижний, 1 число и 1 спец-символ"
     ),
   confirmPassword: Yup.string()
-    .required("Обязательн")
+    .required("Обязательно")
     .oneOf([Yup.ref("password")], "Пароли должны совпадать"),
 });
 
 export const validationLogin = Yup.object().shape({
   email: Yup.string()
-    .required("Required")
-    .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, "wrong mail"),
-  password: Yup.string().required("Required"),
+    .required("Обязательно")
+    .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, "Неверный формат почты"),
+  password: Yup.string().required("Обязательно"),
 });

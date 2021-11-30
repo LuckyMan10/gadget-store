@@ -4,6 +4,7 @@ const apiAccessCheck = require("../middleware/apiAccessCheckMiddleware");
 const router = new Router();
 
 router.get("/find", apiAccessCheck, productsController.findById);
+router.get("/findList", apiAccessCheck, productsController.findByIdArray);
 router.get("/searchBar", apiAccessCheck, productsController.searchBar);
 router.get("/category", apiAccessCheck, productsController.getCategory);
 router.get("/all", apiAccessCheck, productsController.getAll);

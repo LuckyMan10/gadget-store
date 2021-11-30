@@ -13,7 +13,7 @@ import { useAppSelector, useAppDispatch } from "app/hooks";
 import { updateUserCart } from "features/api/userCartApiSlice";
 import { getOneProduct } from "features/api/productsApiSlice";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
-
+import { updateProduct, getOneProductById } from "features/api/notAuthCartApiSlice";
 interface navbarDataItemI {
   id: string;
   category: string;
@@ -27,7 +27,11 @@ export const ProductItemPage = () => {
     item: string;
   };
   const dispatch = useAppDispatch();
-  const { isAuth, user } = useAppSelector((state) => state.auth);
+  const { isAuth, user, isRefreshError } = useAppSelector((state) => state.auth);
+  const { userCart, isWasFetched: anonymFetched, loading: anonymLoading } = useAppSelector(
+    (state) => state.anonymCart
+  );
+
   const [notification, setNotification] = useState<boolean>(false);
   useEffect(() => {
     dispatch(
@@ -71,8 +75,13 @@ export const ProductItemPage = () => {
           setNotification(false);
         }, 3200);
       });
-    } else {
-      console.log("not auth add");
+    }
+    if (!isAuth && id && isRefreshError) {
+      if(userCart.products[id.replace(/-/g, '')]) {
+        dispatch(updateProduct({id, type: "INCREMENT"}));
+      } else {
+        dispatch(getOneProductById(id));
+      }
     }
   };
 

@@ -17,6 +17,21 @@ class productController {
       res.status(500).json(e);
     }
   }
+  async findByIdArray(req, res) {
+    try {
+      const {id_list} = req.query;
+      const idArray = id_list.split(",");
+      const products = await Product.find({
+        $and: [
+          {id: {$in: idArray}}
+        ]
+      });
+      return res.json(products);
+    } catch(e) {
+      console.log("findByIdArray error: ", e);
+      res.status(500).json(e);
+    }
+  }
   async getCategory(req, res) {
     try {
       const { name, company } = req.query;

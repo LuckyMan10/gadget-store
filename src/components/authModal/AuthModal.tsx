@@ -12,13 +12,15 @@ export const AuthModal = ({setMenuVisible, menuVisible}: AuthModalI) => {
   return (
     <article className="authModal">
       <div className="authModal__wrapper">
-        <MenuButton setMenuVisible={setMenuVisible} menuVisible={menuVisible} />
+        <div className="closeBtn-wrapper">
+          <MenuButton setMenuVisible={setMenuVisible} menuVisible={menuVisible} />
+        </div>
         <h1 className="authModal__title">Зарегистрируйтесь/Войдите</h1>
         <div className="authModal__forms">
-          <section>
+          <section className="authModal__reg">
             <RegistrationForm />
           </section>
-          <section>
+          <section className="authModal__auth">
             <AuthorizationForm />
           </section>
         </div>

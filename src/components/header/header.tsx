@@ -15,6 +15,7 @@ import {
 } from "features/appVisible/appVisibleSlice";
 import { AuthModal } from "components/authModal/AuthModal";
 import { UserInfoModal } from "components/userInfoModal/UserInfoModal";
+import {logout} from "features/api/authApiSlice";
 
 export const Header = () => {
   const { menuVisible, authModalVisible } = useAppSelector(
@@ -47,14 +48,21 @@ export const Header = () => {
     FAVORITE = "favorite",
     LOGIN = "login",
     HOME = "/",
+    TOLOGOUT = 'toLogout'
   }
   const [userInfo, setUserInfo] = useState<boolean>(false);
+
 
   const headerHandleClick = (
     e: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLElement>
   ) => {
     const id = (e.target as HTMLElement).id;
     if (id) {
+      if(id === headerEnum.TOLOGOUT) {
+        dispatch(
+          logout()
+        )
+      }
       if (id === headerEnum.CART) {
         setUserInfo(false);
         navigate(headerEnum.CART);

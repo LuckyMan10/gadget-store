@@ -72,7 +72,7 @@ export const BuyButtonComponent = ({
   id,
 }: BuyButtonType) => {
   return (
-    <article onClick={onClick} id={id} className="buyButton">
+    <article onClick={onClick} className="buyButton">
       <div className="buyButton__wrapper">
         <section className="buyButton__price">
           {isCart ? <p>К оплате: {price} рублей.</p> : <p>{price} P.</p>}
@@ -84,7 +84,7 @@ export const BuyButtonComponent = ({
             </button>
           </section>
         )}
-        <section id={id} className="buyButton__toBuy">
+        <section className="buyButton__toBuy">
           <button id={id}>{isCart ? "Оплатить" : "Купить"}</button>
         </section>
       </div>

@@ -2,6 +2,7 @@ import "./UserInfoModal.scss";
 import Styled from "styled-components";
 import Button from '@mui/material/Button';
 import {MenuButton} from "components/buttons/Buttons";
+import React from 'react';
 
 interface userInfoModalI {
     email: string;
@@ -20,7 +21,7 @@ export const UserInfoModal = ({email, cart_summ, fav_summ, setUserInfo, userInfo
             <h2 className="userInfoModal__email">{email}</h2>
             <p className="userInfoModal__cartInfo">Товаров в корзине: {cart_summ} шт.</p>
             <p className="userInfoModal__favInfo">Товаров в избранном: {fav_summ} шт.</p>
-            <Button style={{backgroundColor: "rgba(64, 178, 89, 1)"}} variant="contained">Выйти</Button>
+            <Button id="toLogout" style={{backgroundColor: "rgba(64, 178, 89, 1)"}} variant="contained">Выйти</Button>
         </article>
     )
 };

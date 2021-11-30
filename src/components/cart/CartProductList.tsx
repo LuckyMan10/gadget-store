@@ -13,6 +13,7 @@ import {
 import { updateUserFavList } from "features/api/userFavListApiSlice";
 import { refresh } from "features/api/authApiSlice";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
+import {updateProduct} from "features/api/notAuthCartApiSlice";
 
 interface cartProductListI {
   title: string;
@@ -25,7 +26,14 @@ export const CartProductList = ({ title }: cartProductListI) => {
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string>("");
   const [notification, setNotification] = useState<boolean>(false);
-  const { isAuth, user } = useAppSelector((state) => state.auth);
+  const { isAuth, user, isRefreshError } = useAppSelector(
+    (state) => state.auth
+  );
+  const {
+    userCart: anonymCart,
+    isWasFetched: anonymFetched,
+    loading: anonymLoading,
+  } = useAppSelector((state) => state.anonymCart);
   const { userCart, loading, isWasFetched } = useAppSelector(
     (state) => state.cart
   );
@@ -42,7 +50,10 @@ export const CartProductList = ({ title }: cartProductListI) => {
         })
       );
     }
-  }, [isAuth]);
+    if (!isAuth && isRefreshError) {
+      console.log("user not auth");
+    }
+  }, [isAuth, isRefreshError]);
   const btn_1 = { id: "toFavorite", text: "В избранное", type: "toFavorite" };
   const btn_2 = { id: "toRemove", text: "Удалить", type: "toRemove" };
   const clickHandler = (
@@ -71,32 +82,36 @@ export const CartProductList = ({ title }: cartProductListI) => {
       return null;
     }
     if (type === "toFavorite") {
-      const data = { productId };
-      dispatch(
-        updateUserFavList({
-          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-          access_key: user.accessToken,
-          baseURL: "http://localhost:5000/api/user",
-          method: "put",
-          url: `/favoriteList`,
-          withCredentials: true,
-          data,
-        })
-      ).then((data) => {
-        if(data && data.payload && data.payload.message) {
-          setMessage(data.payload.message);
-          setNotification(true);
-          setTimeout(() => {
-            setNotification(false);
-          }, 3200);
-        } else {
-          setMessage("Товар добавлен в избранные");
-          setNotification(true);
-          setTimeout(() => {
-            setNotification(false);
-          }, 3200);
-        }
-      });
+      if (isAuth && !isRefreshError) {
+        const data = { productId };
+        dispatch(
+          updateUserFavList({
+            api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+            access_key: user.accessToken,
+            baseURL: "http://localhost:5000/api/user",
+            method: "put",
+            url: `/favoriteList`,
+            withCredentials: true,
+            data,
+          })
+        ).then((data) => {
+          if (data && data.payload && data.payload.message) {
+            setMessage(data.payload.message);
+            setNotification(true);
+            setTimeout(() => {
+              setNotification(false);
+            }, 3200);
+          } else {
+            setMessage("Товар добавлен в избранные");
+            setNotification(true);
+            setTimeout(() => {
+              setNotification(false);
+            }, 3200);
+          }
+        });
+        return null;
+      }
+      
       return null;
     }
 
@@ -105,17 +120,23 @@ export const CartProductList = ({ title }: cartProductListI) => {
     }
     if (type && productId) {
       const data = { type, productId };
-      dispatch(
-        updateUserCart({
-          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-          access_key: user.accessToken,
-          baseURL: "http://localhost:5000/api/user",
-          method: "put",
-          url: "/cart",
-          withCredentials: true,
-          data,
-        })
+      if (isAuth && !isRefreshError) {
+        dispatch(
+          updateUserCart({
+            api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+            access_key: user.accessToken,
+            baseURL: "http://localhost:5000/api/user",
+            method: "put",
+            url: "/cart",
+            withCredentials: true,
+            data,
+          })
       );
+      return null;
+      };
+      if(!isAuth && isRefreshError) {
+        dispatch(updateProduct({id: productId, type}));
+      }
     }
   };
 
@@ -146,17 +167,52 @@ export const CartProductList = ({ title }: cartProductListI) => {
             ) : (
               <div>Ваша корзина пуста</div>
             ))
+          ) : isRefreshError ? (
+            anonymFetched &&
+            anonymLoading &&
+            Object.keys(anonymCart.products).map(
+              (el: string, index: number) => {
+                return (
+                  <ProductItemComponent
+                    key={`cartItemKey_${index}`}
+                    id={anonymCart.products[el].productData.id}
+                    img={anonymCart.products[el].productData.images[2]}
+                    name={anonymCart.products[el].productData.name}
+                    btn_1={btn_1}
+                    btn_2={btn_2}
+                    isCounter={true}
+                    counterValue={anonymCart.products[el].quantity}
+                    price={
+                      anonymCart.products[el].quantity *
+                      anonymCart.products[el].productData.price
+                    }
+                  />
+                );
+              }
+            )
           ) : (
             <div>Загрузка...</div>
           )}
         </div>
       </section>
-      <BuyButtonComponent
-        id="buy"
-        onClick={handleBuyClick}
-        price={60000}
-        isCart={true}
-      />
+      {isRefreshError ? (
+        anonymFetched &&
+        anonymLoading && (
+          <BuyButtonComponent
+            id="buy"
+            onClick={handleBuyClick}
+            price={anonymCart.productsSummPrice}
+            isCart={true}
+          />
+        )
+      ) : (
+        <BuyButtonComponent
+          id="buy"
+          onClick={handleBuyClick}
+          price={60000}
+          isCart={true}
+        />
+      )}
     </article>
   );
 };
