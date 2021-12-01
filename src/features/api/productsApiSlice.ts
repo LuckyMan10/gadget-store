@@ -25,7 +25,7 @@ interface initialStateI {
 }
 interface productsI {
   api_key: string;
-  access_key: string;
+  access_key?: string;
   baseURL: string;
   method: string;
   url: string;

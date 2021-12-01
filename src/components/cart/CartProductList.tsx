@@ -13,7 +13,11 @@ import {
 import { updateUserFavList } from "features/api/userFavListApiSlice";
 import { refresh } from "features/api/authApiSlice";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
-import {updateProduct} from "features/api/notAuthCartApiSlice";
+import { updateProduct, removeProduct } from "features/api/notAuthCartApiSlice";
+import {
+  removeFavProduct,
+  getOneProductByIdFav,
+} from "features/api/notAuthFavApiSlice";
 
 interface cartProductListI {
   title: string;
@@ -62,26 +66,37 @@ export const CartProductList = ({ title }: cartProductListI) => {
     const productId = (e.target as HTMLElement).id;
     const type = (e.target as HTMLElement).dataset.type;
     const value = Number((e.target as HTMLElement).dataset.value);
-    if (type === "toRemove") {
-      dispatch(
-        deleteUserCart({
-          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-          access_key: user.accessToken,
-          baseURL: "http://localhost:5000/api/user",
-          method: "delete",
-          url: `/cart?id=${productId}`,
-          withCredentials: true,
-        })
-      ).then(() => {
+    if (type === "toRemove" && productId) {
+      if (isAuth && !isRefreshError) {
+        dispatch(
+          deleteUserCart({
+            api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+            access_key: user.accessToken,
+            baseURL: "http://localhost:5000/api/user",
+            method: "delete",
+            url: `/cart?id=${productId}`,
+            withCredentials: true,
+          })
+        ).then(() => {
+          setMessage("Товар успешно удален");
+          setNotification(true);
+          setTimeout(() => {
+            setNotification(false);
+          }, 3200);
+        });
+        return null;
+      }
+      if (!isAuth && isRefreshError) {
+        dispatch(removeProduct(productId));
         setMessage("Товар успешно удален");
         setNotification(true);
         setTimeout(() => {
           setNotification(false);
         }, 3200);
-      });
-      return null;
+        return null;
+      }
     }
-    if (type === "toFavorite") {
+    if (type === "toFavorite" && productId) {
       if (isAuth && !isRefreshError) {
         const data = { productId };
         dispatch(
@@ -111,7 +126,16 @@ export const CartProductList = ({ title }: cartProductListI) => {
         });
         return null;
       }
-      
+      if (!isAuth && isRefreshError) {
+        dispatch(getOneProductByIdFav(productId)).then(() => {
+          setMessage("Товар добавлен в избранные");
+          setNotification(true);
+          setTimeout(() => {
+            setNotification(false);
+          }, 3200);
+        });
+      }
+
       return null;
     }
 
@@ -131,11 +155,11 @@ export const CartProductList = ({ title }: cartProductListI) => {
             withCredentials: true,
             data,
           })
-      );
-      return null;
-      };
-      if(!isAuth && isRefreshError) {
-        dispatch(updateProduct({id: productId, type}));
+        );
+        return null;
+      }
+      if (!isAuth && isRefreshError) {
+        dispatch(updateProduct({ id: productId, type }));
       }
     }
   };
@@ -167,28 +191,30 @@ export const CartProductList = ({ title }: cartProductListI) => {
             ) : (
               <div>Ваша корзина пуста</div>
             ))
-          ) : isRefreshError ? (
-            anonymFetched &&
-            anonymLoading &&
-            Object.keys(anonymCart.products).map(
-              (el: string, index: number) => {
-                return (
-                  <ProductItemComponent
-                    key={`cartItemKey_${index}`}
-                    id={anonymCart.products[el].productData.id}
-                    img={anonymCart.products[el].productData.images[2]}
-                    name={anonymCart.products[el].productData.name}
-                    btn_1={btn_1}
-                    btn_2={btn_2}
-                    isCounter={true}
-                    counterValue={anonymCart.products[el].quantity}
-                    price={
-                      anonymCart.products[el].quantity *
-                      anonymCart.products[el].productData.price
-                    }
-                  />
-                );
-              }
+          ) : isRefreshError && anonymFetched && anonymLoading ? (
+            Object.keys(anonymCart.products).length !== 0 ? (
+              Object.keys(anonymCart.products).map(
+                (el: string, index: number) => {
+                  return (
+                    <ProductItemComponent
+                      key={`cartItemKey_${index}`}
+                      id={anonymCart.products[el].productData.id}
+                      img={anonymCart.products[el].productData.images[2]}
+                      name={anonymCart.products[el].productData.name}
+                      btn_1={btn_1}
+                      btn_2={btn_2}
+                      isCounter={true}
+                      counterValue={anonymCart.products[el].quantity}
+                      price={
+                        anonymCart.products[el].quantity *
+                        anonymCart.products[el].productData.price
+                      }
+                    />
+                  );
+                }
+              )
+            ) : (
+              <div>Ваша корзина пуста</div>
             )
           ) : (
             <div>Загрузка...</div>
@@ -197,7 +223,8 @@ export const CartProductList = ({ title }: cartProductListI) => {
       </section>
       {isRefreshError ? (
         anonymFetched &&
-        anonymLoading && (
+        anonymLoading &&
+        Object.keys(anonymCart.products).length !== 0 && (
           <BuyButtonComponent
             id="buy"
             onClick={handleBuyClick}

@@ -42,6 +42,7 @@ export const ProductPage: FC = () => {
   const [activeCategory, setActiveCategory] = useState<navbarDataItemI>();
   useEffect(() => {
     const currCategory = data.filter((el: any) => el.category === category);
+    console.log("currCategory: ", currCategory)
     setActiveCategory(currCategory[0]);
     dispatch(
       getProductCategory({
@@ -49,12 +50,14 @@ export const ProductPage: FC = () => {
         access_key: user.accessToken,
         baseURL: "http://localhost:5000/api/products",
         method: "get",
-        url: `/category?name=${category}${company && company !== "all" ? `&company=${company}`: ''}`,
+        url: `/category?name=${category}${
+          company && company !== "all" ? `&company=${company}` : ""
+        }`,
         withCredentials: true,
       })
     ).then((data) => {
       console.log(data);
-    })
+    });
   }, [activeCategory, isFetching]);
 
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
@@ -67,7 +70,10 @@ export const ProductPage: FC = () => {
   const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
     const id = (e.target as HTMLElement).id;
     if (id) {
+      console.log(id);
       const oneCategory = data.filter((el: any) => el.id === id);
+      console.log('oneCategory: ', oneCategory);
+      navigate(`/${oneCategory[0].category}/all`);
       setActiveCategory(oneCategory[0]);
     }
   };
@@ -85,43 +91,43 @@ export const ProductPage: FC = () => {
     <div className="productPage">
       {categories[0] &&
         (isWasFetched ? (
-          <main>
-            <BreadCrumbs
-              category={categories[0].category}
-              name={categories[0].name}
-            />
-            {!isMobile && <NavBar navBarClick={navBarClick} />}
-            {loading &&
-              currentProducts &&
-              (isWasFetched && currentProducts.length !== 0 ? (
-                <Products
-                  products={currentProducts}
-                  toProductHandler={toProductHandler}
+          currentProducts ? (
+            <main>
+              <BreadCrumbs
+                category={categories[0].category}
+                name={categories[0].name}
+              />
+              {!isMobile && <NavBar navBarClick={navBarClick} />}
+              {loading &&
+                currentProducts &&
+                (isWasFetched && currentProducts.length !== 0 ? (
+                  <Products
+                    products={currentProducts}
+                    toProductHandler={toProductHandler}
+                  />
+                ) : (
+                  <div>Ничего не найдено</div>
+                ))}
+              {activeCategory && (
+                <SearchSettings
+                  isMobile={isMobile}
+                  appData={activeCategory}
+                  category={category}
                 />
-              ) : (
-                <div>Ничего не найдено</div>
-              ))}
-            {activeCategory && (
-              <SearchSettings
-                isMobile={isMobile}
-                appData={activeCategory}
-                category={category}
-              />
-            )}
-            {currentProducts.length !== 0 &&
-             allPages !== 1 && (
-              <Pagination
-                currentPage={currentPage}
-                paginationHandler={paginationHandler}
-                allPages={allPages}
-              />
-            )}
-          </main>
+              )}
+              {currentProducts.length !== 0 && allPages !== 1 && (
+                <Pagination
+                  currentPage={currentPage}
+                  paginationHandler={paginationHandler}
+                  allPages={allPages}
+                />
+              )}
+            </main>
+          ) : (
+            <div>Ничего не найдено</div>
+          )
         ) : (
-          <ErrorComponent
-            message="Упс, кажется такой страницы не существует"
-            img={ErorGif}
-          />
+          <div>Загрузка</div>
         ))}
     </div>
   );

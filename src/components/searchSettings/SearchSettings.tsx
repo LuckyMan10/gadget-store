@@ -6,7 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { useMediaQuery } from "react-responsive";
 import { DynamicButtonComponent } from "components/buttons/Buttons";
 import { useAppSelector, useAppDispatch } from "app/hooks";
-import {searchProduct} from "features/api/productsApiSlice";
+import { searchProduct } from "features/api/productsApiSlice";
 
 interface SearchSettingsI {
   category: string;
@@ -15,7 +15,7 @@ interface SearchSettingsI {
     category: string;
     name: string;
     companies: string[];
-  }
+  };
   isMobile: boolean;
 }
 interface currCategoryI {
@@ -34,7 +34,7 @@ export const SearchSettings = ({
   isMobile,
 }: SearchSettingsI) => {
   const dispatch = useAppDispatch();
-  const {user, isAuth} = useAppSelector((state) => state.auth);
+  const { user, isAuth } = useAppSelector((state) => state.auth);
   const [items, setItems] = useState<itemI>({});
   const [currCategory, setCurrCategory] = useState<currCategoryI>({
     name: "",
@@ -68,21 +68,18 @@ export const SearchSettings = ({
     setItems(checkboxItems);
   }
   function searchClick() {
-    if(isAuth) {
-      const companies = Object.keys(items).filter((el) => items[el]);
-      dispatch(
-        searchProduct({
-          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-          access_key: user.accessToken,
-          baseURL: "http://localhost:5000/api/products",
-          method: "get",
-          url: `/searchBar?companies=${companies.join("-")}&price=${price.join("-")}&category=${category}`,
-          withCredentials: true
-        })
-      ).then((data) => {
-        console.log('result: ', data);
+    const companies = Object.keys(items).filter((el) => items[el]);
+    dispatch(
+      searchProduct({
+        api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+        baseURL: "http://localhost:5000/api/products",
+        method: "get",
+        url: `/searchBar?companies=${companies.join("%")}&price=${price.join(
+          "-"
+        )}&category=${category}`,
+        withCredentials: true,
       })
-    };
+    )
   }
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
     const id = (e.target as HTMLElement).id;
@@ -94,7 +91,7 @@ export const SearchSettings = ({
       if (id === "search") {
         return searchClick();
       }
-      if(defaultBox) {
+      if (defaultBox) {
         setDefaultBox(!defaultBox);
       }
       const changeItems = Object.assign({}, items);

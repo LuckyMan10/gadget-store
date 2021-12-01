@@ -10,6 +10,9 @@
     color: black;
     border: 2px solid rgba(104, 105, 109, 0.5);
     font-size: 35px;
+    .content-wrapper {
+        margin-top: 30px;
+    }
     h2, p {
         padding: 15px 0px;
     }

@@ -2,6 +2,15 @@
 @import "../variables.scss";
 
 .productImages {
+    .button-wrapper {
+        max-width: 60px;
+    }
+    .button-wrapper.back {
+        padding-left: 20px;
+    }
+    .button-wrapper.forward {
+        padding-right: 40px;
+    }
     &__productTitle {
         font-size: 30px;
         margin-bottom: 20px;
@@ -23,11 +32,6 @@
     }
     &__imgBar {
         margin-top: 20px;
-        display: flex;
-        .barItem {
-            display: flex;
-            flex-direction: column;
-        }
         img {
             padding-bottom: 10px;
             cursor: pointer;
@@ -35,20 +39,7 @@
             max-width: 120px;
             height: 100px;
             transition: 0.3s;
-        }:hover {
-            transition: 0.3s;
-            transform: scale(1.05);
         }
-        .image {
-            display: block;
-            width: 100%;
-            border-radius: 5px;
-            height: 6px;
-            transition: 0.3s;
-            &.active {
-                transition: 0.3s;
-                background-color: $green_lime_variant_1;
-            }
-        }
+       
     }
 }

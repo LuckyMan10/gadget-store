@@ -10,7 +10,7 @@ export const validationRegistration = Yup.object().shape({
     ),
   password: Yup.string()
     .required("Обязательно")
-    .min(6, "Минимум 6 символов")
+    .min(8, "Минимум 6 символов")
     .max(20, "Максимум 20 символов")
     .matches(
       /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g,
