@@ -7,6 +7,7 @@ router.get("/find", apiAccessCheck, productsController.findById);
 router.get("/findList", apiAccessCheck, productsController.findByIdArray);
 router.get("/searchBar", apiAccessCheck, productsController.searchBar);
 router.get("/category", apiAccessCheck, productsController.getCategory);
+router.get("/searchField", apiAccessCheck, productsController.searchField);
 router.get("/all", apiAccessCheck, productsController.getAll);
 
 router.get("/navData", apiAccessCheck, productsController.navData);

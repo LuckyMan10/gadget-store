@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { host, createResponse } from "./http/index";
 import axios from "axios";
+import {getSumm} from "helpers/getSumm";
 
 interface productI {
   company: string;
@@ -14,6 +15,7 @@ interface productI {
 
 interface initialStateI {
   userCart: {
+    productsSummPrice: number;
     userId: string;
     products: Array<{
       productId: string;
@@ -106,6 +108,7 @@ const initialState = {
   userCart: {
     userId: "",
     products: [],
+    productsSummPrice: 0,
   },
   isWasFetched: false,
   loading: false,
@@ -121,6 +124,8 @@ const cartSlice = createSlice({
       if (action.payload[0]) {
         state.userCart.userId = action.payload[0].userId;
         state.userCart.products = action.payload[0].products;
+        const summ = getSumm(state.userCart.products);
+        state.userCart.productsSummPrice = summ;
         state.loading = true;
         state.isWasFetched = true;
       }
@@ -130,6 +135,8 @@ const cartSlice = createSlice({
       if (action.payload) {
         state.userCart.userId = action.payload.userId;
         state.userCart.products = action.payload.products;
+        const summ = getSumm(state.userCart.products);
+        state.userCart.productsSummPrice = summ;
         state.loading = true;
         state.isWasFetched = true;
       }
@@ -139,6 +146,8 @@ const cartSlice = createSlice({
       if(action.payload) {
         state.userCart.userId = action.payload.userId;
         state.userCart.products = action.payload.products;
+        const summ = getSumm(state.userCart.products);
+        state.userCart.productsSummPrice = summ;
         state.loading = true;
         state.isWasFetched = true;
       }

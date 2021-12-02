@@ -47,7 +47,6 @@ export const ProductPage: FC = () => {
     dispatch(
       getProductCategory({
         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-        access_key: user.accessToken,
         baseURL: "http://localhost:5000/api/products",
         method: "get",
         url: `/category?name=${category}${

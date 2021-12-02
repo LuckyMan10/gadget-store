@@ -9,5 +9,6 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true },
   id: { type: String, required: true },
 }, {collection: "gadgets"});
+productSchema.index({name: "text"})
 
 module.exports = mongoose.model("product", productSchema);

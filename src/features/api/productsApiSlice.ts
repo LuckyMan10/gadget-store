@@ -38,10 +38,9 @@ interface productsI {
 };
 
 export const getProductCategory = createAsyncThunk(
-  "user/getCategory",
+  "products/getCategory",
   async ({
     api_key,
-    access_key,
     baseURL,
     method,
     url,
@@ -49,7 +48,6 @@ export const getProductCategory = createAsyncThunk(
   }: productsI) => {
     const headers = {
       api_key,
-      authorization: `Bearer ${access_key}`,
     };
     const httpHost = host({ withCredentials, baseURL, headers });
     const response = await createResponse({ method, url, httpHost });
@@ -57,10 +55,9 @@ export const getProductCategory = createAsyncThunk(
   }
 );
 export const getOneProduct = createAsyncThunk(
-  "user/getOneProduct",
+  "products/getOneProduct",
   async ({
     api_key,
-    access_key,
     baseURL,
     method,
     url,
@@ -68,7 +65,6 @@ export const getOneProduct = createAsyncThunk(
   }: productsI) => {
     const headers = {
       api_key,
-      authorization: `Bearer ${access_key}`,
     };
     const httpHost = host({ withCredentials, baseURL, headers });
     const response = await createResponse({ method, url, httpHost });
@@ -76,25 +72,40 @@ export const getOneProduct = createAsyncThunk(
   }
 );
 export const searchProduct = createAsyncThunk(
-  "user/searchProduct",
+  "products/searchProduct",
   async ({
     api_key,
-    access_key,
     baseURL,
     method,
     url,
-    withCredentials,
-    data
+    withCredentials
   }: productsI) => {
     const headers = {
-      api_key,
-      authorization: `Bearer ${access_key}`,
+      api_key
     };
     const httpHost = host({ withCredentials, baseURL, headers });
-    const response = await createResponse({ method, url, httpHost, data});
+    const response = await createResponse({ method, url, httpHost});
     return response.data;
   }
 );
+export const searchByHeader = createAsyncThunk(
+  "products/searchByHeader",
+  async ({
+    api_key,
+    baseURL,
+    method,
+    url,
+    withCredentials
+  }: productsI) => {
+    const headers = {
+      api_key,
+    };
+    const httpHost = host({ withCredentials, baseURL, headers });
+    const response = await createResponse({ method, url, httpHost});
+    return response.data;
+  }
+)
+
 
 const initialState = {
   products: [],
@@ -166,6 +177,15 @@ const productsSlice = createSlice({
         state.loading = true;
       }
     });
+    builder.addCase(searchByHeader.fulfilled, (state, action) => {
+      if(action.payload) {
+        state.products = action.payload.products;
+        state.currentProducts = action.payload.products.slice(state.productsStart, state.productsEnd);
+        state.allPages = Math.ceil(action.payload.products.length / state.productsEnd);
+        state.isWasFetched = true;
+        state.loading = true;
+      }
+    })
   },
 });
 

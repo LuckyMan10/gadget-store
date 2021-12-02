@@ -17,6 +17,40 @@ class productController {
       res.status(500).json(e);
     }
   }
+  async searchField(req, res) {
+    try {
+      const {query} = req.query;
+      if(!query) {
+        throw "Недостаточно данных для фильтрации.";
+      };
+      const name = query[0].toUpperCase() + query.split("").slice(1).join("").toLowerCase();
+      const findByCategory = await navBar.find({name});
+      if(findByCategory[0]) {
+        const category = findByCategory[0].category;
+        console.log(category)
+        const products = await Product.find({category});
+        return res.json({products, category});
+      }
+      if(!findByCategory[0]) {
+        const company = query.toUpperCase();
+        const findByCompany = await Product.find({company});
+        if(findByCompany[0]) {
+          const productCategory = findByCompany[0].category;
+          return res.json({products: findByCompany, category: productCategory, company});
+        }
+        if(!findByCompany[0]) {
+          const findByName = await Product.find({$text: {$search: query}});
+          return res.json({products: []});
+        }
+      }
+      return res.json({message: "Ничего не найдено."})
+    } catch(e) {
+      console.log("searchField error: ", e);
+      res.status(500).json(e);
+    }
+    
+  }
+
   async findByIdArray(req, res) {
     try {
       const {id_list} = req.query;

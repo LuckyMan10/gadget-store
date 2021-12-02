@@ -93,7 +93,8 @@ export const Header = () => {
   return (
     <header onClick={headerHandleClick} className="header">
       {isAuth && isCartLoading &&
-      isFavLoading && userInfo && (
+      isFavLoading && userInfo &&
+      userCart.products && (
         <UserInfoModal
           email={user.user.email}
           cart_summ={userCart.products.length}

@@ -37,7 +37,6 @@ export const ProductItemPage = () => {
     dispatch(
       getOneProduct({
         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-        access_key: user.accessToken,
         baseURL: "http://localhost:5000/api/products",
         method: "get",
         url: `/find?id=${item}`,

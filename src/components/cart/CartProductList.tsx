@@ -233,12 +233,14 @@ export const CartProductList = ({ title }: cartProductListI) => {
           />
         )
       ) : (
-        <BuyButtonComponent
+        loading && isWasFetched &&
+          <BuyButtonComponent
           id="buy"
           onClick={handleBuyClick}
-          price={60000}
+          price={userCart.productsSummPrice}
           isCart={true}
-        />
+        /> 
+        
       )}
     </article>
   );
