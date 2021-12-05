@@ -27,11 +27,11 @@ type menuButtonType = {
 const StyledButton = styled.button`
     border: none;
     background-color: transparent;
-    cursor: pointer;
     display: flex;
     justify-content: flex-end;
     width: 100%;
     img {
+        cursor: pointer;
         width: 60px;
     }
 `
@@ -78,14 +78,14 @@ export const BuyButtonComponent = ({
           {isCart ? <p>К оплате: {price} рублей.</p> : <p>{price} P.</p>}
         </section>
         {toFav && (
-          <section id={id} className="buyButton__toFav">
-            <button>
-              <img id={id} src={toFav} alt="add to fav" />
+          <section data-type="toFav" id={id} className="buyButton__toFav">
+            <button data-type="toFav">
+              <img id={id} data-type="toFav" src={toFav} alt="add to fav" />
             </button>
           </section>
         )}
-        <section className="buyButton__toBuy">
-          <button id={id}>{isCart ? "Оплатить" : "Купить"}</button>
+        <section data-type="toBuy" className="buyButton__toBuy">
+          <button data-type="toBuy" id={id}>{isCart ? "Оплатить" : "Купить"}</button>
         </section>
       </div>
     </article>
@@ -94,8 +94,11 @@ export const BuyButtonComponent = ({
 
 export const MenuButton = ({setMenuVisible, menuVisible}: menuButtonType) => {
   return (
-    <StyledButton onClick={() => setMenuVisible(!menuVisible)}>
-      <img src={menuVisible ? close : menu} alt="menu" />
+    <StyledButton>
+      <img onClick={() => setMenuVisible(!menuVisible)}
+           src={menuVisible ? close : menu}
+           alt="menu"
+      />
     </StyledButton>
   );
 };

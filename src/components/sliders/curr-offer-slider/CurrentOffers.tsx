@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 
 interface productI {
   company: string;
-  name: string;
+  productName: string;
   price: number;
   images: Array<string>;
   description: Array<any>;
   category: string;
+  categoryRus: string;
   id: string;
 }
 
@@ -78,7 +79,7 @@ export const CurrentOffers = ({ data }: currOffersI) => {
               className="slide__text"
             >
               <h2 data-category={slide.category} id={slide.id}>
-                {slide.name}
+                {slide.productName}
               </h2>
               <p data-category={slide.category} id={slide.id}>
                 Цена: {slide.price} рублей.

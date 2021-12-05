@@ -6,11 +6,12 @@ interface ProductsI {
   toProductHandler(id: string): void;
   products: Array<{
     company: string;
-    name: string;
+    productName: string;
     price: number;
     images: Array<string>;
     description: Array<any>;
     category: string;
+    categoryRus: string;
     id: string;
   }>;
 }
@@ -34,7 +35,7 @@ export const Products = ({ toProductHandler, products }: ProductsI) => {
               <ProductCard
                 key={el.id}
                 id={el.id}
-                name={el.name}
+                name={el.productName}
                 price={el.price}
                 images={el.images}
                 description={el.description}

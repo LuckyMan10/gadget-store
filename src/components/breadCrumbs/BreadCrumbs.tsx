@@ -5,7 +5,7 @@ import React from 'react';
 interface BreadCrumbsI {
   category: string;
   name: string;
-  item?: string;
+  item?: Array<string>;
 }
 
 
@@ -48,7 +48,7 @@ export const BreadCrumbs = ({ category, name, item }: BreadCrumbsI) => {
       <li data-active={!item ? 'active' : ''} data-path={`/${category}/all`}>{name}</li>
       <span>/</span>
       {item &&
-        <li data-active='active' data-path={`/${category}/all/product/${item}`}>{item}</li>
+        <li data-active='active' data-path={`/${category}/all/product/${item[1]}`}>{item[0]}</li>
       }
     </StyledBreadCrumbs>
     </article>

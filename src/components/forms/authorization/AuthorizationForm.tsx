@@ -9,8 +9,11 @@ type FormData = {
   email: string;
   password: string;
 };
+interface AuthorizationFormI {
+  setMenuVisible(arg: boolean): void; 
+}
 
-export const AuthorizationForm = () => {
+export const AuthorizationForm = ({setMenuVisible}: AuthorizationFormI ) => {
   const dispatch = useAppDispatch();
   const {error, isError} = useAppSelector((state) => state.auth);
   const initValues: FormData = {
@@ -25,7 +28,9 @@ export const AuthorizationForm = () => {
         validationSchema={validationLogin}
         onSubmit={(values) => {
           const userData = Object.assign({}, values);
-          dispatch(login(userData));
+          dispatch(login(userData)).then(() => {
+            setMenuVisible(false);
+          })
         }}
       >
         {({ errors, touched }) => (

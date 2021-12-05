@@ -84,6 +84,7 @@ export const Header = () => {
           handleChangeVisibleAuthModal();
         }
         if(isAuth) {
+          dispatch(setMenuVisible(!menuVisible));
           setUserInfo(!userInfo);
         }
       }
@@ -104,7 +105,10 @@ export const Header = () => {
         />
       )}
       <Logo />
-      <Search hideMenu={false} />
+      <Search
+        hideMenu={false}
+        setMenuVisible={setMenuVisible}
+      />
       <section className="header__buttons">
         {headerButtons.map((el) => {
           return (
@@ -133,7 +137,10 @@ export const Header = () => {
                 setMenuVisible={handleChangeVisibleMenu}
                 menuVisible={menuVisible}
               />
-              <Search hideMenu={true} />
+              <Search
+                hideMenu={true}
+                setMenuVisible={setMenuVisible}
+              />
               {headerButtons.map((el) => {
                 return (
                   <DynamicButtonComponent

@@ -1,7 +1,7 @@
 import { Formik, Form, Field } from "formik";
 import {validationRegistration} from "../validation";
 import "../formsDefaultStyles.scss";
-import {useAppDispatch} from "app/hooks";
+import {useAppDispatch, useAppSelector} from "app/hooks";
 import {registration} from "features/api/authApiSlice";
 import Button from '@mui/material/Button';
 
@@ -11,8 +11,11 @@ interface FormValues {
   password: string;
   confirmPassword?: string;
 }
+interface RegistrationFormI {
+  setMenuVisible(arg: boolean): void;
+}
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({setMenuVisible}: RegistrationFormI) => {
   const dispatch = useAppDispatch();
   const initValues: FormValues = {
     username: "",
@@ -28,9 +31,8 @@ export const RegistrationForm = () => {
         onSubmit={(values) => {
           const userData = Object.assign({}, values);
           delete userData.confirmPassword;
-          console.log("submit", userData);
-          dispatch(registration(userData)).then((data) => {
-            console.log("response: ", data);
+          dispatch(registration(userData)).then(() => {
+            setMenuVisible(false);
           })
         }}
       >

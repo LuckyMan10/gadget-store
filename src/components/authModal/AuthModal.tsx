@@ -18,10 +18,10 @@ export const AuthModal = ({setMenuVisible, menuVisible}: AuthModalI) => {
         <h1 className="authModal__title">Зарегистрируйтесь/Войдите</h1>
         <div className="authModal__forms">
           <section className="authModal__reg">
-            <RegistrationForm />
+            <RegistrationForm setMenuVisible={setMenuVisible} />
           </section>
           <section className="authModal__auth">
-            <AuthorizationForm />
+            <AuthorizationForm setMenuVisible={setMenuVisible} />
           </section>
         </div>
       </div>

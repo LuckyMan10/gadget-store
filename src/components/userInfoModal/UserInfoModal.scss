@@ -2,7 +2,7 @@
     position: absolute;
     padding: 20px;
     border-radius: 10px;
-    z-index: 50;
+    z-index: 51;
     //background-color: rgba(104, 105, 109, 1);
     background: white;
     right: 15px;
@@ -24,5 +24,44 @@
         right: 0;
         top: 5px;
         z-index: 200;
+    }
+    @media all and(max-width: 1300px) {
+        display: flex;
+        background: transparent;
+        border: none;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.3);
+        border-radius: 0px;
+        .content-wrapper {
+            position: relative;
+            height: 35%;
+            border-radius: 20px;
+            padding: 40px;
+            background: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+    }
+    @media all and(max-width: 500px) {
+        display: none;
+    }
+    @media all and(max-width: 480px) {
+        font-size: 25px;
+    }
+    @media all and(max-width: 350px) {
+        .content-wrapper {
+            padding: 15px;
+            font-size: 20px;
+        }
     }
 }

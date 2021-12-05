@@ -12,7 +12,7 @@ export const ProductImages = ({ images, title }: productImagesI) => {
   const SliderProps = {
     zoomFactor: 0,
     slideMargin: 5,
-    maxVisibleSlides: 5,
+    maxVisibleSlides: 1,
     pageTransition: 500,
     sliderWidth: 90,
     infinity: true,

@@ -8,11 +8,12 @@ interface navDataI {
 }
 interface productI {
   company: string;
-  name: string;
+  productName: string;
   price: number;
   images: Array<string>;
   description: Array<any>;
   category: string;
+  categoryRus: string;
   id: string;
 }
 interface topSliderI {
@@ -28,7 +29,7 @@ interface currOffersSliderI {
 interface companiesI {
   company: string;
   category: string;
-  logo: string;
+  categoryRus: string;
 }
 
 export const apiSlice = createApi({

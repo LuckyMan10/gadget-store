@@ -12,7 +12,7 @@
         padding-right: 40px;
     }
     &__productTitle {
-        font-size: 30px;
+        font-size: 25px;
         margin-bottom: 20px;
         padding: 0 10px;
     }
@@ -39,6 +39,10 @@
             max-width: 120px;
             height: 100px;
             transition: 0.3s;
+        }
+        .slide__image img{
+            max-width: 200px !important;
+            max-height: 400px !important;
         }
        
     }

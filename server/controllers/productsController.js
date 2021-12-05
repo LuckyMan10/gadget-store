@@ -23,7 +23,7 @@ class productController {
       if(!query) {
         throw "Недостаточно данных для фильтрации.";
       };
-      const name = query[0].toUpperCase() + query.split("").slice(1).join("").toLowerCase();
+      const name = query.toLowerCase();
       const findByCategory = await navBar.find({name});
       if(findByCategory[0]) {
         const category = findByCategory[0].category;

@@ -1,19 +1,19 @@
 import "./companySlider.scss";
 import Slider from "components/sliders/customSlider";
-import {left_arrow_gray, right_arrow_gray} from "components/staticImports";
+import { left_arrow_gray, right_arrow_gray } from "components/staticImports";
 import React from 'react';
 
 interface companiesI {
   company: string;
   category: string;
-  logo: string;
+  categoryRus: string;
 }
 interface companySliderI {
   data: Array<companiesI>;
   companyClick(e: React.MouseEvent<HTMLDivElement>): void;
 }
 
-export const CompanySlider = ({data, companyClick}: companySliderI) => {
+export const CompanySlider = ({ data, companyClick }: companySliderI) => {
   const SliderProps = {
     zoomFactor: 5,
     slideMargin: 5,
@@ -36,29 +36,23 @@ export const CompanySlider = ({data, companyClick}: companySliderI) => {
 
   return (
     <article onClick={companyClick} className="CompanySlider">
-      <Slider {...SliderProps}>
-        {data.map((slide, index) => (
-          <div
-            data-category={slide.category}
-            data-company={slide.company}
-            className="slide"
-            key={`company_key_carousel_${index}`}
-          >
-            <section
+      <div className="CompanySlider__wrapper">
+        <Slider {...SliderProps}>
+          {data.map((slide, index) => (
+            <div
               data-category={slide.category}
               data-company={slide.company}
-              className="slide__image"
+              className="slide"
+              key={`company_key_carousel_${index}`}
             >
-              <img
-                data-category={slide.category}
-                data-company={slide.company}
-                src={slide.logo}
-                alt="character"
-              />
-            </section>
-          </div>
-        ))}
-      </Slider>
+              <h1 data-category={slide.category}
+                data-company={slide.company}>{slide.company}</h1>
+              <p data-category={slide.category}
+                data-company={slide.company}>{slide.categoryRus}</p>
+            </div>
+          ))}
+        </Slider>
+      </div>
     </article>
   );
 };

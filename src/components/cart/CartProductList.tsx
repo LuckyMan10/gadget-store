@@ -200,7 +200,7 @@ export const CartProductList = ({ title }: cartProductListI) => {
                       key={`cartItemKey_${index}`}
                       id={anonymCart.products[el].productData.id}
                       img={anonymCart.products[el].productData.images[2]}
-                      name={anonymCart.products[el].productData.name}
+                      name={anonymCart.products[el].productData.productName}
                       btn_1={btn_1}
                       btn_2={btn_2}
                       isCounter={true}

@@ -13,7 +13,6 @@
     justify-content: space-around;
     &__wrapper {
         display: flex;
-        flex-direction: column;
     }
     &__btn-1 {
         button {
@@ -44,6 +43,7 @@
     }
     &__image {
         img {
+            border-radius: 15px;
             max-width: 200px;
         }
     }

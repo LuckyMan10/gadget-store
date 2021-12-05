@@ -1,23 +1,18 @@
 import React, { FC, useState, useEffect } from "react";
 import "./ProductPage.scss";
-import { Header } from "components/header/header";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { BreadCrumbs } from "components/breadCrumbs/BreadCrumbs";
 import { NavBar } from "components/navbar/navbar";
 import { SearchSettings } from "components/searchSettings/SearchSettings";
 import { Products } from "components/Products/Products";
-import { Footer } from "components/footer/footer";
 import { useMediaQuery } from "react-responsive";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import ErorGif from "assets/images/not_found.gif";
-import { ErrorComponent } from "components/Error/ErrorComponent";
 import { useFetchNavDataQuery } from "features/api/appApiSlice";
 import {
   getProductCategory,
   toBackPage,
   toForwardPage,
 } from "features/api/productsApiSlice";
-import { DynamicButtonComponent } from "components/buttons/Buttons";
 import { Pagination } from "components/pagination/Pagination";
 
 interface navbarDataItemI {
@@ -32,6 +27,7 @@ export const ProductPage: FC = () => {
     category: string;
     company?: string;
   };
+  const {pathname} = useLocation();
   const { currentPage, allPages, currentProducts, isWasFetched, loading } =
     useAppSelector((state) => state.products);
   const { data = [], isFetching } = useFetchNavDataQuery();
@@ -42,7 +38,7 @@ export const ProductPage: FC = () => {
   const [activeCategory, setActiveCategory] = useState<navbarDataItemI>();
   useEffect(() => {
     const currCategory = data.filter((el: any) => el.category === category);
-    console.log("currCategory: ", currCategory)
+    console.log("currCategory: ", activeCategory)
     setActiveCategory(currCategory[0]);
     dispatch(
       getProductCategory({
@@ -57,7 +53,7 @@ export const ProductPage: FC = () => {
     ).then((data) => {
       console.log(data);
     });
-  }, [activeCategory, isFetching]);
+  }, [activeCategory, isFetching, pathname]);
 
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
   const navigate = useNavigate();

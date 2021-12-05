@@ -7,6 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import { DynamicButtonComponent } from "components/buttons/Buttons";
 import { useAppSelector, useAppDispatch } from "app/hooks";
 import { searchProduct } from "features/api/productsApiSlice";
+import { useParams } from "react-router-dom";
 
 interface SearchSettingsI {
   category: string;
@@ -33,6 +34,10 @@ export const SearchSettings = ({
   appData,
   isMobile,
 }: SearchSettingsI) => {
+  const { category: paramsCategory, company } = useParams() as {
+    category: string;
+    company?: string;
+  };
   const dispatch = useAppDispatch();
   const { user, isAuth } = useAppSelector((state) => state.auth);
   const [items, setItems] = useState<itemI>({});
@@ -47,10 +52,15 @@ export const SearchSettings = ({
     setPrice(newValue as number[]);
   };
   useEffect(() => {
+    console.log('company: ', company)
     let itemsState = {};
     appData.companies.forEach((el) => {
       //@ts-ignore
-      itemsState[el] = false;
+      if(company && company === el) {
+        itemsState[el] = true;  
+      } else {
+        itemsState[el] = false;
+      }
     });
     setCurrCategory(appData);
     setItems(itemsState);

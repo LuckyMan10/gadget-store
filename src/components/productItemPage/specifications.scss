@@ -38,7 +38,7 @@
         margin-bottom: 5px;
       }
       p:nth-child(2) {
-        font-size: 15px;
+        font-size: 20px;
         max-width: 300px;
         text-align: end;
       }
@@ -56,6 +56,9 @@
     grid-gap: 20px;
     grid-template-rows: repeat(auto-fill, 1fr);
     grid-template-columns: repeat(4, 1fr);
+    @media all and(max-width: 770px) {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
     .clickButton {
       display: flex;
       justify-content: center;

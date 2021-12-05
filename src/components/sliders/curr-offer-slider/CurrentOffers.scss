@@ -16,4 +16,13 @@
            }
        }
    }
+   @media all and(max-width: 600px) {
+       .slide {
+           display: flex;
+           flex-direction: column;
+           &__text {
+               text-align: center;
+           }
+       }
+   }
 }

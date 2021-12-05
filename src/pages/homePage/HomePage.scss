@@ -36,7 +36,7 @@
       margin: 0 auto;
     }
 
-    @media all and(max-width: 1200px) {
+    @media all and(max-width: 1320px) {
       grid-gap: 3vw;
       .Stock {
         margin: 0 auto;
@@ -51,7 +51,7 @@
         "CurrentOffers CurrentOffers CurrentOffers"
         "CompanySlider CompanySlider CompanySlider";
     }
-    @media all and(max-width: 850px) {
+    @media all and(max-width: 1000px) {
       .navbar {
         max-width: 100%;
         &__list {
@@ -73,7 +73,7 @@
         }
       }
     }
-    @media all and(max-width: 750px) {
+    @media all and(max-width: 950px) {
       grid-template-columns: 1fr;
       .Stock {
         width: 100%;
@@ -81,6 +81,22 @@
       .navbar {
         &__list {
           @include navbar-horizontal();
+        }
+        &__list-item{
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+    @media all and(max-width: 600px) {
+      .CurrentOffers__title {
+        text-align: center;
+      }
+      .topSlider {
+        position: relative;
+        height: 240px;
+        &__wrapper {
+          position: absolute;
         }
       }
     }
@@ -93,6 +109,12 @@
       .navbar {
         display: none;
       }
+      .CompanySlider {
+        font-size: 24px;
+      }
+    }
+    @media all and(max-width: 345px){
+      padding: 0px;
     }
   }
 }

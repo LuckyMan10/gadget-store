@@ -4,10 +4,11 @@ import axios from "axios";
 
 interface productI {
   company: string;
-  name: string;
+  productName: string;
   price: number;
   images: string[];
   description: any[];
+  categoryRus: string;
   category: string;
   id: string;
 }
@@ -116,11 +117,12 @@ const initialState = {
   productsEnd: 10,
   oneProduct: {
     company: "",
-    name: "",
+    productName: "",
     price: 0,
     images: [],
     description: [],
     category: "",
+    categoryRus: "",
     id: ""
   },
   isWasFetched: false,

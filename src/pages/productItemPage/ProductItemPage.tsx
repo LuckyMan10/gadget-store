@@ -14,6 +14,8 @@ import { updateUserCart } from "features/api/userCartApiSlice";
 import { getOneProduct } from "features/api/productsApiSlice";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
 import { updateProduct, getOneProductById } from "features/api/notAuthCartApiSlice";
+import {updateUserFavList} from "features/api/userFavListApiSlice";
+
 interface navbarDataItemI {
   id: string;
   category: string;
@@ -33,6 +35,7 @@ export const ProductItemPage = () => {
   );
 
   const [notification, setNotification] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
   useEffect(() => {
     dispatch(
       getOneProduct({
@@ -53,8 +56,8 @@ export const ProductItemPage = () => {
   );
   const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = (e.target as HTMLElement).id;
-    console.log("buy id: ", id);
-    if (isAuth && id) {
+    const type = (e.target as HTMLElement).dataset.type;
+    if (isAuth && id && type === "toBuy") {
       dispatch(
         updateUserCart({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
@@ -69,13 +72,42 @@ export const ProductItemPage = () => {
           },
         })
       ).then(() => {
+        setMessage("Товар добавлен в корзину");
         setNotification(true);
         setTimeout(() => {
           setNotification(false);
         }, 3200);
       });
     }
-    if (!isAuth && id && isRefreshError) {
+    if(isAuth && id && type === "toFav") {
+      const data = { productId: id };
+      dispatch(
+        updateUserFavList({
+          api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
+          access_key: user.accessToken,
+          baseURL: "http://localhost:5000/api/user",
+          method: "put",
+          url: `/favoriteList`,
+          withCredentials: true,
+          data,
+        })
+      ).then((data) => {
+        if (data && data.payload && data.payload.message) {
+          setMessage(data.payload.message);
+          setNotification(true);
+          setTimeout(() => {
+            setNotification(false);
+          }, 3200);
+        } else {
+          setMessage("Товар добавлен в избранные");
+          setNotification(true);
+          setTimeout(() => {
+            setNotification(false);
+          }, 3200);
+        }
+      });
+    }
+    if (!isAuth && id && isRefreshError && type === "toBuy") {
       if(userCart.products[id.replace(/-/g, '')]) {
         dispatch(updateProduct({id, type: "INCREMENT"}));
       } else {
@@ -88,7 +120,7 @@ export const ProductItemPage = () => {
     <div className="productItemPage">
       <NotificationModal
         visible={notification}
-        message={"Товар добавлен в корзину"}
+        message={message}
       />
       <main>
         {!isFetching && categories && loading ? (
@@ -97,9 +129,9 @@ export const ProductItemPage = () => {
               <BreadCrumbs
                 category={categories.category}
                 name={categories.name}
-                item={item}
+                item={[oneProduct.productName, item]}
               />
-              <ProductImages images={oneProduct.images} title={data[0].name} />
+              <ProductImages images={oneProduct.images} title={oneProduct.productName} />
               <BuyButtonComponent
                 text="Купить"
                 toFav={heartImg}

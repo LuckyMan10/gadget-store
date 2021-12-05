@@ -23,11 +23,12 @@ interface initialStateI {
 
 interface productI {
   company: string;
-  name: string;
+  productName: string;
   price: number;
   images: string[];
   description: any[];
   category: string;
+  categoryRus: string;
   id: string;
 }
 
@@ -88,6 +89,7 @@ const anonymCartSlice = createSlice({
       const type = action.payload.type;
       type === "INCREMENT" && state.userCart.products[id].quantity++;
       type === "DECREMENT" && state.userCart.products[id].quantity--;
+      //@ts-ignore
       const summ = getSumm(state.userCart.products);
       state.userCart.productsSummPrice = summ;
       const anonymUser = localStorage.getItem("anonymUser");
@@ -117,6 +119,7 @@ const anonymCartSlice = createSlice({
               quantity: userObj.productList[el.id.replace(/-/g, "")].quantity,
             };
           });
+          //@ts-ignore
           const summ = getSumm(state.userCart.products);
           state.userCart.productsSummPrice = summ;
           state.isWasFetched = true;
@@ -143,6 +146,7 @@ const anonymCartSlice = createSlice({
           productData: action.payload[0],
           quantity: 1,
         };
+        //@ts-ignore
         const summ = getSumm(state.userCart.products);
         state.userCart.productsSummPrice = summ;
         localStorage.setItem("anonymUser", JSON.stringify(cartData));
