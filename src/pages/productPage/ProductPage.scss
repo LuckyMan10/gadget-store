@@ -1,6 +1,16 @@
 @import 'components/mixins.scss';
 
 .productPage {
+  .preload-wrapper {
+    .css-18lrjg1-MuiCircularProgress-root {
+      color: $green_color_soft;
+    }
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
   main {
     padding: 0 15px;
     display: grid;

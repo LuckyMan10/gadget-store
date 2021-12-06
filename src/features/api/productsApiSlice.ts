@@ -23,6 +23,8 @@ interface initialStateI {
   productsStart: number;
   productsEnd: number;
   currentProducts: Array<productI>;
+  oneProductLoaded: boolean;
+  productsLoaded: boolean;
 }
 interface productsI {
   api_key: string;
@@ -33,7 +35,7 @@ interface productsI {
   withCredentials: boolean;
   data?: {
     price?: number[];
-    companies?: {[key: string]: boolean};
+    companies?: { [key: string]: boolean };
     category?: string;
   };
 };
@@ -85,7 +87,7 @@ export const searchProduct = createAsyncThunk(
       api_key
     };
     const httpHost = host({ withCredentials, baseURL, headers });
-    const response = await createResponse({ method, url, httpHost});
+    const response = await createResponse({ method, url, httpHost });
     return response.data;
   }
 );
@@ -102,7 +104,7 @@ export const searchByHeader = createAsyncThunk(
       api_key,
     };
     const httpHost = host({ withCredentials, baseURL, headers });
-    const response = await createResponse({ method, url, httpHost});
+    const response = await createResponse({ method, url, httpHost });
     return response.data;
   }
 )
@@ -125,7 +127,9 @@ const initialState = {
     categoryRus: "",
     id: ""
   },
+  productsLoaded: false,
   isWasFetched: false,
+  oneProductLoaded: false,
   loading: false,
 } as initialStateI;
 
@@ -133,9 +137,8 @@ const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    //end - start
     toBackPage(state) {
-      if(state.currentPage !== 1) {
+      if (state.currentPage !== 1) {
         const itemsLength = state.productsEnd - state.productsStart;
         state.currentPage--;
         state.productsStart = state.productsStart - itemsLength;
@@ -144,13 +147,26 @@ const productsSlice = createSlice({
       }
     },
     toForwardPage(state) {
-      if(state.allPages !== state.currentPage) {
+      if (state.allPages !== state.currentPage) {
         const itemsLength = state.productsEnd - state.productsStart;
         state.currentPage++;
         state.productsStart = state.productsStart + itemsLength;
         state.productsEnd = state.productsEnd + itemsLength;
         state.currentProducts = state.products.slice(state.productsStart, state.productsEnd);
       }
+    },
+    clearOneProduct(state) {
+      state.oneProduct = {
+        company: "",
+        productName: "",
+        price: 0,
+        images: [],
+        description: [],
+        category: "",
+        categoryRus: "",
+        id: ""
+      };
+      state.oneProductLoaded = false;
     }
   },
   extraReducers: (builder) => {
@@ -160,14 +176,24 @@ const productsSlice = createSlice({
         state.currentProducts = action.payload.slice(state.productsStart, state.productsEnd);
         state.allPages = Math.ceil(action.payload.length / state.productsEnd);
         state.isWasFetched = true;
+        state.productsLoaded = true;
         state.loading = true;
       }
     });
+    builder.addCase(getProductCategory.pending, (state) => {
+      state.productsLoaded = false;
+      state.products = [];
+      state.currentProducts = [];
+    })
+    builder.addCase(getOneProduct.pending, (state) => {
+      state.oneProductLoaded = false
+    })
     builder.addCase(getOneProduct.fulfilled, (state, action) => {
       if (action.payload) {
         state.oneProduct = action.payload[0];
         state.isWasFetched = true;
         state.loading = true;
+        state.oneProductLoaded = true;
       }
     });
     builder.addCase(searchProduct.fulfilled, (state, action) => {
@@ -180,7 +206,7 @@ const productsSlice = createSlice({
       }
     });
     builder.addCase(searchByHeader.fulfilled, (state, action) => {
-      if(action.payload) {
+      if (action.payload) {
         state.products = action.payload.products;
         state.currentProducts = action.payload.products.slice(state.productsStart, state.productsEnd);
         state.allPages = Math.ceil(action.payload.products.length / state.productsEnd);
@@ -191,5 +217,5 @@ const productsSlice = createSlice({
   },
 });
 
-export const {toBackPage, toForwardPage} = productsSlice.actions
+export const { toBackPage, toForwardPage, clearOneProduct } = productsSlice.actions
 export default productsSlice.reducer;

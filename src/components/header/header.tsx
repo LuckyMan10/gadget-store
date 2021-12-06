@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./header.scss";
 import { Logo } from "./logo";
 import { Search } from "./search";
@@ -12,13 +12,15 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import {
   setMenuVisible,
   setAuthModalVisible,
+  setUserInfo
 } from "features/appVisible/appVisibleSlice";
 import { AuthModal } from "components/authModal/AuthModal";
 import { UserInfoModal } from "components/userInfoModal/UserInfoModal";
-import {logout} from "features/api/authApiSlice";
+import { logout } from "features/api/authApiSlice";
 
 export const Header = () => {
-  const { menuVisible, authModalVisible } = useAppSelector(
+
+  const { menuVisible, authModalVisible, userInfo } = useAppSelector(
     (state) => state.appVisible
   );
   const { isAuth, user, loading } = useAppSelector((state) => state.auth);
@@ -29,14 +31,9 @@ export const Header = () => {
     (state) => state.cart
   );
   const dispatch = useAppDispatch();
-  const handleChangeVisibleMenu = () => {
-    dispatch(setMenuVisible(!menuVisible));
-  };
-  const handleChangeVisibleAuthModal = () => {
-    dispatch(setAuthModalVisible(!authModalVisible));
-  };
 
   const isMobile = useMediaQuery({ query: "(max-width: 500px)" });
+  const isMediumSize = useMediaQuery({ query: "(max-width: 1300px)" });
   const navigate = useNavigate();
   const headerButtons = [
     { id: "favorite", img: heart, text: "Избранное" },
@@ -50,65 +47,79 @@ export const Header = () => {
     HOME = "/",
     TOLOGOUT = 'toLogout'
   }
-  const [userInfo, setUserInfo] = useState<boolean>(false);
-
+  useEffect(() => {
+    if (!menuVisible && userInfo && isMediumSize) {
+      window.scroll(0, 0)
+      document.body.style.overflow = "hidden";
+    };
+    if (!menuVisible && !userInfo) {
+      document.body.style.overflow = "scroll";
+    }
+    return () => {
+      document.body.style.overflow = "scroll";
+    }
+  }, [menuVisible, isMediumSize, userInfo])
 
   const headerHandleClick = (
     e: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLElement>
   ) => {
     const id = (e.target as HTMLElement).id;
     if (id) {
-      if(id === headerEnum.TOLOGOUT) {
+      if (id === headerEnum.TOLOGOUT) {
         dispatch(
           logout()
         )
       }
       if (id === headerEnum.CART) {
-        setUserInfo(false);
+        dispatch(setUserInfo(false));
         navigate(headerEnum.CART);
         dispatch(setMenuVisible(!menuVisible));
+        document.body.style.overflow = "scroll";
       }
       if (id === headerEnum.HOME) {
-        setUserInfo(false);
+        dispatch(setUserInfo(false));
         menuVisible && dispatch(setMenuVisible(!menuVisible));
+        document.body.style.overflow = "scroll";
         navigate(headerEnum.HOME);
       }
       if (id === headerEnum.FAVORITE) {
-        setUserInfo(false);
+        dispatch(setUserInfo(false));
         menuVisible && dispatch(setMenuVisible(!menuVisible));
+        document.body.style.overflow = "scroll";
         navigate(headerEnum.FAVORITE);
       }
       if (id === headerEnum.LOGIN) {
         if (!isAuth) {
           menuVisible && dispatch(setMenuVisible(!menuVisible));
-          handleChangeVisibleAuthModal();
+          document.body.style.overflow = "scroll";
+          dispatch(setAuthModalVisible(!authModalVisible));
         }
-        if(isAuth) {
+        if (isAuth) {
           dispatch(setMenuVisible(!menuVisible));
-          setUserInfo(!userInfo);
+          dispatch(setUserInfo(!userInfo));
         }
       }
     }
   };
+  const clickHideMenuHandler = () => {
+    dispatch(setMenuVisible(!menuVisible));
+  }
 
   return (
     <header onClick={headerHandleClick} className="header">
       {isAuth && isCartLoading &&
-      isFavLoading && userInfo &&
-      userCart.products && (
-        <UserInfoModal
-          email={user.user.email}
-          cart_summ={userCart.products.length}
-          fav_summ={userFavList.products.length}
-          setUserInfo={setUserInfo}
-          userInfo={userInfo}
-        />
-      )}
-      <Logo />
-      <Search
+        isFavLoading && userInfo &&
+        userCart.products && (
+          <UserInfoModal
+            email={user.user.email}
+            cart_summ={userCart.products.length}
+            fav_summ={userFavList.products.length}
+          />
+        )}
+      {(!menuVisible || !isMobile) && <Logo />}
+      {(!menuVisible || !isMobile) && <Search
         hideMenu={false}
-        setMenuVisible={setMenuVisible}
-      />
+      />}
       <section className="header__buttons">
         {headerButtons.map((el) => {
           return (
@@ -124,8 +135,8 @@ export const Header = () => {
       <section className="header__menu">
         {!menuVisible && (
           <MenuButton
-            setMenuVisible={handleChangeVisibleMenu}
-            menuVisible={menuVisible}
+            type={menuVisible}
+            clickButton={clickHideMenuHandler}
           />
         )}
       </section>
@@ -134,12 +145,11 @@ export const Header = () => {
           <section className="header__hideMenu">
             <div className="header__hideMenu-wrapper">
               <MenuButton
-                setMenuVisible={handleChangeVisibleMenu}
-                menuVisible={menuVisible}
+                type={menuVisible}
+                clickButton={clickHideMenuHandler}
               />
               <Search
                 hideMenu={true}
-                setMenuVisible={setMenuVisible}
               />
               {headerButtons.map((el) => {
                 return (
@@ -154,10 +164,7 @@ export const Header = () => {
             </div>
           </section>
           {isMobile && (
-            <MobileMenu
-              setMenuVisible={handleChangeVisibleMenu}
-              menuVisible={menuVisible}
-            />
+            <MobileMenu />
           )}
           <span className="blackout"></span>
         </>
@@ -165,8 +172,6 @@ export const Header = () => {
       {authModalVisible && (
         <div className="auth">
           <AuthModal
-            setMenuVisible={handleChangeVisibleAuthModal}
-            menuVisible={authModalVisible}
           />
         </div>
       )}

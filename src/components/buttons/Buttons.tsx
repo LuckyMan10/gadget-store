@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import {menu, close, minus, plus} from "components/staticImports";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import {setMenuVisible} from "features/appVisible/appVisibleSlice";
 
 type ClickButtonType = {
   text?: string;
@@ -92,11 +94,11 @@ export const BuyButtonComponent = ({
   );
 };
 
-export const MenuButton = ({setMenuVisible, menuVisible}: menuButtonType) => {
+export const MenuButton = ({type, clickButton}: {type: boolean, clickButton(): void}) => {
   return (
     <StyledButton>
-      <img onClick={() => setMenuVisible(!menuVisible)}
-           src={menuVisible ? close : menu}
+      <img onClick={clickButton}
+           src={type ? close : menu}
            alt="menu"
       />
     </StyledButton>

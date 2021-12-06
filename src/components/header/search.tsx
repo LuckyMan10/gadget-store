@@ -4,14 +4,14 @@ import { searchByHeader } from "features/api/productsApiSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useNavigate } from "react-router-dom";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
+import {setMenuVisible, setAuthModalVisible} from "features/appVisible/appVisibleSlice";
 
 interface searchI {
   hideMenu: boolean;
-  setMenuVisible(arg: boolean): void;
 }
 
 
-export const Search = ({hideMenu, setMenuVisible}: searchI) => {
+export const Search = ({hideMenu}: searchI) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState<string>("");
@@ -36,11 +36,11 @@ export const Search = ({hideMenu, setMenuVisible}: searchI) => {
           console.log("search data: ", data);
           if (data.payload.category && !data.payload.company) {
             navigate(`/${data.payload.category}/all`);
-            setMenuVisible(false);
+            dispatch(setMenuVisible(false));
           }
           if (data.payload.category && data.payload.company) {
             navigate(`/${data.payload.category}/${data.payload.company}`);
-            setMenuVisible(false);
+            dispatch(setMenuVisible(false));
           }
           if (!data.payload.category &&
             !data.payload.company &&

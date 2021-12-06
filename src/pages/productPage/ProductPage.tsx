@@ -14,6 +14,8 @@ import {
   toForwardPage,
 } from "features/api/productsApiSlice";
 import { Pagination } from "components/pagination/Pagination";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 interface navbarDataItemI {
   id: string;
@@ -93,16 +95,10 @@ export const ProductPage: FC = () => {
                 name={categories[0].name}
               />
               {!isMobile && <NavBar navBarClick={navBarClick} />}
-              {loading &&
-                currentProducts &&
-                (isWasFetched && currentProducts.length !== 0 ? (
-                  <Products
+              <Products
                     products={currentProducts}
                     toProductHandler={toProductHandler}
-                  />
-                ) : (
-                  <div>Ничего не найдено</div>
-                ))}
+              />
               {activeCategory && (
                 <SearchSettings
                   isMobile={isMobile}
@@ -122,7 +118,17 @@ export const ProductPage: FC = () => {
             <div>Ничего не найдено</div>
           )
         ) : (
-          <div>Загрузка</div>
+          <div className="preload-wrapper">
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%'
+            }}>
+              <CircularProgress />
+            </Box>
+          </div>
         ))}
     </div>
   );

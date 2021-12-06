@@ -1,6 +1,9 @@
 @import "../mixins.scss";
 
 .navbar {
+  .react-loading-skeleton {
+    margin: 5px 0px;
+  }
     a {
       text-decoration: none;
     }

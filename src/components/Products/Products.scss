@@ -1,6 +1,14 @@
 @import '../mixins.scss';
 
 .Products {
+    .preload-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        .css-18lrjg1-MuiCircularProgress-root {
+            color: $green_color_soft;
+          }
+    }
     &__wrapper {
         padding: 15px 0px;
         border-radius: 20px;

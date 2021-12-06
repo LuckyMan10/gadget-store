@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Header } from "components/header/header";
-import { Footer } from "components/footer/footer";
+import { useParams, useLocation } from "react-router-dom";
 import { BreadCrumbs } from "components/breadCrumbs/BreadCrumbs";
 import { ProductImages } from "components/productItemPage/productImages";
 import { Specifications } from "components/productItemPage/specifications";
@@ -11,10 +9,12 @@ import "./ProductItemPage.scss";
 import { useFetchNavDataQuery } from "features/api/appApiSlice";
 import { useAppSelector, useAppDispatch } from "app/hooks";
 import { updateUserCart } from "features/api/userCartApiSlice";
-import { getOneProduct } from "features/api/productsApiSlice";
+import { getOneProduct, clearOneProduct } from "features/api/productsApiSlice";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
 import { updateProduct, getOneProductById } from "features/api/notAuthCartApiSlice";
-import {updateUserFavList} from "features/api/userFavListApiSlice";
+import { updateUserFavList } from "features/api/userFavListApiSlice";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 interface navbarDataItemI {
   id: string;
@@ -24,6 +24,7 @@ interface navbarDataItemI {
 }
 
 export const ProductItemPage = () => {
+  const { pathname } = useLocation();
   const { category, item } = useParams() as {
     category: string | string[];
     item: string;
@@ -46,8 +47,12 @@ export const ProductItemPage = () => {
         withCredentials: true,
       })
     );
-  }, []);
-  const { oneProduct, isWasFetched, loading } = useAppSelector(
+    return () => {
+      console.log('unmount')
+      dispatch(clearOneProduct());
+    }
+  }, [pathname]);
+  const { oneProduct, isWasFetched, loading, oneProductLoaded } = useAppSelector(
     (state) => state.products
   );
   const { data = [], isFetching } = useFetchNavDataQuery();
@@ -79,7 +84,7 @@ export const ProductItemPage = () => {
         }, 3200);
       });
     }
-    if(isAuth && id && type === "toFav") {
+    if (isAuth && id && type === "toFav") {
       const data = { productId: id };
       dispatch(
         updateUserFavList({
@@ -108,8 +113,8 @@ export const ProductItemPage = () => {
       });
     }
     if (!isAuth && id && isRefreshError && type === "toBuy") {
-      if(userCart.products[id.replace(/-/g, '')]) {
-        dispatch(updateProduct({id, type: "INCREMENT"}));
+      if (userCart.products[id.replace(/-/g, '')]) {
+        dispatch(updateProduct({ id, type: "INCREMENT" }));
       } else {
         dispatch(getOneProductById(id));
       }
@@ -123,7 +128,10 @@ export const ProductItemPage = () => {
         message={message}
       />
       <main>
-        {!isFetching && categories && loading ? (
+        {!isFetching &&
+          categories &&
+          loading &&
+          oneProductLoaded ? (
           isWasFetched && data[0] && oneProduct ? (
             <>
               <BreadCrumbs
@@ -146,7 +154,17 @@ export const ProductItemPage = () => {
             <div>Такой страницы не существует</div>
           )
         ) : (
-          <div>Загрузка...</div>
+          <div className="preload-wrapper">
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%'
+            }}>
+              <CircularProgress />
+            </Box>
+          </div>
         )}
       </main>
     </div>

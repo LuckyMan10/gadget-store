@@ -9,17 +9,11 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { logout } from "features/api/authApiSlice";
 import { AuthorizationForm } from "components/forms/authorization/AuthorizationForm";
 import { RegistrationForm } from "components/forms/registration/RegistrationForm";
+import {setLoginForm, setRegForm, setMenuVisible} from "features/appVisible/appVisibleSlice";
 import Button from '@mui/material/Button';
 
-type MobileMenuType = {
-  setMenuVisible(value: boolean): void;
-  menuVisible: boolean;
-}
-
-export const MobileMenu = ({ setMenuVisible, menuVisible }: MobileMenuType) => {
+export const MobileMenu = () => {
   const [scrollHeight, setScrollHeight] = useState<number>(0);
-  const [regForm, setRegForm] = useState<boolean>(false);
-  const [loginForm, setLoginForm] = useState<boolean>(false);
   const { isAuth, user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const { userCart, loading: isCartLoading } = useAppSelector(
@@ -28,45 +22,61 @@ export const MobileMenu = ({ setMenuVisible, menuVisible }: MobileMenuType) => {
   const { userFavList, loading: isFavLoading } = useAppSelector(
     (state) => state.favList
   );
+  const {loginForm, regForm, menuVisible} = useAppSelector(
+    (state) => state.appVisible
+  )
   const navigate = useNavigate();
 
   useEffect(() => {
     setScrollHeight(document.body.scrollHeight);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "scroll";
+    }
   }, []);
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const id = (e.target as HTMLElement).id;
     if (id && id === "favorite") {
       navigate('/favorite');
-      setMenuVisible(false);
+      dispatch(setMenuVisible(false));
     }
     if (id && id === "cart") {
       navigate('/cart');
-      setMenuVisible(false);
+      dispatch(setMenuVisible(false));
     }
     if (id && id === "logout") {
       dispatch(logout()).then(() => {
-        setMenuVisible(false);
+        dispatch(setMenuVisible(false));
+        window.scroll(0, 0)
         navigate('/')
       })
     }
     if (id && id === "toReg") {
-      setRegForm(true);
+      dispatch(setRegForm(true));
+      window.scroll(0, 0);
+      document.body.style.overflow = "hidden";
     }
     if (id && id === "toAuth") {
-      setLoginForm(true);
+      dispatch(setLoginForm(true));
+      window.scroll(0, 0)
+      document.body.style.overflow = "hidden";
     }
     if (id && id === "toBack") {
-      setRegForm(false);
-      setLoginForm(false);
+      window.scroll(0, 0)
+      dispatch(setRegForm(false));
+      dispatch(setLoginForm(false));
     }
   }
   const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
     const category = (e.target as HTMLElement).dataset.category;
     if (category) {
       navigate(`${category}/all`);
-      setMenuVisible(false);
+      dispatch(setMenuVisible(false));
     }
+  }
+  const clickButtonHandler = () => {
+    dispatch(setMenuVisible(false));
   }
 
   const notAuthButtons = [
@@ -85,8 +95,11 @@ export const MobileMenu = ({ setMenuVisible, menuVisible }: MobileMenuType) => {
       <div className="mobileMenu-wrapper">
         {!loginForm && !regForm &&
           <>
-            <MenuButton setMenuVisible={setMenuVisible} menuVisible={menuVisible} />
-            <Search hideMenu={true} setMenuVisible={setMenuVisible} />
+            <MenuButton
+              type={menuVisible}
+              clickButton={clickButtonHandler}
+            />
+            <Search hideMenu={true}/>
             <NavBar navBarClick={navBarClick} />
             {isAuth &&
               <div className="userInfo">
@@ -104,8 +117,8 @@ export const MobileMenu = ({ setMenuVisible, menuVisible }: MobileMenuType) => {
       </div>
       {(loginForm || regForm) &&
         <div className="forms-wrapper">
-          {loginForm && <AuthorizationForm setMenuVisible={setLoginForm} />}
-          {regForm && <RegistrationForm setMenuVisible={setRegForm} />}
+          {loginForm && <AuthorizationForm/>}
+          {regForm && <RegistrationForm/>}
           {(loginForm || regForm) &&
             <Button style={{ backgroundColor: "rgba(64, 178, 89, 1)" }}
               variant="contained"

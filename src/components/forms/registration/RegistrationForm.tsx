@@ -1,9 +1,10 @@
 import { Formik, Form, Field } from "formik";
 import {validationRegistration} from "../validation";
 import "../formsDefaultStyles.scss";
-import {useAppDispatch, useAppSelector} from "app/hooks";
+import {useAppDispatch} from "app/hooks";
 import {registration} from "features/api/authApiSlice";
 import Button from '@mui/material/Button';
+import {setMenuVisible, setRegForm, setAuthModalVisible} from "features/appVisible/appVisibleSlice";
 
 interface FormValues {
   username: string;
@@ -11,11 +12,8 @@ interface FormValues {
   password: string;
   confirmPassword?: string;
 }
-interface RegistrationFormI {
-  setMenuVisible(arg: boolean): void;
-}
 
-export const RegistrationForm = ({setMenuVisible}: RegistrationFormI) => {
+export const RegistrationForm = () => {
   const dispatch = useAppDispatch();
   const initValues: FormValues = {
     username: "",
@@ -32,7 +30,10 @@ export const RegistrationForm = ({setMenuVisible}: RegistrationFormI) => {
           const userData = Object.assign({}, values);
           delete userData.confirmPassword;
           dispatch(registration(userData)).then(() => {
-            setMenuVisible(false);
+            dispatch(setMenuVisible(false));
+            dispatch(setRegForm(false))
+            dispatch(setAuthModalVisible(false));
+            document.body.style.overflow = "scroll";
           })
         }}
       >

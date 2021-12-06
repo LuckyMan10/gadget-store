@@ -1,10 +1,10 @@
-import {left_arrow, right_arrow} from "components/staticImports";
+import { left_arrow, right_arrow } from "components/staticImports";
 import React from "react";
 import Slider from "components/sliders/customSlider";
 import "./CurrentOffers.scss";
 import { useNavigate } from "react-router-dom";
 
-interface productI {
+type productI = {
   company: string;
   productName: string;
   price: number;
@@ -15,7 +15,7 @@ interface productI {
   id: string;
 }
 
-interface currOffersI {
+type currOffersI = {
   data: {
     slides: Array<productI>;
     slider: string;
@@ -23,7 +23,7 @@ interface currOffersI {
   };
 }
 
-export const CurrentOffers = ({ data }: currOffersI) => {
+const CurrentOffers = ({ data }: currOffersI) => {
   const SliderProps = {
     zoomFactor: 5,
     slideMargin: 5,
@@ -52,42 +52,53 @@ export const CurrentOffers = ({ data }: currOffersI) => {
 
   return (
     <div onClick={clickHandler} className="CurrentOffers">
-      <h2 className="CurrentOffers__title">Актуальные предложения</h2>
-      <Slider {...SliderProps}>
-        {data.slides.map((slide) => (
-          <div
-            data-category={slide.category}
-            id={slide.id}
-            className="slide"
-            key={slide.id}
-          >
-            <section
+      <h2 className="CurrentOffers__title">
+        "Актуальные предложения"
+      </h2>
+      {data &&
+        data.slides &&
+        data.slides.length !== 0 &&
+        <Slider {...SliderProps}>
+          {data.slides.map((slide) => (
+            <div
               data-category={slide.category}
               id={slide.id}
-              className="slide__image"
+              className="slide"
+              key={slide.id}
             >
-              <img
+              <section
                 data-category={slide.category}
                 id={slide.id}
-                src={slide.images[2]}
-                alt="character"
-              />
-            </section>
-            <section
-              data-category={slide.category}
-              id={slide.id}
-              className="slide__text"
-            >
-              <h2 data-category={slide.category} id={slide.id}>
-                {slide.productName}
-              </h2>
-              <p data-category={slide.category} id={slide.id}>
-                Цена: {slide.price} рублей.
-              </p>
-            </section>
-          </div>
-        ))}
-      </Slider>
+                className="slide__image"
+              >
+                <img
+                  data-category={slide.category}
+                  id={slide.id}
+                  src={slide.images[2]}
+                  alt="character"
+                />
+              </section>
+              <section
+                data-category={slide.category}
+                id={slide.id}
+                className="slide__text"
+              >
+                <h2 data-category={slide.category} id={slide.id}>
+                  {slide.productName}
+                </h2>
+                <p data-category={slide.category} id={slide.id}>
+                  Цена: {slide.price} рублей.
+                </p>
+              </section>
+            </div>
+          ))
+          }
+        </Slider>
+      }
     </div>
   );
 };
+
+export {
+  CurrentOffers
+}

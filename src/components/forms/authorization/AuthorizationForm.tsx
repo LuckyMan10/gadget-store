@@ -4,16 +4,15 @@ import "../formsDefaultStyles.scss";
 import {useAppDispatch, useAppSelector} from "app/hooks";
 import {login} from "features/api/authApiSlice";
 import Button from '@mui/material/Button';
+import {setMenuVisible, setLoginForm, setAuthModalVisible} from "features/appVisible/appVisibleSlice";
 
 type FormData = {
   email: string;
   password: string;
 };
-interface AuthorizationFormI {
-  setMenuVisible(arg: boolean): void; 
-}
 
-export const AuthorizationForm = ({setMenuVisible}: AuthorizationFormI ) => {
+
+export const AuthorizationForm = () => {
   const dispatch = useAppDispatch();
   const {error, isError} = useAppSelector((state) => state.auth);
   const initValues: FormData = {
@@ -29,7 +28,10 @@ export const AuthorizationForm = ({setMenuVisible}: AuthorizationFormI ) => {
         onSubmit={(values) => {
           const userData = Object.assign({}, values);
           dispatch(login(userData)).then(() => {
-            setMenuVisible(false);
+            dispatch(setMenuVisible(false));
+            dispatch(setLoginForm(false));
+            dispatch(setAuthModalVisible(false));
+            document.body.style.overflow = "scroll";
           })
         }}
       >

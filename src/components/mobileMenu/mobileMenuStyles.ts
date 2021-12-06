@@ -20,6 +20,8 @@ export const StyledMobileMenu = styled.article<mobileMenuStyles>`
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 35%;
+    justify-content: center;
     border-radius: 10px;
     padding: 20px;
     form {
@@ -48,7 +50,6 @@ export const StyledMobileMenu = styled.article<mobileMenuStyles>`
       }
     }
   }
-  padding-top: 120px;
   padding-bottom: 80px;
   position: absolute;
   display: flex;
@@ -94,8 +95,8 @@ export const StyledMobileMenu = styled.article<mobileMenuStyles>`
       text-align: center;
       max-width: 170px;
     }
-    width: 183px;
-    height: 136px;
+    width: 145px;
+    height: 116px;
   }
   .clickButton {
     font-family: "Roboto";
@@ -106,7 +107,7 @@ export const StyledMobileMenu = styled.article<mobileMenuStyles>`
       width: 100%;
       text-align: center;
     }
-    margin: 10px 0px;
+    margin: 5px 0px;
     color: white;
     background-color: rgba(61, 171, 85, 1);
     opacity: 0.9;
@@ -122,12 +123,6 @@ export const StyledMobileMenu = styled.article<mobileMenuStyles>`
       background-color: rgba(61, 171, 85, 1);
       transform: scale(0.98);
       transition: 0.2s;
-    }
-  }
-  @media (max-width: 400px) {
-    .navbar__button {
-      width: 145px;
-      height: 116px;
     }
   }
 `;
