@@ -2,35 +2,15 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { host, createResponse } from "./http/index";
 import { getProductsList, getOneProduct } from "./anonymCartApi";
 import {setWithExpiry, localStorageSave} from "helpers/localStorage";
-import {getSumm} from "helpers/getSumm";
+import {
+  getSumm
+} from "helpers/getSumm";
 import { v4 } from "uuid";
-
-interface initialStateI {
-  userCart: {
-    anonymUserId: string;
-    productsSummPrice: number;
-    products: {
-      [key: string]: {
-        productId: string;
-        quantity: number;
-        productData: productI;
-      };
-    };
-  };
-  loading: boolean;
-  isWasFetched: boolean;
-}
-
-interface productI {
-  company: string;
-  productName: string;
-  price: number;
-  images: string[];
-  description: any[];
-  category: string;
-  categoryRus: string;
-  id: string;
-}
+import {
+  notAuthInitState,
+  productCardType,
+  getSummObjType
+} from "types";
 
 export const getAnonymUserCart = createAsyncThunk("anonym/cart", async () => {
   try {
@@ -73,7 +53,7 @@ const initialState = {
   },
   isWasFetched: false,
   loading: false,
-} as initialStateI;
+} as notAuthInitState;
 
 const anonymCartSlice = createSlice({
   name: "anonymCart",
@@ -90,7 +70,7 @@ const anonymCartSlice = createSlice({
       type === "INCREMENT" && state.userCart.products[id].quantity++;
       type === "DECREMENT" && state.userCart.products[id].quantity--;
       //@ts-ignore
-      const summ = getSumm(state.userCart.products);
+      const summ = getSumm<getSummObjType>(state.userCart.products);
       state.userCart.productsSummPrice = summ;
       const anonymUser = localStorage.getItem("anonymUser");
       anonymUser && localStorageSave(anonymUser, id, type);
@@ -111,7 +91,7 @@ const anonymCartSlice = createSlice({
           Object.keys(userObj.productList).length !== 0 &&
           action.payload !== null
         ) {
-          action.payload.forEach((el: productI) => {
+          action.payload.forEach((el: productCardType) => {
             state.userCart.products[el.id.replace(/-/g, "")] = {
               //@ts-ignore
               productData: el,
@@ -120,7 +100,7 @@ const anonymCartSlice = createSlice({
             };
           });
           //@ts-ignore
-          const summ = getSumm(state.userCart.products);
+          const summ = getSumm<getSummObjType>(state.userCart.products);
           state.userCart.productsSummPrice = summ;
           state.isWasFetched = true;
           state.loading = true;
@@ -147,7 +127,7 @@ const anonymCartSlice = createSlice({
           quantity: 1,
         };
         //@ts-ignore
-        const summ = getSumm(state.userCart.products);
+        const summ = getSumm<getSummObjType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
         localStorage.setItem("anonymUser", JSON.stringify(cartData));
         state.isWasFetched = true;

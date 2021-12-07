@@ -1,30 +1,13 @@
 import styled from "styled-components";
-import {menu, close, minus, plus} from "components/staticImports";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import {setMenuVisible} from "features/appVisible/appVisibleSlice";
+import { menu, close, minus, plus } from "components/staticImports";
+import React from 'react';
+import {
+  ClickButtonType,
+  BuyButtonType,
+  ChangeValueButtonType,
+  MenuButtonType
+} from "types";
 
-type ClickButtonType = {
-  text?: string;
-  img?: string;
-  type?: string;
-  id: string;
-};
-type BuyButtonType = {
-  text?: string;
-  toFav?: string;
-  isCart?: boolean;
-  price: number;
-  onClick(e: React.MouseEvent<HTMLButtonElement>): void;
-  id: string;
-};
-type ChangeValueButtonType = {
-  value?: number;
-  id: string;
-};
-type menuButtonType = {
-    setMenuVisible(value: boolean): void,
-    menuVisible: boolean
-}
 
 const StyledButton = styled.button`
     border: none;
@@ -39,7 +22,7 @@ const StyledButton = styled.button`
 `
 
 
-export const DynamicButtonComponent = ({ text, img, id, type }: ClickButtonType) => {
+const DynamicButtonComponent: React.FC<ClickButtonType> = ({ text, img, id, type }) => {
   return (
     <button data-type={type} id={id} className="clickButton">
       {img && <img data-type={type} id={id} src={img} alt="icon button" />}
@@ -48,10 +31,10 @@ export const DynamicButtonComponent = ({ text, img, id, type }: ClickButtonType)
   );
 };
 
-export const ChangeValueButtonComponent = ({
+const ChangeValueButtonComponent: React.FC<ChangeValueButtonType> = ({
   value,
   id
-}: ChangeValueButtonType) => {
+}) => {
   return (
     <article id={id} className="ChangeValueButton">
       <button data-type="DECREMENT" data-value={value} id={id} className="ChangeValueButton__decrement">
@@ -65,14 +48,14 @@ export const ChangeValueButtonComponent = ({
   );
 };
 
-export const BuyButtonComponent = ({
+const BuyButtonComponent: React.FC<BuyButtonType> = ({
   text,
   toFav,
   isCart,
   price,
   onClick,
   id,
-}: BuyButtonType) => {
+}) => {
   return (
     <article onClick={onClick} className="buyButton">
       <div className="buyButton__wrapper">
@@ -94,13 +77,20 @@ export const BuyButtonComponent = ({
   );
 };
 
-export const MenuButton = ({type, clickButton}: {type: boolean, clickButton(): void}) => {
+const MenuButton: React.FC<MenuButtonType> = ({ type, clickButton }) => {
   return (
     <StyledButton>
       <img onClick={clickButton}
-           src={type ? close : menu}
-           alt="menu"
+        src={type ? close : menu}
+        alt="menu"
       />
     </StyledButton>
   );
 };
+
+export {
+  DynamicButtonComponent,
+  ChangeValueButtonComponent,
+  BuyButtonComponent,
+  MenuButton
+}

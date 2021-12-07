@@ -5,17 +5,12 @@ import {useAppDispatch} from "app/hooks";
 import {registration} from "features/api/authApiSlice";
 import Button from '@mui/material/Button';
 import {setMenuVisible, setRegForm, setAuthModalVisible} from "features/appVisible/appVisibleSlice";
+import React from 'react';
+import {FormRegType} from "types";
 
-interface FormValues {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword?: string;
-}
-
-export const RegistrationForm = () => {
+const RegistrationForm: React.FC = () => {
   const dispatch = useAppDispatch();
-  const initValues: FormValues = {
+  const initValues: FormRegType = {
     username: "",
     email: "",
     password: "",
@@ -75,3 +70,7 @@ export const RegistrationForm = () => {
     </article>
   );
 };
+
+export {
+  RegistrationForm
+}

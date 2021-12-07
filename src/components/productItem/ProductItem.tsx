@@ -3,19 +3,10 @@ import {
   DynamicButtonComponent,
   ChangeValueButtonComponent,
 } from "components/buttons/Buttons";
+import React from 'react';
+import { productItemType } from "types"
 
-interface productItemI {
-  img: string;
-  name: string;
-  isCounter: boolean;
-  price: number;
-  btn_1?: { id: string; text: string; type: string; };
-  btn_2?: { id: string; text: string; type: string; };
-  counterValue?: number;
-  id: string;
-}
-
-export const ProductItemComponent = ({
+const ProductItemComponent: React.FC<productItemType> = ({
   img,
   name,
   btn_1,
@@ -24,7 +15,7 @@ export const ProductItemComponent = ({
   counterValue,
   price,
   id
-}: productItemI) => {
+}) => {
   return (
     <article className="productItem">
       <section className="productItem__image">
@@ -57,3 +48,7 @@ export const ProductItemComponent = ({
     </article>
   );
 };
+
+export {
+  ProductItemComponent
+}

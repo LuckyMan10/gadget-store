@@ -4,8 +4,9 @@ import { AuthorizationForm } from "components/forms/authorization/AuthorizationF
 import { MenuButton } from "components/buttons/Buttons";
 import {setAuthModalVisible} from "features/appVisible/appVisibleSlice";
 import {useAppDispatch, useAppSelector} from "app/hooks";
+import React from 'react';
 
-export const AuthModal = () => {
+const AuthModal: React.FC = () => {
   const dispatch = useAppDispatch();
   const {authModalVisible} = useAppSelector((state) => state.appVisible);
   function clickButtonHandler() {
@@ -34,3 +35,7 @@ export const AuthModal = () => {
     </article>
   );
 };
+
+export {
+  AuthModal
+}

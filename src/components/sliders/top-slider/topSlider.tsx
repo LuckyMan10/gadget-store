@@ -1,30 +1,10 @@
 import Slider from "components/sliders/customSlider";
 import "./topSlider.scss";
+import { SliderProps } from "./sliderSettings";
+import React from 'react';
+import {topSliderType} from "types";
 
-interface topSliderI {
-  data: {
-    slides: Array<string>;
-    slider: string;
-    _id: string;
-  };
-}
-
-export const TopSlider = ({ data }: topSliderI) => {
-  const SliderProps = {
-    zoomFactor: 0,
-    slideMargin: 1,
-    maxVisibleSlides: 1,
-    pageTransition: 500,
-    sliderWidth: 400,
-    infinity: true,
-    arrows: false,
-    slidePadding: 1,
-    slideBorderRadius: 10,
-    slideBoxShadow: "none",
-    sliderBackground: "none",
-    dots: true,
-    autoPlay: true,
-  };
+const TopSlider: React.FC<topSliderType> = ({ data }) => {
 
   return (
     <article className="topSlider">
@@ -46,3 +26,7 @@ export const TopSlider = ({ data }: topSliderI) => {
     </article>
   );
 };
+
+export {
+  TopSlider
+}

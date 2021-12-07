@@ -1,58 +1,33 @@
 import "./SearchSettings.scss";
 import React, { useState, useEffect } from "react";
-import { Slider } from "@mui/material";
-import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
-import { useMediaQuery } from "react-responsive";
 import { DynamicButtonComponent } from "components/buttons/Buttons";
-import { useAppSelector, useAppDispatch } from "app/hooks";
+import { useAppDispatch } from "app/hooks";
 import { searchProduct } from "features/api/productsApiSlice";
 import { useParams } from "react-router-dom";
+import {MuiPriceSlider} from "./MuiPriceSlider";
+import {searchSettingsType, currCategoryType, itemType} from "types";
 
-interface SearchSettingsI {
-  category: string;
-  appData: {
-    id: string;
-    category: string;
-    name: string;
-    companies: string[];
-  };
-  isMobile: boolean;
-}
-interface currCategoryI {
-  name: string;
-  companies: Array<string>;
-  category: string;
-}
 
-interface itemI {
-  [key: string]: boolean;
-}
-
-export const SearchSettings = ({
+const SearchSettings: React.FC<searchSettingsType> = ({
   category,
-  appData,
-  isMobile,
-}: SearchSettingsI) => {
+  appData
+}) => {
   const { category: paramsCategory, company } = useParams() as {
     category: string;
     company?: string;
   };
   const dispatch = useAppDispatch();
-  const { user, isAuth } = useAppSelector((state) => state.auth);
-  const [items, setItems] = useState<itemI>({});
-  const [currCategory, setCurrCategory] = useState<currCategoryI>({
+  const [items, setItems] = useState<itemType>({});
+  const [currCategory, setCurrCategory] = useState<currCategoryType>({
     name: "",
     companies: [],
     category: "",
   });
   const [defaultBox, setDefaultBox] = useState<boolean>(true);
   const [price, setPrice] = useState<number[]>([0, 5000]);
-  const changePrice = (event: Event, newValue: number | number[]) => {
-    setPrice(newValue as number[]);
-  };
+
   useEffect(() => {
-    console.log('company: ', company)
     let itemsState = {};
     appData.companies.forEach((el) => {
       //@ts-ignore
@@ -65,9 +40,7 @@ export const SearchSettings = ({
     setCurrCategory(appData);
     setItems(itemsState);
   }, [appData]);
-  function valuetext(value: number) {
-    return `${value}`;
-  }
+
   function defaultBoxClick() {
     setDefaultBox(!defaultBox);
     let checkboxItems = {};
@@ -93,7 +66,6 @@ export const SearchSettings = ({
   }
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
     const id = (e.target as HTMLElement).id;
-    const datasetValue = (e.target as HTMLElement).dataset.key;
     if (id) {
       if (id === "defaultBox") {
         return defaultBoxClick();
@@ -138,33 +110,20 @@ export const SearchSettings = ({
                 );
               })
             ) : (
-              <div>loading...</div>
+              <div>Загрузка...</div>
             )}
           </ul>
         </section>
-        <section className="searchSettings__PriceSlider">
-          <h3>
-            Цена от {price[0]} до {price[1]} рублей
-          </h3>
-          <Box
-            sx={{
-              width: 300,
-            }}
-          >
-            <Slider
-              getAriaLabel={() => "Price"}
-              step={100}
-              min={0}
-              max={50000}
-              onChange={changePrice}
-              value={price}
-              valueLabelDisplay="auto"
-              getAriaValueText={valuetext}
-            />
-          </Box>
-        </section>
+        <MuiPriceSlider
+          setPrice={setPrice}
+          price={price}
+        />
         <DynamicButtonComponent id="search" text="Искать" />
       </div>
     </article>
   );
 };
+
+export {
+  SearchSettings
+}

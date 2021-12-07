@@ -1,22 +1,18 @@
 import "./specifications.scss";
 import { DynamicButtonComponent } from "components/buttons/Buttons";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import {specificationsType} from "types"
 
-interface specificationsI {
-  data: Array<{ [key: string]: string }>;
-}
-
-export const Specifications = ({ data }: specificationsI) => {
+const Specifications: React.FC<specificationsType> = ({ data }) => {
   const [info, setInfo] = useState<boolean>(false);
-
   const [activeInfoId, setActiveInfoId] = useState<number>(0);
+
   const clickHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     const id = (e.target as HTMLButtonElement).id;
     if (id) {
       const number_of_btn = Number(id.split("").pop());
       setActiveInfoId(number_of_btn);
       setInfo(true);
-      console.log(data[number_of_btn]);
     }
   };
   return (
@@ -60,3 +56,7 @@ export const Specifications = ({ data }: specificationsI) => {
     </article>
   );
 };
+
+export {
+  Specifications
+}

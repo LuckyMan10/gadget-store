@@ -1,11 +1,9 @@
 import stock from "assets/icons/Stock.svg";
+import React from 'react';
 import "./Stock.scss";
+import {stockType} from "types";
 
-type Stock = {
-  isLoading: boolean
-}
-
-const Stock = ({ isLoading }: Stock) => {
+const Stock: React.FC<stockType> = ({ isLoading }) => {
   return (
     <section className="Stock">
       {isLoading

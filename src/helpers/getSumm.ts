@@ -1,26 +1,4 @@
-interface productI {
-  company: string;
-  name: string;
-  price: number;
-  images: string[];
-  description: any[];
-  category: string;
-  id: string;
-}
-interface productsVar1 {
-  [key: string]: {
-    productId: string;
-    quantity: number;
-    productData: productI;
-  };
-}
-interface productsVar2 {
-  productId: string;
-  quantity: number;
-  product: productI;
-}
-
-export function getSumm(products: productsVar1 | Array<productsVar2>): number {
+function getSumm<T>(products: T): number {
   const check = Array.isArray(products);
   if (check) {
     const result = products.reduce((acc, el, index) => {
@@ -36,4 +14,8 @@ export function getSumm(products: productsVar1 | Array<productsVar2>): number {
     return result;
   };
   return 0;
+}
+
+export {
+  getSumm 
 }

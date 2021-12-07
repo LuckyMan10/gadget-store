@@ -1,40 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { host, createResponse } from "./http/index";
-import axios from "axios";
-
-interface productI {
-  company: string;
-  name: string;
-  price: number;
-  images: Array<string>;
-  description: any;
-  category: string;
-  id: string;
-}
-
-interface userFavI {
-  api_key: string;
-  access_key: string;
-  baseURL: string;
-  method: string;
-  url: string;
-  withCredentials: boolean;
-  data?: {
-    productId: string;
-  };
-};
-
-interface initialStateI {
-  userFavList: {
-    userId: string;
-    products: Array<{
-      productId: string;
-      product: productI;
-    }>
-  };
-  loading: boolean;
-  isWasFetched: boolean;
-}
+import {
+  fetchFavList,
+  fetchType,
+  favListState,
+  fetchForAuth,
+  fetchForAuthWithData
+} from "types";
 
 export const getUserFavList = createAsyncThunk(
   "user/getFavList",
@@ -45,7 +17,7 @@ export const getUserFavList = createAsyncThunk(
     method,
     url,
     withCredentials,
-  }: userFavI) => {
+  }: fetchType<fetchFavList>) => {
     const headers = {
       api_key,
       authorization: `Bearer ${access_key}`,
@@ -66,7 +38,7 @@ export const updateUserFavList = createAsyncThunk(
     url,
     withCredentials,
     data,
-  }: userFavI) => {
+  }: fetchType<fetchForAuth>) => {
     const headers = {
       api_key,
       authorization: `Bearer ${access_key}`,
@@ -86,7 +58,7 @@ export const deleteUserFavList = createAsyncThunk(
     method,
     url,
     withCredentials,
-  }: userFavI) => {
+  }: fetchType<fetchFavList>) => {
     const headers = {
       api_key,
       authorization: `Bearer ${access_key}`,
@@ -104,7 +76,7 @@ const initialState = {
   },
   loading: false,
   isWasFetched: false,
-} as initialStateI;
+} as favListState;
 
 const favListSlice = createSlice({
   name: "favList",

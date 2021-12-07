@@ -1,25 +1,20 @@
-import productImg from "assets/images/slider_2.webp";
 import "./ProductCard.scss";
+import React from 'react';
+import {productCardType} from "types";
 
-interface ProductCardI {
-    company: string;
-    name: string;
-    price: number;
-    images: Array<string>;
-    description: Array<any>;
-    category: string;
-    id: string;
-}
-
-export const ProductCard = ({ name, price, id, images }: ProductCardI) => {
+const ProductCard: React.FC<productCardType> = ({ productName, price, id, images }) => {
 
   return (
     <div id={id} className="card">
       <img id={id} className="card__image" src={images[1]} alt="product image" />
       <section id={id} className="card__info">
-        <h2 id={id} className="card__name">{name}</h2>
+        <h2 id={id} className="card__name">{productName}</h2>
         <p id={id} className="card__price">Цена: {price} рублей.</p>
       </section>
     </div>
   );
 };
+
+export {
+  ProductCard
+}

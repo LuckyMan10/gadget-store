@@ -1,6 +1,7 @@
 import "./footer.scss";
+import React from 'react';
 
-export const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <footer className="footer">
       <button className="footer__github">
@@ -9,3 +10,7 @@ export const Footer = () => {
     </footer>
   );
 };
+
+export {
+  Footer
+}

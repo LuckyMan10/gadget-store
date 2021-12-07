@@ -1,49 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getRegistration, getLogin, check, getLogout } from "./authApi";
-import Cookies from "js-cookie";
-import axios from "axios";
-
-interface authDataI {
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    email: string;
-    username: string;
-    id: string;
-  };
-}
-interface logoutI {
-  deletedCount: number;
-}
-interface userDataI {
-  username: string;
-  email: string;
-  password: string;
-}
-interface loginUserDataI {
-  email: string;
-  password: string;
-}
-interface initialStateI {
-  user: authDataI;
-  isAuth: boolean;
-  loading: boolean;
-  error: string;
-  isError: boolean;
-  refreshError: string;
-  isRefreshError: boolean;
-}
+import {userDataType, FormAuthType, authApiInitState} from "types";
 
 export const registration = createAsyncThunk(
   "auth/registration",
-  async (userData: userDataI) => {
+  async (userData: userDataType) => {
     const response = await getRegistration(userData);
     return response.data;
   }
 );
 export const login = createAsyncThunk(
   "auth/login",
-  async (userData: loginUserDataI) => {
+  async (userData: FormAuthType) => {
     try {
       const response = await getLogin(userData);
       return response?.data;
@@ -83,7 +51,7 @@ const initialState = {
   refreshError: "",
   isRefreshError: false,
   isError: false,
-} as initialStateI;
+} as authApiInitState;
 
 const authSlice = createSlice({
   name: "auth",

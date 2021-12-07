@@ -1,36 +1,15 @@
 import "./productImages.scss";
 import React, { useState } from "react";
 import Slider from "components/sliders/customSlider";
-import { left_arrow, right_arrow } from "components/staticImports";
+import { SliderProps } from "./sliderSettings";
+import { productImagesType } from "types"
 
-interface productImagesI {
-  images: Array<string>;
-  title: string;
-}
+const ProductImages: React.FC<productImagesType> = ({ images, title }) => {
 
-export const ProductImages = ({ images, title }: productImagesI) => {
-  const SliderProps = {
-    zoomFactor: 0,
-    slideMargin: 5,
-    maxVisibleSlides: 1,
-    pageTransition: 500,
-    sliderWidth: 90,
-    infinity: true,
-    arrows: true,
-    leftArrowImg: left_arrow,
-    rightArrowImg: right_arrow,
-    slidePadding: 0,
-    slideBorderRadius: 10,
-    slideBoxShadow: "none",
-    sliderBackground: "transparent",
-    dots: false,
-    autoPlay: false,
-  };
   const [activeImage, setActiveImage] = useState<number>(0);
   const activeImageHandler = (e: React.MouseEvent<HTMLImageElement>) => {
     const imgId = Number((e.target as HTMLElement).id);
     if (imgId !== activeImage) {
-      console.log(imgId);
       setActiveImage(imgId);
     }
   };
@@ -51,7 +30,7 @@ export const ProductImages = ({ images, title }: productImagesI) => {
                   <section
                     className="slide__image"
                   >
-                  <img id={`${index}`} src={slide} alt="product image" />
+                    <img id={`${index}`} src={slide} alt="product image" />
                   </section>
                 </div>
               ))}
@@ -63,15 +42,6 @@ export const ProductImages = ({ images, title }: productImagesI) => {
   );
 };
 
-/*
- {images.map((el, index) => {
-            return (
-              <div key={`${title}_${index}`} className="barItem">
-                <img id={`${index}`} src={el} alt="product image" />
-                <span
-                  className={`image ${activeImage === index ? "active" : ""}`}
-                ></span>
-              </div>
-            );
-          })}
-*/
+export {
+  ProductImages
+}

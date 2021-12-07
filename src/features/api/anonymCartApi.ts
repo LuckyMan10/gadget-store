@@ -1,19 +1,5 @@
 import axios from "axios";
 
-interface userDataI {
-  username: string;
-  email: string;
-  password: string;
-}
-interface loginUserDataI {
-  email: string;
-  password: string;
-}
-
-interface productsIdI {
-  products: Array<string>;
-}
-
 const $host = axios.create({
   withCredentials: true,
   baseURL: "http://localhost:5000/api/products",

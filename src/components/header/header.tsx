@@ -4,7 +4,7 @@ import { Logo } from "./logo";
 import { Search } from "./search";
 import { MobileMenu } from "components/mobileMenu/mobileMenu";
 import { useMediaQuery } from "react-responsive";
-import { logo, heart, cart, account } from "components/staticImports";
+import { heart, cart, account } from "components/staticImports";
 import { MenuButton } from "components/buttons/Buttons";
 import { DynamicButtonComponent } from "components/buttons/Buttons";
 import { useNavigate } from "react-router-dom";
@@ -17,8 +17,9 @@ import {
 import { AuthModal } from "components/authModal/AuthModal";
 import { UserInfoModal } from "components/userInfoModal/UserInfoModal";
 import { logout } from "features/api/authApiSlice";
+import {headerEnum} from "./enum";
 
-export const Header = () => {
+const Header: React.FC = () => {
 
   const { menuVisible, authModalVisible, userInfo } = useAppSelector(
     (state) => state.appVisible
@@ -40,13 +41,7 @@ export const Header = () => {
     { id: "cart", img: cart, text: "Корзина" },
     { id: "login", img: account, text: loading ? user.user.username : "Войти" },
   ];
-  const enum headerEnum {
-    CART = "cart",
-    FAVORITE = "favorite",
-    LOGIN = "login",
-    HOME = "/",
-    TOLOGOUT = 'toLogout'
-  }
+  
   useEffect(() => {
     if (!menuVisible && userInfo && isMediumSize) {
       window.scroll(0, 0)
@@ -178,3 +173,7 @@ export const Header = () => {
     </header>
   );
 };
+
+export {
+  Header
+}

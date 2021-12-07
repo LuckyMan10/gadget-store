@@ -18,11 +18,13 @@ import {
 } from "features/api/notAuthFavApiSlice";
 import { getOneProductById } from "features/api/notAuthCartApiSlice";
 
-export const FavoritesPage = () => {
+const FavoritesPage: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [notification, setNotification] = useState<boolean>(false);
+
   const button_1 = { id: "toCart", text: "Добавить в корзину", type: "toCart" };
   const button_2 = { id: "toRemove", text: "Удалить", type: "toRemove" };
+
   const dispatch = useAppDispatch();
   const { isAuth, user, isRefreshError } = useAppSelector(
     (state) => state.auth
@@ -32,7 +34,6 @@ export const FavoritesPage = () => {
     (state) => state.favList
   );
   const {
-    isWasFetched: fetchFavAnonym,
     loading: favAnonymLoading,
     userFav: anonymFav,
   } = useAppSelector((state) => state.anonymFav);
@@ -79,15 +80,9 @@ export const FavoritesPage = () => {
             if (data.payload) {
               setMessage("Товар успешно добавлен в корзину");
               setNotification(true);
-              setTimeout(() => {
-                setNotification(false);
-              }, 3200);
             } else {
               setMessage("Товар уже есть в корзине");
               setNotification(true);
-              setTimeout(() => {
-                setNotification(false);
-              }, 3200);
             }
           });
         }
@@ -95,17 +90,11 @@ export const FavoritesPage = () => {
           if (userCart.products[productId.replace(/-/g, "")]) {
             setMessage("Товар уже есть в корзине");
             setNotification(true);
-            setTimeout(() => {
-              setNotification(false);
-            }, 3200);
           }
           if (!userCart.products[productId.replace(/-/g, "")]) {
             dispatch(getOneProductById(productId)).then((data) => {
               setMessage("Товар успешно добавлен в корзину");
               setNotification(true);
-              setTimeout(() => {
-                setNotification(false);
-              }, 3200);
             });
           }
         }
@@ -124,18 +113,12 @@ export const FavoritesPage = () => {
           ).then((data) => {
             setMessage("Товар успешно удален");
             setNotification(true);
-            setTimeout(() => {
-              setNotification(false);
-            }, 3200);
           });
         }
         if (!isAuth && isRefreshError) {
           dispatch(removeFavProduct(productId));
           setMessage("Товар успешно удален");
           setNotification(true);
-          setTimeout(() => {
-            setNotification(false);
-          }, 3200);
         }
       }
     }
@@ -149,7 +132,11 @@ export const FavoritesPage = () => {
 
   return (
     <div className="favoritesPage">
-      <NotificationModal message={message} visible={notification} />
+      <NotificationModal
+        message={message}
+        visible={notification}
+        setVisible={setNotification}
+        />
       <section className="favoritesPage__header">
         <img src={fillHeart} alt="heart" />
         <h1 className="favoritesPage__title">Избранное</h1>
@@ -164,7 +151,7 @@ export const FavoritesPage = () => {
                   key={`favItemKey_${index}`}
                   img={el.product.images[2]}
                   id={el.product.id}
-                  name={el.product.name}
+                  name={el.product.productName}
                   isCounter={false}
                   btn_1={button_1}
                   btn_2={button_2}
@@ -185,7 +172,7 @@ export const FavoritesPage = () => {
                       key={`favItem_anonym_Key_${index}`}
                       img={anonymFav.favoriteList[el].productData.images[2]}
                       id={anonymFav.favoriteList[el].productData.id}
-                      name={anonymFav.favoriteList[el].productData.name}
+                      name={anonymFav.favoriteList[el].productData.productName}
                       isCounter={false}
                       btn_1={button_1}
                       btn_2={button_2}
@@ -210,3 +197,7 @@ export const FavoritesPage = () => {
     </div>
   );
 };
+
+export {
+  FavoritesPage
+}

@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const validationRegistration = Yup.object().shape({
+const validationRegistration = Yup.object().shape({
   username: Yup.string().required("Обязательно").min(4, "Не менее 4 символов."),
   email: Yup.string()
     .required("Обязательно")
@@ -21,9 +21,14 @@ export const validationRegistration = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Пароли должны совпадать"),
 });
 
-export const validationLogin = Yup.object().shape({
+const validationLogin = Yup.object().shape({
   email: Yup.string()
     .required("Обязательно")
     .matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, "Неверный формат почты"),
   password: Yup.string().required("Обязательно"),
 });
+
+export {
+  validationRegistration,
+  validationLogin
+}

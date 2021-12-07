@@ -7,6 +7,7 @@ import favListSlice from "features/api/userFavListApiSlice";
 import productSlice from "features/api/productsApiSlice";
 import notAuthCartSlice from "features/api/notAuthCartApiSlice";
 import anonymFavSlice from "features/api/notAuthFavApiSlice";
+import appLocalSlice from "features/appLocal/appLocalSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     products: productSlice,
     anonymCart: notAuthCartSlice,
     anonymFav: anonymFavSlice,
+    appLocal: appLocalSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => {

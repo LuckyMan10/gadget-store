@@ -1,5 +1,5 @@
 import "./HomePage.scss";
-import React, { FC } from 'react'
+import React from 'react'
 import { NavBar } from 'components/navbar/navbar';
 import { TopSlider } from 'components/sliders/top-slider/topSlider'
 import { Stock } from 'components/stock/Stock';
@@ -10,11 +10,11 @@ import { useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
-export const HomePage: FC = () => {
+const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { data: topSlider = [], isFetching: isTopSliderFetching } = useFetchTopSliderQuery("topSlider");
-  const { data: currOffSlider = [], isFetching: isCurrOffFetching } = useFetchCurrOffersSliderQuery("currentOffersSlider");
-  const { data: companies = [], isFetching: isCompaniesFetching } = useFetchCompaniesQuery("companySlider");
+  const { data: topSlider = [] as any } = useFetchTopSliderQuery("topSlider");
+  const { data: currOffSlider = [] as any } = useFetchCurrOffersSliderQuery("currentOffersSlider");
+  const { data: companies = [] } = useFetchCompaniesQuery("companySlider");
   const navBarClick = (e: React.MouseEvent<HTMLUListElement>) => {
     const category = (e.target as HTMLElement).dataset.category;
     if (category) {
@@ -59,3 +59,7 @@ export const HomePage: FC = () => {
     </div>
   );
 };
+
+export {
+  HomePage
+}

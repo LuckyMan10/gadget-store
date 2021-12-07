@@ -1,46 +1,12 @@
-import { left_arrow, right_arrow } from "components/staticImports";
 import React from "react";
 import Slider from "components/sliders/customSlider";
 import "./CurrentOffers.scss";
 import { useNavigate } from "react-router-dom";
+import {SliderProps} from "./sliderSettings";
+import {currOffersType} from "types";
 
-type productI = {
-  company: string;
-  productName: string;
-  price: number;
-  images: Array<string>;
-  description: Array<any>;
-  category: string;
-  categoryRus: string;
-  id: string;
-}
+const CurrentOffers: React.FC<currOffersType> = ({ data }) => {
 
-type currOffersI = {
-  data: {
-    slides: Array<productI>;
-    slider: string;
-    _id: string;
-  };
-}
-
-const CurrentOffers = ({ data }: currOffersI) => {
-  const SliderProps = {
-    zoomFactor: 5,
-    slideMargin: 5,
-    maxVisibleSlides: 3,
-    pageTransition: 500,
-    sliderWidth: 90,
-    infinity: true,
-    arrows: true,
-    leftArrowImg: left_arrow,
-    rightArrowImg: right_arrow,
-    slidePadding: 20,
-    slideBorderRadius: 10,
-    slideBoxShadow: "none",
-    sliderBackground: "white",
-    dots: false,
-    autoPlay: false,
-  };
   const navigate = useNavigate();
   function clickHandler(e: React.MouseEvent<HTMLDivElement>) {
     const id = (e.target as HTMLElement).id;

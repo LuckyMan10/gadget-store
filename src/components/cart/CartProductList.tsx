@@ -1,6 +1,5 @@
 import "./CartProductList.scss";
 import "./CartItem.scss";
-import defaultImg from "assets/images/slider_2.webp";
 import { BuyButtonComponent } from "components/buttons/Buttons";
 import { ProductItemComponent } from "components/productItem/ProductItem";
 import { useAppSelector, useAppDispatch } from "app/hooks";
@@ -11,22 +10,14 @@ import {
   deleteUserCart,
 } from "features/api/userCartApiSlice";
 import { updateUserFavList } from "features/api/userFavListApiSlice";
-import { refresh } from "features/api/authApiSlice";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
 import { updateProduct, removeProduct } from "features/api/notAuthCartApiSlice";
 import {
-  removeFavProduct,
   getOneProductByIdFav,
 } from "features/api/notAuthFavApiSlice";
+import {cartProductListType} from "types";
 
-interface cartProductListI {
-  title: string;
-}
-const handleBuyClick = () => {
-  console.log("buy!");
-};
-
-export const CartProductList = ({ title }: cartProductListI) => {
+const CartProductList: React.FC<cartProductListType> = ({title}) => {
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string>("");
   const [notification, setNotification] = useState<boolean>(false);
@@ -60,6 +51,9 @@ export const CartProductList = ({ title }: cartProductListI) => {
   }, [isAuth, isRefreshError]);
   const btn_1 = { id: "toFavorite", text: "В избранное", type: "toFavorite" };
   const btn_2 = { id: "toRemove", text: "Удалить", type: "toRemove" };
+  const handleBuyClick = () => {
+    console.log("buy!");
+  };
   const clickHandler = (
     e: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLElement>
   ) => {
@@ -80,9 +74,6 @@ export const CartProductList = ({ title }: cartProductListI) => {
         ).then(() => {
           setMessage("Товар успешно удален");
           setNotification(true);
-          setTimeout(() => {
-            setNotification(false);
-          }, 3200);
         });
         return null;
       }
@@ -90,9 +81,6 @@ export const CartProductList = ({ title }: cartProductListI) => {
         dispatch(removeProduct(productId));
         setMessage("Товар успешно удален");
         setNotification(true);
-        setTimeout(() => {
-          setNotification(false);
-        }, 3200);
         return null;
       }
     }
@@ -113,15 +101,9 @@ export const CartProductList = ({ title }: cartProductListI) => {
           if (data && data.payload && data.payload.message) {
             setMessage(data.payload.message);
             setNotification(true);
-            setTimeout(() => {
-              setNotification(false);
-            }, 3200);
           } else {
             setMessage("Товар добавлен в избранные");
             setNotification(true);
-            setTimeout(() => {
-              setNotification(false);
-            }, 3200);
           }
         });
         return null;
@@ -130,9 +112,6 @@ export const CartProductList = ({ title }: cartProductListI) => {
         dispatch(getOneProductByIdFav(productId)).then(() => {
           setMessage("Товар добавлен в избранные");
           setNotification(true);
-          setTimeout(() => {
-            setNotification(false);
-          }, 3200);
         });
       }
 
@@ -166,7 +145,11 @@ export const CartProductList = ({ title }: cartProductListI) => {
 
   return (
     <article className="cartProductList">
-      <NotificationModal visible={notification} message={message} />
+      <NotificationModal
+        visible={notification}
+        setVisible={setNotification}
+        message={message}
+      />
       <h1 className="cartProductList__title">{title}</h1>
       <section className="cartProductList__products">
         <div onClick={clickHandler} className="cartProductList__wrapper">
@@ -179,7 +162,7 @@ export const CartProductList = ({ title }: cartProductListI) => {
                     key={`cartItemKey_${index}`}
                     id={el.product.id}
                     img={el.product.images[2]}
-                    name={el.product.name}
+                    name={el.product.productName}
                     btn_1={btn_1}
                     btn_2={btn_2}
                     isCounter={true}
@@ -234,14 +217,19 @@ export const CartProductList = ({ title }: cartProductListI) => {
         )
       ) : (
         loading && isWasFetched &&
-          <BuyButtonComponent
+        <BuyButtonComponent
           id="buy"
           onClick={handleBuyClick}
           price={userCart.productsSummPrice}
           isCart={true}
-        /> 
-        
+        />
+
       )}
     </article>
   );
 };
+
+
+export {
+  CartProductList
+}

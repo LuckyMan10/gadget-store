@@ -1,13 +1,11 @@
 import "./navbar.scss";
 import { useFetchNavDataQuery } from "features/api/appApiSlice";
+import React from 'react';
+import {navBarType} from "types"
 
-interface navBarI {
-  navBarClick(e: React.MouseEvent<HTMLUListElement>): void;
-}
+const NavBar: React.FC<navBarType> = ({ navBarClick }) => {
 
-export const NavBar = ({ navBarClick }: navBarI) => {
-
-  const { data = [], isFetching } = useFetchNavDataQuery();
+  const { data = [] } = useFetchNavDataQuery();
 
   return (
     <nav className="navbar">
@@ -30,3 +28,7 @@ export const NavBar = ({ navBarClick }: navBarI) => {
     </nav>
   );
 };
+
+export {
+  NavBar
+}

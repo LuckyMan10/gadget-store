@@ -1,10 +1,7 @@
 import styled from "styled-components";
+import {mobileMenuStylesType} from "types"
 
-interface mobileMenuStyles {
-  scrollHeight: number;
-}
-
-export const StyledMobileMenu = styled.article<mobileMenuStyles>`
+const StyledMobileMenu = styled.article<mobileMenuStylesType>`
 
   .mobileMenu-wrapper {
     display: flex;
@@ -126,3 +123,7 @@ export const StyledMobileMenu = styled.article<mobileMenuStyles>`
     }
   }
 `;
+
+export {
+  StyledMobileMenu
+}

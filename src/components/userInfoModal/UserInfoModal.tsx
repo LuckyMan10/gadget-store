@@ -3,14 +3,11 @@ import Button from '@mui/material/Button';
 import { MenuButton } from "components/buttons/Buttons";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { setUserInfo, setMenuVisible } from "features/appVisible/appVisibleSlice";
+import {userInfoModalType} from "types";
+import React from 'react';
 
-interface userInfoModalI {
-    email: string;
-    cart_summ: number;
-    fav_summ: number;
-};
 
-export const UserInfoModal = ({ email, cart_summ, fav_summ }: userInfoModalI) => {
+const UserInfoModal: React.FC<userInfoModalType> = ({ email, cart_summ, fav_summ }) => {
     const dispatch = useAppDispatch();
     const { userInfo } = useAppSelector((state) => state.appVisible);
     function clickHandler() {
@@ -35,3 +32,7 @@ export const UserInfoModal = ({ email, cart_summ, fav_summ }: userInfoModalI) =>
         </article>
     )
 };
+
+export {
+    UserInfoModal
+}

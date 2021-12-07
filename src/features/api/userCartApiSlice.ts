@@ -1,47 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { host, createResponse } from "./http/index";
-import axios from "axios";
 import {getSumm} from "helpers/getSumm";
+import {
+  userCartInitState,
+  fetchType,
+  fetchForAuth,
+  getSummArrType,
+  fetchForAuthWithData
+} from "types";
 
-interface productI {
-  company: string;
-  name: string;
-  price: number;
-  images: Array<string>;
-  description: any;
-  category: string;
-  id: string;
-}
-
-interface initialStateI {
-  userCart: {
-    productsSummPrice: number;
-    userId: string;
-    products: Array<{
-      productId: string;
-      quantity: number;
-      product: productI;
-    }>
-  };
-  loading: boolean;
-  isWasFetched: boolean;
-}
-
-interface userCartI {
-  api_key: string;
-  access_key: string;
-  baseURL: string;
-  method: string;
-  url: string;
-  withCredentials: boolean;
-  data?: {
-    username?: string;
-    email?: string;
-    password?: string;
-    productId?: string;
-    type?: string;
-  };
-}
 
 export const getUserCart = createAsyncThunk(
   "user/getCart",
@@ -52,7 +19,7 @@ export const getUserCart = createAsyncThunk(
     method,
     url,
     withCredentials,
-  }: userCartI) => {
+  }: fetchType<fetchForAuth>) => {
     const headers = {
       api_key,
       authorization: `Bearer ${access_key}`,
@@ -73,7 +40,7 @@ export const updateUserCart = createAsyncThunk(
     url,
     withCredentials,
     data,
-  }: userCartI) => {
+  }: fetchType<fetchForAuth>) => {
     const headers = {
       api_key,
       authorization: `Bearer ${access_key}`,
@@ -93,7 +60,7 @@ export const deleteUserCart = createAsyncThunk(
     method,
     url,
     withCredentials
-  }: userCartI) => {
+  }: fetchType<fetchForAuth>) => {
     const headers = {
       api_key,
       authorization: `Bearer ${access_key}`,
@@ -112,7 +79,7 @@ const initialState = {
   },
   isWasFetched: false,
   loading: false,
-} as initialStateI;
+} as userCartInitState;
 
 const cartSlice = createSlice({
   name: "authCart",
@@ -124,7 +91,7 @@ const cartSlice = createSlice({
       if (action.payload[0]) {
         state.userCart.userId = action.payload[0].userId;
         state.userCart.products = action.payload[0].products;
-        const summ = getSumm(state.userCart.products);
+        const summ = getSumm<getSummArrType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
         state.loading = true;
         state.isWasFetched = true;
@@ -135,7 +102,7 @@ const cartSlice = createSlice({
       if (action.payload) {
         state.userCart.userId = action.payload.userId;
         state.userCart.products = action.payload.products;
-        const summ = getSumm(state.userCart.products);
+        const summ = getSumm<getSummArrType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
         state.loading = true;
         state.isWasFetched = true;
@@ -146,7 +113,7 @@ const cartSlice = createSlice({
       if(action.payload) {
         state.userCart.userId = action.payload.userId;
         state.userCart.products = action.payload.products;
-        const summ = getSumm(state.userCart.products);
+        const summ = getSumm<getSummArrType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
         state.loading = true;
         state.isWasFetched = true;

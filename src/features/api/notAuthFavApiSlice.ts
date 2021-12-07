@@ -1,30 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { host, createResponse } from "./http/index";
 import { getProductsList, getOneProduct } from "./anonymCartApi";
 import { localStorageSave } from "helpers/localStorage";
-
-interface initialStateI {
-  userFav: {
-    anonymUserId: string;
-    favoriteList: {
-      [key: string]: {
-        productId: string;
-        productData: productI;
-      };
-    };
-  };
-  loading: boolean;
-  isWasFetched: boolean;
-}
-interface productI {
-  company: string;
-  name: string;
-  price: number;
-  images: string[];
-  description: any[];
-  category: string;
-  id: string;
-}
+import {notAuthFavInitState, productCardType} from "types";
 
 export const getOneProductByIdFav = createAsyncThunk(
   "anonym/getOneFav",
@@ -74,7 +51,7 @@ const initialState = {
   },
   isWasFetched: false,
   loading: false,
-} as initialStateI;
+} as notAuthFavInitState;
 
 const anonymFavSlice = createSlice({
   name: "anonymFav",
@@ -118,7 +95,7 @@ const anonymFavSlice = createSlice({
           Object.keys(userObj.favoriteList).length !== 0 &&
           action.payload !== null
         ) {
-          action.payload.forEach((el: productI) => {
+          action.payload.forEach((el: productCardType) => {
             state.userFav.favoriteList[el.id.replace(/-/g, "")] = {
               //@ts-ignore
               productData: el,
@@ -140,11 +117,3 @@ const anonymFavSlice = createSlice({
 
 export default anonymFavSlice.reducer;
 export const { removeFavProduct } = anonymFavSlice.actions;
-
-/*
-Для FavList нужно:
-    1. Возможность добавить продукт в список избранных.
-    2. Возможность его оттуда удалить.
-    3. Возможность добавить его в корзину.
-    4. У продукта в избранном не может быть количества. По умолчанию - 1.
-*/

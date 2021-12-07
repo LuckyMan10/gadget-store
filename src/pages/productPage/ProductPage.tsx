@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./ProductPage.scss";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { BreadCrumbs } from "components/breadCrumbs/BreadCrumbs";
@@ -16,45 +16,33 @@ import {
 import { Pagination } from "components/pagination/Pagination";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import {navbarDataItemType} from "types";
 
-interface navbarDataItemI {
-  id: string;
-  category: string;
-  name: string;
-  companies: string[];
-}
-
-export const ProductPage: FC = () => {
+const ProductPage: React.FC = () => {
   const { category, company } = useParams() as {
     category: string;
     company?: string;
   };
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const { currentPage, allPages, currentProducts, isWasFetched, loading } =
     useAppSelector((state) => state.products);
   const { data = [], isFetching } = useFetchNavDataQuery();
   const categories = data.filter((el: any) => el.category === category);
-
-  const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const [activeCategory, setActiveCategory] = useState<navbarDataItemI>();
+  const [activeCategory, setActiveCategory] = useState<navbarDataItemType>();
   useEffect(() => {
     const currCategory = data.filter((el: any) => el.category === category);
-    console.log("currCategory: ", activeCategory)
     setActiveCategory(currCategory[0]);
     dispatch(
       getProductCategory({
         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
         baseURL: "http://localhost:5000/api/products",
         method: "get",
-        url: `/category?name=${category}${
-          company && company !== "all" ? `&company=${company}` : ""
-        }`,
+        url: `/category?name=${category}${company && company !== "all" ? `&company=${company}` : ""
+          }`,
         withCredentials: true,
       })
-    ).then((data) => {
-      console.log(data);
-    });
+    );
   }, [activeCategory, isFetching, pathname]);
 
   const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
@@ -96,8 +84,8 @@ export const ProductPage: FC = () => {
               />
               {!isMobile && <NavBar navBarClick={navBarClick} />}
               <Products
-                    products={currentProducts}
-                    toProductHandler={toProductHandler}
+                products={currentProducts}
+                toProductHandler={toProductHandler}
               />
               {activeCategory && (
                 <SearchSettings
@@ -133,3 +121,7 @@ export const ProductPage: FC = () => {
     </div>
   );
 };
+
+export {
+  ProductPage
+}

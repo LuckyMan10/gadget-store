@@ -1,36 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  navDataType,
+  topSliderType,
+  companiesType,
+  currOffersType
+} from "types";
 
-interface navDataI {
-  id: string;
-  category: string;
-  name: string;
-  companies: Array<string>;
-}
-interface productI {
-  company: string;
-  productName: string;
-  price: number;
-  images: Array<string>;
-  description: Array<any>;
-  category: string;
-  categoryRus: string;
-  id: string;
-}
-interface topSliderI {
-  slider: string;
-  slides: Array<string>;
-  _id: string;
-}
-interface currOffersSliderI {
-  slider: string;
-  slides: Array<productI>;
-  _id: string;
-}
-interface companiesI {
-  company: string;
-  category: string;
-  categoryRus: string;
-}
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -43,22 +18,22 @@ export const apiSlice = createApi({
   }),
   endpoints(builder) {
     return {
-      fetchNavData: builder.query<navDataI[], void>({
+      fetchNavData: builder.query<navDataType[], void>({
         query() {
           return `/products/navData`;
         },
       }),
-      fetchTopSlider: builder.query<topSliderI[], string>({
+      fetchTopSlider: builder.query<topSliderType[], string>({
         query(type) {
           return `/products/carouselData?type=${type}`;
         },
       }),
-      fetchCurrOffersSlider: builder.query<currOffersSliderI[], string>({
+      fetchCurrOffersSlider: builder.query<currOffersType[], string>({
         query(type) {
           return `/products/carouselData?type=${type}`;
         },
       }),
-      fetchCompanies: builder.query<companiesI[], string>({
+      fetchCompanies: builder.query<companiesType<string>[], string>({
         query(type) {
           return `/products/carouselData?type=${type}`;
         }

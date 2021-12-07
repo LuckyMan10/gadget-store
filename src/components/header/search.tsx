@@ -1,17 +1,13 @@
 import { search } from "components/staticImports";
 import React, { useState } from "react";
 import { searchByHeader } from "features/api/productsApiSlice";
-import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useAppDispatch } from "app/hooks";
 import { useNavigate } from "react-router-dom";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
-import {setMenuVisible, setAuthModalVisible} from "features/appVisible/appVisibleSlice";
+import {setMenuVisible} from "features/appVisible/appVisibleSlice";
+import {searchType} from "types";
 
-interface searchI {
-  hideMenu: boolean;
-}
-
-
-export const Search = ({hideMenu}: searchI) => {
+const Search: React.FC<searchType> = ({hideMenu}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState<string>("");
@@ -48,9 +44,6 @@ export const Search = ({hideMenu}: searchI) => {
           ) {
             setMessage("Ничего не найдено")
             setVisible(true);
-            setTimeout(() => {
-              setVisible(false);
-            }, 3200);
           }
         });
       }
@@ -59,7 +52,11 @@ export const Search = ({hideMenu}: searchI) => {
 
   return (
     <section className={`header__search${hideMenu ? "-hideMenu" : ""}`}>
-      <NotificationModal visible={visible} message={message} />
+      <NotificationModal
+        visible={visible}
+        setVisible={setVisible}
+        message={message}
+      />
       <div className="wrapper">
         <input
           placeholder="Поиск по сайту"
@@ -72,3 +69,7 @@ export const Search = ({hideMenu}: searchI) => {
     </section>
   );
 };
+
+export {
+  Search
+}

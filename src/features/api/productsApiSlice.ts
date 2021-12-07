@@ -1,44 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { host, createResponse } from "./http/index";
-import axios from "axios";
-
-interface productI {
-  company: string;
-  productName: string;
-  price: number;
-  images: string[];
-  description: any[];
-  categoryRus: string;
-  category: string;
-  id: string;
-}
-
-interface initialStateI {
-  products: Array<productI>;
-  oneProduct: productI;
-  isWasFetched: boolean;
-  loading: boolean;
-  currentPage: number;
-  allPages: number;
-  productsStart: number;
-  productsEnd: number;
-  currentProducts: Array<productI>;
-  oneProductLoaded: boolean;
-  productsLoaded: boolean;
-}
-interface productsI {
-  api_key: string;
-  access_key?: string;
-  baseURL: string;
-  method: string;
-  url: string;
-  withCredentials: boolean;
-  data?: {
-    price?: number[];
-    companies?: { [key: string]: boolean };
-    category?: string;
-  };
-};
+import {productsApiInitState, fetchType, fetchProducts} from "types";
 
 export const getProductCategory = createAsyncThunk(
   "products/getCategory",
@@ -48,7 +10,7 @@ export const getProductCategory = createAsyncThunk(
     method,
     url,
     withCredentials,
-  }: productsI) => {
+  }: fetchType<fetchProducts>) => {
     const headers = {
       api_key,
     };
@@ -65,7 +27,7 @@ export const getOneProduct = createAsyncThunk(
     method,
     url,
     withCredentials,
-  }: productsI) => {
+  }: fetchType<fetchProducts>) => {
     const headers = {
       api_key,
     };
@@ -82,7 +44,7 @@ export const searchProduct = createAsyncThunk(
     method,
     url,
     withCredentials
-  }: productsI) => {
+  }: fetchType<fetchProducts>) => {
     const headers = {
       api_key
     };
@@ -99,7 +61,7 @@ export const searchByHeader = createAsyncThunk(
     method,
     url,
     withCredentials
-  }: productsI) => {
+  }: fetchType<fetchProducts>) => {
     const headers = {
       api_key,
     };
@@ -131,7 +93,7 @@ const initialState = {
   isWasFetched: false,
   oneProductLoaded: false,
   loading: false,
-} as initialStateI;
+} as productsApiInitState;
 
 const productsSlice = createSlice({
   name: "products",

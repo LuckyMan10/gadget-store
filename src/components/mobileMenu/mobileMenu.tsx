@@ -12,19 +12,20 @@ import { RegistrationForm } from "components/forms/registration/RegistrationForm
 import {setLoginForm, setRegForm, setMenuVisible} from "features/appVisible/appVisibleSlice";
 import Button from '@mui/material/Button';
 
-export const MobileMenu = () => {
+const MobileMenu: React.FC = () => {
   const [scrollHeight, setScrollHeight] = useState<number>(0);
   const { isAuth, user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const { userCart, loading: isCartLoading } = useAppSelector(
+  const { userCart, } = useAppSelector(
     (state) => state.cart
   );
-  const { userFavList, loading: isFavLoading } = useAppSelector(
+  const { userFavList } = useAppSelector(
     (state) => state.favList
   );
   const {loginForm, regForm, menuVisible} = useAppSelector(
     (state) => state.appVisible
   )
+  const {notAuthButtons, authButtons} = useAppSelector((state) => state.appLocal)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -79,17 +80,6 @@ export const MobileMenu = () => {
     dispatch(setMenuVisible(false));
   }
 
-  const notAuthButtons = [
-    { id: 'favorite', text: "Избранное" },
-    { id: 'cart', text: "Корзина" },
-    { id: 'toAuth', text: "Авторизация" },
-    { id: 'toReg', text: "Регистрация" },
-  ];
-  const authButtons = [
-    { id: "favorite", text: "Избранное" },
-    { id: 'cart', text: "Корзина" },
-    { id: 'logout', text: "Выйти" },
-  ]
   return (
     <StyledMobileMenu onClick={handleClick} scrollHeight={scrollHeight}>
       <div className="mobileMenu-wrapper">
@@ -131,3 +121,7 @@ export const MobileMenu = () => {
     </StyledMobileMenu>
   );
 };
+
+export {
+  MobileMenu
+}

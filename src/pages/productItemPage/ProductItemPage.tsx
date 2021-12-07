@@ -15,15 +15,9 @@ import { updateProduct, getOneProductById } from "features/api/notAuthCartApiSli
 import { updateUserFavList } from "features/api/userFavListApiSlice";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import {navbarDataItemType} from "types";
 
-interface navbarDataItemI {
-  id: string;
-  category: string;
-  name: string;
-  companies: Array<string>;
-}
-
-export const ProductItemPage = () => {
+const ProductItemPage: React.FC = () => {
   const { pathname } = useLocation();
   const { category, item } = useParams() as {
     category: string | string[];
@@ -31,7 +25,7 @@ export const ProductItemPage = () => {
   };
   const dispatch = useAppDispatch();
   const { isAuth, user, isRefreshError } = useAppSelector((state) => state.auth);
-  const { userCart, isWasFetched: anonymFetched, loading: anonymLoading } = useAppSelector(
+  const { userCart } = useAppSelector(
     (state) => state.anonymCart
   );
 
@@ -57,7 +51,7 @@ export const ProductItemPage = () => {
   );
   const { data = [], isFetching } = useFetchNavDataQuery();
   const [categories] = data.filter(
-    (el: navbarDataItemI) => el.category === category
+    (el: navbarDataItemType) => el.category === category
   );
   const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = (e.target as HTMLElement).id;
@@ -79,9 +73,6 @@ export const ProductItemPage = () => {
       ).then(() => {
         setMessage("Товар добавлен в корзину");
         setNotification(true);
-        setTimeout(() => {
-          setNotification(false);
-        }, 3200);
       });
     }
     if (isAuth && id && type === "toFav") {
@@ -100,23 +91,21 @@ export const ProductItemPage = () => {
         if (data && data.payload && data.payload.message) {
           setMessage(data.payload.message);
           setNotification(true);
-          setTimeout(() => {
-            setNotification(false);
-          }, 3200);
         } else {
           setMessage("Товар добавлен в избранные");
           setNotification(true);
-          setTimeout(() => {
-            setNotification(false);
-          }, 3200);
         }
       });
     }
     if (!isAuth && id && isRefreshError && type === "toBuy") {
       if (userCart.products[id.replace(/-/g, '')]) {
         dispatch(updateProduct({ id, type: "INCREMENT" }));
+        setMessage("Товар добавлен в корзину");
+        setNotification(true);
       } else {
         dispatch(getOneProductById(id));
+        setMessage("Товар добавлен в корзину");
+        setNotification(true);
       }
     }
   };
@@ -125,6 +114,7 @@ export const ProductItemPage = () => {
     <div className="productItemPage">
       <NotificationModal
         visible={notification}
+        setVisible={setNotification}
         message={message}
       />
       <main>
@@ -170,3 +160,7 @@ export const ProductItemPage = () => {
     </div>
   );
 };
+
+export {
+  ProductItemPage
+}

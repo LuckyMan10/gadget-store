@@ -5,17 +5,14 @@ import {useAppDispatch, useAppSelector} from "app/hooks";
 import {login} from "features/api/authApiSlice";
 import Button from '@mui/material/Button';
 import {setMenuVisible, setLoginForm, setAuthModalVisible} from "features/appVisible/appVisibleSlice";
-
-type FormData = {
-  email: string;
-  password: string;
-};
+import React from 'react';
+import {FormAuthType} from "types";
 
 
-export const AuthorizationForm = () => {
+const AuthorizationForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const {error, isError} = useAppSelector((state) => state.auth);
-  const initValues: FormData = {
+  const initValues: FormAuthType = {
     email: "",
     password: "",
   };
@@ -62,3 +59,8 @@ export const AuthorizationForm = () => {
     </article>
   );
 };
+
+
+export {
+  AuthorizationForm
+}

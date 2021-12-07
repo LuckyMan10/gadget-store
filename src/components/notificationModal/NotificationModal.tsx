@@ -1,12 +1,14 @@
 import "./NotificationModal.scss";
-
-interface notificationI {
-    message: string;
-    visible: boolean;
-}
+import React, { useEffect } from 'react';
+import {notificationType} from "types"
 
 
-export const NotificationModal = ({message, visible}: notificationI) => {
+const NotificationModal: React.FC<notificationType> = ({ message, visible, setVisible }) => {
+    useEffect(() => {
+        setTimeout(() => {
+            setVisible(false);
+        }, 3200);
+    }, [visible]);
     return (
         <article className={`notificationModal ${visible ? 'visible' : ''}`}>
             <div className="notificationModal__wrapper">
@@ -14,4 +16,8 @@ export const NotificationModal = ({message, visible}: notificationI) => {
             </div>
         </article>
     )
+}
+
+export {
+    NotificationModal
 }

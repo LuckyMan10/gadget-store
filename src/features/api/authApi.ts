@@ -1,15 +1,5 @@
 import axios from "axios";
-
-interface userDataI {
-  username: string;
-  email: string;
-  password: string;
-}
-interface loginUserDataI {
-  email: string;
-  password: string;
-}
-
+import { FormRegType, FormAuthType } from "types";
 
 const $host = axios.create({
   withCredentials: true,
@@ -19,7 +9,7 @@ const $host = axios.create({
   },
 });
 
-export const getRegistration = async (userData: userDataI) => {
+export const getRegistration = async (userData: FormRegType) => {
   const response = await $host.post("/registration", {
     username: userData.username,
     email: userData.email,
@@ -27,15 +17,15 @@ export const getRegistration = async (userData: userDataI) => {
   });
   return response;
 };
-export const getLogin = async (userData: loginUserDataI) => {
+export const getLogin = async (userData: FormAuthType) => {
   try {
     const response = await $host.post("/login", {
       email: userData.email,
       password: userData.password
     });
     return response;
-  }catch(e: any) {
-    throw {error: e?.response?.data, status: e?.response?.status};
+  } catch (e: any) {
+    throw { error: e?.response?.data, status: e?.response?.status };
   }
 };
 export const check = async () => {
@@ -44,8 +34,8 @@ export const check = async () => {
       withCredentials: true,
     });
     return response;
-  } catch(e: any) {
-    throw {error: e?.response?.data, status: e?.response?.status};
+  } catch (e: any) {
+    throw { error: e?.response?.data, status: e?.response?.status };
   }
 };
 export const getLogout = async () => {

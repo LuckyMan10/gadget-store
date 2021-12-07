@@ -1,10 +1,7 @@
 import { logo } from "components/staticImports";
+import React from 'react';
 
-interface LogoI {
-  onClick(): void;
-}
-
-export const Logo = () => {
+const Logo: React.FC = () => {
   return (
     <section id="/" className="header__logo">
       <div id="/" className="header__logo-img">
@@ -14,3 +11,7 @@ export const Logo = () => {
     </section>
   );
 };
+
+export {
+  Logo
+}

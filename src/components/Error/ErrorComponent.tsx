@@ -1,10 +1,6 @@
 import Styled from 'styled-components';
-import notFound from 'assets/images/not_found.gif';
-
-interface ErrorComponentI {
-    message: string;
-    img: string;
-}
+import React from 'react';
+import {ErrorComponentType} from "types";
 
 const StyledError = Styled.article`
     display: flex;
@@ -32,7 +28,7 @@ const StyledError = Styled.article`
     }
 `
 
-export const ErrorComponent = ({message, img}: ErrorComponentI) => {
+const ErrorComponent: React.FC<ErrorComponentType> = ({message, img}) => {
     return (
         <StyledError>
             <div className="wrapper">
@@ -41,4 +37,8 @@ export const ErrorComponent = ({message, img}: ErrorComponentI) => {
             </div>
         </StyledError>
     )
+}
+
+export {
+    ErrorComponent
 }

@@ -1,13 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import React from 'react';
-
-interface BreadCrumbsI {
-  category: string;
-  name: string;
-  item?: Array<string>;
-}
-
+import {BreadCrumbsType} from "types";
 
 const StyledBreadCrumbs = styled.ul`
   margin: 10px 0px 0px 10px;
@@ -29,7 +23,7 @@ const StyledBreadCrumbs = styled.ul`
   }
 `;
 
-export const BreadCrumbs = ({ category, name, item }: BreadCrumbsI) => {
+const BreadCrumbs: React.FC<BreadCrumbsType> = ({ category, name, item }) => {
   const navigate = useNavigate();
 
   const clickHandler = (e: React.MouseEvent<HTMLElement>) => {
@@ -54,3 +48,7 @@ export const BreadCrumbs = ({ category, name, item }: BreadCrumbsI) => {
     </article>
   );
 };
+
+export {
+  BreadCrumbs
+}

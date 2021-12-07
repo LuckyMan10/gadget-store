@@ -4,22 +4,9 @@ import React from 'react';
 import { useAppSelector } from "app/hooks";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import {productsType} from "types"
 
-interface ProductsI {
-  toProductHandler(id: string): void;
-  products: Array<{
-    company: string;
-    productName: string;
-    price: number;
-    images: Array<string>;
-    description: Array<any>;
-    category: string;
-    categoryRus: string;
-    id: string;
-  }>;
-}
-
-export const Products = ({ toProductHandler, products }: ProductsI) => {
+const Products: React.FC<productsType> = ({ toProductHandler, products }) => {
 
   const { productsLoaded } = useAppSelector((state) => state.products);
 
@@ -38,16 +25,7 @@ export const Products = ({ toProductHandler, products }: ProductsI) => {
           {productsLoaded
             ? products.map((el) => {
               return (
-                <ProductCard
-                  key={el.id}
-                  id={el.id}
-                  name={el.productName}
-                  price={el.price}
-                  images={el.images}
-                  description={el.description}
-                  category={el.category}
-                  company={el.company}
-                />
+                <ProductCard {...el}/>
               );
             })
             : <div className="preload-wrapper">
@@ -61,3 +39,7 @@ export const Products = ({ toProductHandler, products }: ProductsI) => {
     </article>
   );
 };
+
+export {
+  Products
+}
