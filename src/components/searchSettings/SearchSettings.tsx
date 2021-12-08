@@ -55,7 +55,7 @@ const SearchSettings: React.FC<searchSettingsType> = ({
     dispatch(
       searchProduct({
         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-        baseURL: "http://localhost:5000/api/products",
+        baseURL: `${process.env.REACT_APP_API_URL}/api/products`,
         method: "get",
         url: `/searchBar?companies=${companies.join("%")}&price=${price.join(
           "-"

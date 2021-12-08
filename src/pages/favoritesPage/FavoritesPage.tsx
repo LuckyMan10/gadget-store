@@ -45,7 +45,7 @@ const FavoritesPage: React.FC = () => {
         getUserFavList({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
           access_key: user.accessToken,
-          baseURL: "http://localhost:5000/api/user",
+          baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
           method: "get",
           url: "/favoriteList",
           withCredentials: true,
@@ -70,7 +70,7 @@ const FavoritesPage: React.FC = () => {
             updateUserCart({
               api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
               access_key: user.accessToken,
-              baseURL: "http://localhost:5000/api/user",
+              baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
               method: "put",
               url: "/cart",
               withCredentials: true,
@@ -105,7 +105,7 @@ const FavoritesPage: React.FC = () => {
             deleteUserFavList({
               api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
               access_key: user.accessToken,
-              baseURL: "http://localhost:5000/api/user",
+              baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
               method: "delete",
               url: `/favoriteList?id=${productId}`,
               withCredentials: true,

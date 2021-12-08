@@ -6,14 +6,18 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const PORT = process.env.PORT || 5000;
-const DB_URL = process.env.DB_URL;
+const DB_URL = process.env.DB_URL || "mongodb+srv://Andrey:tatita09@clothing-store.x1oul.mongodb.net/GadgetStore?retryWrites=true&w=majority";
 const app = express();
+
+app.use(express.static(path.join(__dirname, "..", 'build')));
+
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: process.env.CLIENT_URL,
   })
 );
 app.use("/api", router);

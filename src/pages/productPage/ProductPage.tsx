@@ -36,7 +36,7 @@ const ProductPage: React.FC = () => {
     dispatch(
       getProductCategory({
         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-        baseURL: "http://localhost:5000/api/products",
+        baseURL: `${process.env.REACT_APP_API_URL}/api/products`,
         method: "get",
         url: `/category?name=${category}${company && company !== "all" ? `&company=${company}` : ""
           }`,

@@ -10,7 +10,6 @@ class userController {
       const token = req.headers.authorization.split(" ")[1];
       const decoded = tokenService.validateAccessToken(token);
       const userCart = await Cart.find({ userId: decoded.id });
-      console.log("cart: ", userCart);
       return res.json(userCart);
     } catch (e) {
       console.log("getUserCart error: ", e);

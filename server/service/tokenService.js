@@ -3,10 +3,10 @@ const tokenModel = require("../models/tokenModel");
 
 class TokenService {
   generateTokens(payload) {
-    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
+    const accessToken = jwt.sign(payload, "89892374mnIOAUSND97", {
       expiresIn: "1d",
     });
-    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
+    const refreshToken = jwt.sign(payload, "09nuioSAD89n796353", {
       expiresIn: "30d",
     });
     return {
@@ -16,8 +16,7 @@ class TokenService {
   }
   validateAccessToken(token) {
     try {
-      console.log('validate: ', {token})
-      const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+      const userData = jwt.verify(token, "89892374mnIOAUSND97");
       return userData;
     } catch (e) {
       throw e;
@@ -25,7 +24,7 @@ class TokenService {
   }
   validateRefreshToken(token) {
     try {
-      const userData = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+      const userData = jwt.verify(token, "09nuioSAD89n796353");
       return userData;
     } catch (e) {
       throw e;

@@ -6,7 +6,7 @@ const router = new Router();
 
 
 router.get("/cart", checkAuth, userCartController.getUserCart);
-router.put("/cart", checkAuth, userCartController.updateUserCart); // IF THE ITEM IN THE BASKET REQUIRED INCREMENT OR DECREMENT TYPE
+router.put("/cart", checkAuth, userCartController.updateUserCart);
 router.delete("/cart", checkAuth, userCartController.deleteUserCart);
 
 router.get("/favoriteList", checkAuth, userFavListController.getFavList);

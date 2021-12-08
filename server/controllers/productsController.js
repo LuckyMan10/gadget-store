@@ -79,7 +79,6 @@ class productController {
       }
       if (name && company) {
         const products = await Product.find({ category: name, company });
-        console.log(products)
         return res.json(products);
       }
     } catch (e) {
@@ -93,7 +92,6 @@ class productController {
       if (!category || !price || !companies) {
         throw "Недостаточно данных для сортировки.";
       }
-      console.log({price, companies, category})
       let company_list = companies.split("%");
       if(company_list.length === 1) {
         company_list[0] = company_list[0].replace(/ /g, "");
