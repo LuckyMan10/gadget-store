@@ -11,6 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 const HomePage: React.FC = () => {
+  console.log(process.env)
   const navigate = useNavigate();
   const { data: topSlider = [] as any } = useFetchTopSliderQuery("topSlider");
   const { data: currOffSlider = [] as any } = useFetchCurrOffersSliderQuery("currentOffersSlider");
