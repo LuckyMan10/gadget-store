@@ -36,7 +36,7 @@ const ProductPage: React.FC = () => {
     dispatch(
       getProductCategory({
         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-        baseURL: `${process.env.REACT_APP_API_URL}/api/products`,
+        baseURL: `https://gadget-store-app.herokuapp.com/api/products`,
         method: "get",
         url: `/category?name=${category}${company && company !== "all" ? `&company=${company}` : ""
           }`,

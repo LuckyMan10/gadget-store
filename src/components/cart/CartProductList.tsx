@@ -39,7 +39,7 @@ const CartProductList: React.FC<cartProductListType> = ({title}) => {
         getUserCart({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
           access_key: user.accessToken,
-          baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+          baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
           method: "get",
           url: "/cart",
           withCredentials: true,
@@ -67,7 +67,7 @@ const CartProductList: React.FC<cartProductListType> = ({title}) => {
           deleteUserCart({
             api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
             access_key: user.accessToken,
-            baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+            baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
             method: "delete",
             url: `/cart?id=${productId}`,
             withCredentials: true,
@@ -92,7 +92,7 @@ const CartProductList: React.FC<cartProductListType> = ({title}) => {
           updateUserFavList({
             api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
             access_key: user.accessToken,
-            baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+            baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
             method: "put",
             url: `/favoriteList`,
             withCredentials: true,
@@ -129,7 +129,7 @@ const CartProductList: React.FC<cartProductListType> = ({title}) => {
           updateUserCart({
             api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
             access_key: user.accessToken,
-            baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+            baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
             method: "put",
             url: "/cart",
             withCredentials: true,

@@ -23,7 +23,7 @@ const Search: React.FC<searchType> = ({hideMenu}) => {
         dispatch(
           searchByHeader({
             api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-            baseURL: `${process.env.REACT_APP_API_URL}/api/products`,
+            baseURL: `https://gadget-store-app.herokuapp.com/api/products`,
             method: "get",
             url: `/searchField?query=${searchValue}`,
             withCredentials: true,

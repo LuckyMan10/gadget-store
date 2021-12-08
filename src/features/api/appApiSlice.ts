@@ -10,7 +10,7 @@ import {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_API_URL}/api`,
+    baseUrl: `https://gadget-store-app.herokuapp.com/api`,
     prepareHeaders(headers) {
       headers.set("api_key", "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf");
       return headers;
