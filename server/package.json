@@ -8,6 +8,7 @@
     "npm": "8.x"
   },
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -22,8 +23,7 @@
     "express-session": "^1.17.2",
     "express-validator": "^6.13.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.13",
-    "serve": "^13.0.2",
-    "stripe": "^8.191.0"
+    "mongoose": "^6.1.0",
+    "nodemon": "^2.0.15"
   }
 }
