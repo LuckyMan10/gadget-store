@@ -17,6 +17,7 @@ import {
 } from "features/api/notAuthFavApiSlice";
 import {cartProductListType} from "types";
 
+
 const CartProductList: React.FC<cartProductListType> = ({title}) => {
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string>("");
@@ -142,6 +143,9 @@ const CartProductList: React.FC<cartProductListType> = ({title}) => {
       }
     }
   };
+
+  
+
 
   return (
     <article className="cartProductList">
