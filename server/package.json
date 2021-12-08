@@ -23,6 +23,7 @@
     "express-validator": "^6.13.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.13",
+    "serve": "^13.0.2",
     "stripe": "^8.191.0"
   }
 }
