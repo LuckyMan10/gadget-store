@@ -74,8 +74,8 @@ const initialState = {
     userId: "",
     products: [],
   },
-  loading: false,
-  isWasFetched: false,
+  loading: true,
+  isEmpty: false
 } as favListState;
 
 const favListSlice = createSlice({
@@ -86,25 +86,43 @@ const favListSlice = createSlice({
     builder.addCase(getUserFavList.fulfilled, (state, action) => {
       if (action.payload) {
         state.userFavList.userId = action.payload[0].userId;
-        state.userFavList.products = action.payload[0].products;
-        state.loading = true;
-        state.isWasFetched = true;
+        if(action.payload[0].products) {
+          state.userFavList.products = action.payload[0].products;
+        }
+        if (state.userFavList.products.length === 0) {
+          state.isEmpty = true;
+        } else {
+          state.isEmpty = false;
+        }
+        state.loading = false;
       }
     });
     builder.addCase(updateUserFavList.fulfilled, (state, action) => {
       if (action.payload) {
         state.userFavList.userId = action.payload.userId;
-        state.userFavList.products = action.payload.products;
-        state.loading = true;
-        state.isWasFetched = true;
+        if(action.payload.products) {
+          state.userFavList.products = action.payload.products;
+        }
+        if (state.userFavList.products.length === 0) {
+          state.isEmpty = true;
+        } else {
+          state.isEmpty = false;
+        }
+        state.loading = false;
       }
     });
     builder.addCase(deleteUserFavList.fulfilled, (state, action) => {
       if (action.payload) {
         state.userFavList.userId = action.payload.userId;
-        state.userFavList.products = action.payload.products;
-        state.loading = true;
-        state.isWasFetched = true;
+        if(action.payload.products) {
+          state.userFavList.products = action.payload.products;
+        }
+        if (state.userFavList.products.length === 0) {
+          state.isEmpty = true;
+        } else {
+          state.isEmpty = false;
+        }
+        state.loading = false;
       }
     });
   },

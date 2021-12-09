@@ -1,4 +1,29 @@
 @import "../mixins.scss";
+@import "components/mixins.scss";
+
+.emptyCart {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 35px;
+  padding: 30px;
+  opacity: 0.8;
+  font-weight: 500;
+}
+.toHomeButton {
+  text-align: center;
+  .clickButton {
+    margin: 40px 0px;
+    font-size: 20px;
+    padding: 20px;
+    background: $btn_success;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    @include clickEffect-2(0.97);
+}
+}
 
 .cartProductList {
   display: grid;

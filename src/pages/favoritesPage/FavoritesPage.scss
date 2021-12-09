@@ -2,6 +2,18 @@
 @import "components/variables.scss";
 
 .favoritesPage {
+  .preload-wrapper {
+    .css-18lrjg1-MuiCircularProgress-root {
+      color: $green_color_soft;
+    }
+  }
+  .emptyFav {
+    text-align: center;
+    font-size: 35px;
+    padding: 30px;
+    opacity: 0.8;
+    font-weight: 500;
+  }
   display: flex;
   flex-direction: column;
   align-items: center;

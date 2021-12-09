@@ -49,8 +49,8 @@ const initialState = {
     anonymUserId: "",
     favoriteList: {},
   },
-  isWasFetched: false,
-  loading: false,
+  isEmpty: false,
+  loading: true,
 } as notAuthFavInitState;
 
 const anonymFavSlice = createSlice({
@@ -62,6 +62,11 @@ const anonymFavSlice = createSlice({
       delete state.userFav.favoriteList[id];
       const anonymUser = localStorage.getItem("anonymUser");
       anonymUser && localStorageSave(anonymUser, id);
+      if(Object.keys(state.userFav.favoriteList).length === 0) {
+        state.isEmpty = false
+      } else {
+        state.isEmpty = true
+      }
     },
   },
   extraReducers: (builder) => {
@@ -79,13 +84,14 @@ const anonymFavSlice = createSlice({
             productData: action.payload[0],
           };
           localStorage.setItem("anonymUser", JSON.stringify(anonymUserData));
-          state.isWasFetched = true;
-          state.loading = true;
+          if(Object.keys(state.userFav.favoriteList).length === 0) {
+            state.isEmpty = false
+          } else {
+            state.isEmpty = true
+          }
+          state.loading = false;
         }
       }
-    });
-    builder.addCase(getOneProductByIdFav.rejected, (state, action) => {
-      console.log("action: ", action.error.message);
     });
     builder.addCase(getAnonymFavList.fulfilled, (state, action) => {
       const userData = localStorage.getItem("anonymUser");
@@ -102,12 +108,14 @@ const anonymFavSlice = createSlice({
               productId: el.id,
             };
           });
-          state.isWasFetched = true;
-          state.loading = true;
+          state.loading = false;
           if (action.payload === null) {
-            console.log("empty");
-            state.isWasFetched = true;
-            state.loading = true;
+            state.loading = false;
+          }
+          if(Object.keys(state.userFav.favoriteList).length === 0) {
+            state.isEmpty = false
+          } else {
+            state.isEmpty = true
           }
         }
       }

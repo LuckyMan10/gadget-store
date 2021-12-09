@@ -27,7 +27,7 @@ function App() {
           getUserCart({
             api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
             access_key: user.accessToken,
-            baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
+            baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
             method: "get",
             url: "/cart",
             withCredentials: true,
@@ -37,7 +37,7 @@ function App() {
           getUserFavList({
             api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
             access_key: user.accessToken,
-            baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
+            baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
             method: "get",
             url: "/favoriteList",
             withCredentials: true,

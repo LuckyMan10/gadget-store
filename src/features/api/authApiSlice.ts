@@ -46,7 +46,7 @@ const initialState = {
     },
   },
   isAuth: false,
-  loading: false,
+  loading: true,
   error: "",
   refreshError: "",
   isRefreshError: false,
@@ -60,13 +60,13 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(registration.fulfilled, (state, action) => {
       state.user = action.payload;
-      state.loading = true;
+      state.loading = false;
       state.isAuth = true;
     });
     builder.addCase(login.fulfilled, (state, action) => {
       console.log('fulfilled: ', action)
       state.user = action.payload;
-      state.loading = true;
+      state.loading = false;
       state.isAuth = true;
     });
     builder.addCase(login.rejected, (state, action) => {
@@ -77,7 +77,7 @@ const authSlice = createSlice({
     })
     builder.addCase(refresh.fulfilled, (state, action) => {
       state.user = action.payload;
-      state.loading = true;
+      state.loading = false;
       state.isAuth = true;
     });
     builder.addCase(refresh.rejected, (state, action) => {

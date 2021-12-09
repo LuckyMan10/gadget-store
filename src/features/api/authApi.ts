@@ -3,7 +3,7 @@ import { FormRegType, FormAuthType } from "types";
 
 const $host = axios.create({
   withCredentials: true,
-  baseURL: `https://gadget-store-app.herokuapp.com/api/auth`,
+  baseURL: `${process.env.REACT_APP_API_URL}/api/auth`,
   headers: {
     api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
   },

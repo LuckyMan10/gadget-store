@@ -1,11 +1,11 @@
 import "./CartPage.scss";
-import { CartProductList } from "components/cart/CartProductList";
+import { Cart } from "components/cart/index";
 import React from 'react';
 
 const CartPage: React.FC = () => {
   return (
     <div className="cartPage">
-      <CartProductList title="Корзина" />
+      <Cart />
     </div>
   );
 };

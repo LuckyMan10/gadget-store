@@ -77,8 +77,9 @@ const initialState = {
     products: [],
     productsSummPrice: 0,
   },
-  isWasFetched: false,
-  loading: false,
+  loading: true,
+  isWaitUpdate: false,
+  isEmpty: false
 } as userCartInitState;
 
 const cartSlice = createSlice({
@@ -93,19 +94,30 @@ const cartSlice = createSlice({
         state.userCart.products = action.payload[0].products;
         const summ = getSumm<getSummArrType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
-        state.loading = true;
-        state.isWasFetched = true;
+        if(state.userCart.products.length === 0) {
+          state.isEmpty = true;
+        } else {
+          state.isEmpty = false;
+        }
+        state.loading = false;
       }
     });
-
+    builder.addCase(updateUserCart.pending, (state) => {
+      state.isWaitUpdate = true;
+    })
     builder.addCase(updateUserCart.fulfilled, (state, action) => {
       if (action.payload) {
         state.userCart.userId = action.payload.userId;
         state.userCart.products = action.payload.products;
         const summ = getSumm<getSummArrType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
-        state.loading = true;
-        state.isWasFetched = true;
+        if(state.userCart.products.length === 0) {
+          state.isEmpty = true;
+        } else {
+          state.isEmpty = false;
+        }
+        state.isWaitUpdate = false;
+        state.loading = false;
       }
     });
 
@@ -115,8 +127,12 @@ const cartSlice = createSlice({
         state.userCart.products = action.payload.products;
         const summ = getSumm<getSummArrType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
-        state.loading = true;
-        state.isWasFetched = true;
+        if(state.userCart.products.length === 0) {
+          state.isEmpty = true;
+        } else {
+          state.isEmpty = false;
+        }
+        state.loading = false;
       }
     })
   },

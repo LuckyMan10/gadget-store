@@ -79,8 +79,8 @@ export type productItemType = {
     name: string;
     isCounter: boolean;
     price: number;
-    btn_1?: { id: string; text: string; type: string; };
-    btn_2?: { id: string; text: string; type: string; };
+    btn_1?: { id: string; text: string; type?: string; };
+    btn_2?: { id: string; text: string; type?: string; };
     counterValue?: number;
     id: string;
 }
@@ -189,8 +189,8 @@ export type notAuthInitState = {
             };
         };
     }
+    isEmpty: boolean;
     loading: boolean;
-    isWasFetched: boolean;
 }
 
 export type notAuthFavInitState = {
@@ -204,7 +204,7 @@ export type notAuthFavInitState = {
         };
     };
     loading: boolean;
-    isWasFetched: boolean;
+    isEmpty: boolean;
 }
 
 export type productsApiInitState = {
@@ -259,8 +259,9 @@ export type userCartInitState = {
             product: productCardType;
         }>
     };
+    isWaitUpdate: boolean;
     loading: boolean;
-    isWasFetched: boolean;
+    isEmpty: boolean;
 }
 
 export type getSummArrType = Array<
@@ -291,7 +292,7 @@ export type favListState = {
         }>
     };
     loading: boolean;
-    isWasFetched: boolean;
+    isEmpty: boolean;
 }
 
 //pages

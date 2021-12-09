@@ -39,7 +39,7 @@ const Header: React.FC = () => {
   const headerButtons = [
     { id: "favorite", img: heart, text: "Избранное" },
     { id: "cart", img: cart, text: "Корзина" },
-    { id: "login", img: account, text: loading ? user.user.username : "Войти" },
+    { id: "login", img: account, text: !loading ? user.user.username : "Войти" },
   ];
   
   useEffect(() => {

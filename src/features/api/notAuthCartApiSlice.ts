@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { host, createResponse } from "./http/index";
 import { getProductsList, getOneProduct } from "./anonymCartApi";
 import {setWithExpiry, localStorageSave} from "helpers/localStorage";
 import {
@@ -51,8 +50,8 @@ const initialState = {
     products: {},
     productsSummPrice: 0,
   },
-  isWasFetched: false,
-  loading: false,
+  isEmpty: false,
+  loading: true,
 } as notAuthInitState;
 
 const anonymCartSlice = createSlice({
@@ -63,6 +62,12 @@ const anonymCartSlice = createSlice({
       const id = v4();
       setWithExpiry(id, 86400000);
       state.userCart.anonymUserId = id;
+      if(Object.keys(state.userCart.products).length === 0) {
+        state.isEmpty = true;
+      } else {
+        state.isEmpty = false;
+      }
+      state.loading = false;
     },
     updateProduct(state, action: PayloadAction<{ id: string; type: string }>) {
       const id = action.payload.id.replace(/-/g, "");
@@ -74,12 +79,22 @@ const anonymCartSlice = createSlice({
       state.userCart.productsSummPrice = summ;
       const anonymUser = localStorage.getItem("anonymUser");
       anonymUser && localStorageSave(anonymUser, id, type);
+      if(Object.keys(state.userCart.products).length === 0) {
+        state.isEmpty = true;
+      } else {
+        state.isEmpty = false;
+      }
     },
     removeProduct(state, action: PayloadAction<string>) {
       const id = action.payload.replace(/-/g, "");
       delete state.userCart.products[id];
       const anonymUser = localStorage.getItem("anonymUser");
       anonymUser && localStorageSave(anonymUser, id);
+      if(Object.keys(state.userCart.products).length === 0) {
+        state.isEmpty = true;
+      } else {
+        state.isEmpty = false;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -102,14 +117,18 @@ const anonymCartSlice = createSlice({
           //@ts-ignore
           const summ = getSumm<getSummObjType>(state.userCart.products);
           state.userCart.productsSummPrice = summ;
-          state.isWasFetched = true;
-          state.loading = true;
+          if(Object.keys(state.userCart.products).length === 0) {
+            state.isEmpty = true;
+          } else {
+            state.isEmpty = false;
+          }
+          state.loading = false;
+          state.isEmpty = false;
         }
       }
-      if (action.payload === null) {
-        console.log("empty");
-        state.isWasFetched = true;
-        state.loading = true;
+      if(action.payload === null) {
+        state.loading = false;
+        state.isEmpty = true;
       }
     });
     builder.addCase(getOneProductById.fulfilled, (state, action) => {
@@ -130,8 +149,12 @@ const anonymCartSlice = createSlice({
         const summ = getSumm<getSummObjType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
         localStorage.setItem("anonymUser", JSON.stringify(cartData));
-        state.isWasFetched = true;
-        state.loading = true;
+        state.loading = false;
+        if(Object.keys(state.userCart.products).length === 0) {
+          state.isEmpty = true;
+        } else {
+          state.isEmpty = false;
+        }
       }
     });
   },

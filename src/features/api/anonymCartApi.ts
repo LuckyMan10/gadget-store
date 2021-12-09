@@ -2,7 +2,7 @@ import axios from "axios";
 
 const $host = axios.create({
   withCredentials: true,
-  baseURL: `https://gadget-store-app.herokuapp.com/api/products`,
+  baseURL: `${process.env.REACT_APP_API_URL}/api/products`,
   headers: {
     api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
   },
