@@ -8,7 +8,6 @@ import { Routes, Route } from "react-router-dom";
 import { CartPage } from "pages/cartPage/CartPage";
 import { Header } from "components/header/header";
 import { Footer } from "components/footer/footer";
-import ErorGif from "assets/images/not_found.gif";
 import { ErrorComponent } from "components/Error/ErrorComponent";
 import { FavoritesPage } from "pages/favoritesPage/FavoritesPage";
 import { refresh } from "features/api/authApiSlice";
@@ -27,7 +26,7 @@ function App() {
           getUserCart({
             api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
             access_key: user.accessToken,
-            baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+            baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
             method: "get",
             url: "/cart",
             withCredentials: true,
@@ -37,7 +36,7 @@ function App() {
           getUserFavList({
             api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
             access_key: user.accessToken,
-            baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+            baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
             method: "get",
             url: "/favoriteList",
             withCredentials: true,

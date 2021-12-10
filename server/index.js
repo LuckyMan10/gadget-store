@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 const DB_URL = process.env.DB_URL || "mongodb+srv://Andrey:tatita09@clothing-store.x1oul.mongodb.net/GadgetStore?retryWrites=true&w=majority";
 const app = express();
 
-//app.use(express.static(path.join(__dirname, "..", 'build')));
+app.use(express.static(path.join(__dirname, "..", 'build')));
 
 
 app.use(express.json());
@@ -18,7 +18,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CLIENT_URL,
+    origin: "https://gadget-store-app.herokuapp.com",
   })
 );
 app.use("/api", router);

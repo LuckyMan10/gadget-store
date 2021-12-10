@@ -35,7 +35,7 @@ const AuthCart: React.FC<{ title: string }> = ({ title }) => {
             getUserCart({
                 api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
                 access_key: user.accessToken,
-                baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+                baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
                 method: "get",
                 url: "/cart",
                 withCredentials: true,
@@ -56,7 +56,7 @@ const AuthCart: React.FC<{ title: string }> = ({ title }) => {
                     deleteUserCart({
                         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
                         access_key: user.accessToken,
-                        baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+                        baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
                         method: "delete",
                         url: `/cart?id=${productId}`,
                         withCredentials: true,
@@ -73,7 +73,7 @@ const AuthCart: React.FC<{ title: string }> = ({ title }) => {
                     updateUserFavList({
                         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
                         access_key: user.accessToken,
-                        baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+                        baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
                         method: "put",
                         url: `/favoriteList`,
                         withCredentials: true,
@@ -102,7 +102,7 @@ const AuthCart: React.FC<{ title: string }> = ({ title }) => {
                     updateUserCart({
                         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
                         access_key: user.accessToken,
-                        baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+                        baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
                         method: "put",
                         url: "/cart",
                         withCredentials: true,

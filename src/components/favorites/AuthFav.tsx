@@ -26,7 +26,7 @@ const AuthFav: React.FC = () => {
             getUserFavList({
                 api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
                 access_key: user.accessToken,
-                baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+                baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
                 method: "get",
                 url: "/favoriteList",
                 withCredentials: true,
@@ -45,7 +45,7 @@ const AuthFav: React.FC = () => {
                     updateUserCart({
                         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
                         access_key: user.accessToken,
-                        baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+                        baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
                         method: "put",
                         url: "/cart",
                         withCredentials: true,
@@ -66,7 +66,7 @@ const AuthFav: React.FC = () => {
                     deleteUserFavList({
                         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
                         access_key: user.accessToken,
-                        baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+                        baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
                         method: "delete",
                         url: `/favoriteList?id=${productId}`,
                         withCredentials: true,

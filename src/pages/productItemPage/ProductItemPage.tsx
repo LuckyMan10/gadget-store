@@ -34,18 +34,16 @@ const ProductItemPage: React.FC = () => {
   const [notification, setNotification] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   useEffect(() => {
-    let isMounted = true;  
     dispatch(
       getOneProduct({
         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
-        baseURL: `${process.env.REACT_APP_API_URL}/api/products`,
+        baseURL: `https://gadget-store-app.herokuapp.com/api/products`,
         method: "get",
         url: `/find?id=${item}`,
         withCredentials: true,
       })
     );
     return () => {
-      isMounted = false;  
       dispatch(clearOneProduct());
     }
   }, [pathname]);
@@ -64,7 +62,7 @@ const ProductItemPage: React.FC = () => {
         updateUserCart({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
           access_key: user.accessToken,
-          baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+          baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
           method: "put",
           url: "/cart",
           withCredentials: true,
@@ -84,7 +82,7 @@ const ProductItemPage: React.FC = () => {
         updateUserFavList({
           api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
           access_key: user.accessToken,
-          baseURL: `${process.env.REACT_APP_API_URL}/api/user`,
+          baseURL: `https://gadget-store-app.herokuapp.com/api/user`,
           method: "put",
           url: `/favoriteList`,
           withCredentials: true,
