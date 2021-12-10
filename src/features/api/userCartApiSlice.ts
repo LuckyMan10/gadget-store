@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { host, createResponse } from "./http/index";
-import {getSumm} from "helpers/getSumm";
+import { getSumm } from "helpers/getSumm";
 import {
   userCartInitState,
   fetchType,
@@ -85,16 +85,18 @@ const initialState = {
 const cartSlice = createSlice({
   name: "authCart",
   initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers: (builder) => {
 
     builder.addCase(getUserCart.fulfilled, (state, action) => {
       if (action.payload[0]) {
+        console.log('problem...')
         state.userCart.userId = action.payload[0].userId;
         state.userCart.products = action.payload[0].products;
         const summ = getSumm<getSummArrType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
-        if(state.userCart.products.length === 0) {
+        if (state.userCart.products.length === 0) {
           state.isEmpty = true;
         } else {
           state.isEmpty = false;
@@ -111,7 +113,7 @@ const cartSlice = createSlice({
         state.userCart.products = action.payload.products;
         const summ = getSumm<getSummArrType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
-        if(state.userCart.products.length === 0) {
+        if (state.userCart.products.length === 0) {
           state.isEmpty = true;
         } else {
           state.isEmpty = false;
@@ -122,12 +124,12 @@ const cartSlice = createSlice({
     });
 
     builder.addCase(deleteUserCart.fulfilled, (state, action) => {
-      if(action.payload) {
+      if (action.payload) {
         state.userCart.userId = action.payload.userId;
         state.userCart.products = action.payload.products;
         const summ = getSumm<getSummArrType>(state.userCart.products);
         state.userCart.productsSummPrice = summ;
-        if(state.userCart.products.length === 0) {
+        if (state.userCart.products.length === 0) {
           state.isEmpty = true;
         } else {
           state.isEmpty = false;

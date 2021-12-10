@@ -62,7 +62,7 @@ const NotAuthFav: React.FC = () => {
                 visible={notification}
                 setVisible={setNotification}
             />
-            <Header />
+            {!loading && <Header />}
             <section onClick={clickHandler} className="favoritesPage__products">
                 {loading && (
                     <div className="preload-wrapper">
@@ -97,9 +97,9 @@ const NotAuthFav: React.FC = () => {
                     )
                 )}
             </section>
-            <section onClick={bottomClick} className="favoritesPage__buttons">
+            {!loading && <section onClick={bottomClick} className="favoritesPage__buttons">
                 <DynamicButtonComponent text="Вернуться на главную" id="/" />
-            </section>
+            </section>}
         </article>
     )
 }

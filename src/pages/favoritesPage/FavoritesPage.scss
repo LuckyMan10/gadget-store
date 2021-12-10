@@ -3,6 +3,11 @@
 
 .favoritesPage {
   .preload-wrapper {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: -100px;
+    right: 0px;
     .css-18lrjg1-MuiCircularProgress-root {
       color: $green_color_soft;
     }

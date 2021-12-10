@@ -4,7 +4,7 @@ import { AuthCart } from "./AuthCart";
 import { NotAuthCart } from "./NotAuthCart";
 
 const Cart: React.FC = () => {
-    const { isAuth, isRefreshError, loading } = useAppSelector(
+    const {user, isAuth, isRefreshError, loading } = useAppSelector(
         (state) => state.auth
     );
     return (

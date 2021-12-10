@@ -39,7 +39,7 @@ const Header: React.FC = () => {
   const headerButtons = [
     { id: "favorite", img: heart, text: "Избранное" },
     { id: "cart", img: cart, text: "Корзина" },
-    { id: "login", img: account, text: !loading ? user.user.username : "Войти" },
+    { id: "login", img: account, text: isAuth ? user.user.username : "Войти" },
   ];
   
   useEffect(() => {
@@ -102,8 +102,8 @@ const Header: React.FC = () => {
 
   return (
     <header onClick={headerHandleClick} className="header">
-      {isAuth && isCartLoading &&
-        isFavLoading && userInfo &&
+      {isAuth && !isCartLoading &&
+        !isFavLoading && userInfo &&
         userCart.products && (
           <UserInfoModal
             email={user.user.email}

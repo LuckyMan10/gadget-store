@@ -63,9 +63,9 @@ const anonymFavSlice = createSlice({
       const anonymUser = localStorage.getItem("anonymUser");
       anonymUser && localStorageSave(anonymUser, id);
       if(Object.keys(state.userFav.favoriteList).length === 0) {
-        state.isEmpty = false
-      } else {
         state.isEmpty = true
+      } else {
+        state.isEmpty = false
       }
     },
   },
@@ -85,9 +85,9 @@ const anonymFavSlice = createSlice({
           };
           localStorage.setItem("anonymUser", JSON.stringify(anonymUserData));
           if(Object.keys(state.userFav.favoriteList).length === 0) {
-            state.isEmpty = false
-          } else {
             state.isEmpty = true
+          } else {
+            state.isEmpty = false
           }
           state.loading = false;
         }
@@ -109,15 +109,16 @@ const anonymFavSlice = createSlice({
             };
           });
           state.loading = false;
-          if (action.payload === null) {
-            state.loading = false;
-          }
           if(Object.keys(state.userFav.favoriteList).length === 0) {
-            state.isEmpty = false
-          } else {
             state.isEmpty = true
+          } else {
+            state.isEmpty = false
           }
         }
+      }
+      if (action.payload === null) {
+        state.loading = false;
+        state.isEmpty = true
       }
     });
   },

@@ -12,6 +12,7 @@ import { updateUserCart } from "features/api/userCartApiSlice";
 import { getOneProduct, clearOneProduct } from "features/api/productsApiSlice";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
 import { updateProduct, getOneProductById } from "features/api/notAuthCartApiSlice";
+import {getOneProductByIdFav} from "features/api/notAuthFavApiSlice";
 import { updateUserFavList } from "features/api/userFavListApiSlice";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -25,6 +26,7 @@ const ProductItemPage: React.FC = () => {
   };
   const dispatch = useAppDispatch();
   const { isAuth, user, isRefreshError } = useAppSelector((state) => state.auth);
+  const {userFav} = useAppSelector((state) => state.anonymFav);
   const { userCart } = useAppSelector(
     (state) => state.anonymCart
   );
@@ -32,6 +34,7 @@ const ProductItemPage: React.FC = () => {
   const [notification, setNotification] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   useEffect(() => {
+    let isMounted = true;  
     dispatch(
       getOneProduct({
         api_key: "l2ta3Vk4UkZcctEHoFdhDmM48QobiMLf",
@@ -42,7 +45,7 @@ const ProductItemPage: React.FC = () => {
       })
     );
     return () => {
-      console.log('unmount')
+      isMounted = false;  
       dispatch(clearOneProduct());
     }
   }, [pathname]);
@@ -96,6 +99,14 @@ const ProductItemPage: React.FC = () => {
           setNotification(true);
         }
       });
+    }
+    if (!isAuth && id && type === "toFav") {
+      if(!userFav.favoriteList[id]) {
+        dispatch(getOneProductByIdFav(id)).then(() => {
+          setMessage("Товар добавлен в избранные");
+          setNotification(true);
+        })  
+      }
     }
     if (!isAuth && id && isRefreshError && type === "toBuy") {
       if (userCart.products[id.replace(/-/g, '')]) {

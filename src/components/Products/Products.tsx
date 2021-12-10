@@ -23,9 +23,9 @@ const Products: React.FC<productsType> = ({ toProductHandler, products }) => {
         <h1 className="Products__title">Товары</h1>
         <section onClick={clickHandler} className="Products__cards">
           {productsLoaded
-            ? products.map((el) => {
+            ? products.map((el, index) => {
               return (
-                <ProductCard {...el}/>
+                <ProductCard key={`products_key_${index}`} {...el}/>
               );
             })
             : <div className="preload-wrapper">

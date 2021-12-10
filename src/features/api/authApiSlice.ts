@@ -62,12 +62,14 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.loading = false;
       state.isAuth = true;
+      state.isRefreshError = false;
     });
     builder.addCase(login.fulfilled, (state, action) => {
       console.log('fulfilled: ', action)
       state.user = action.payload;
       state.loading = false;
       state.isAuth = true;
+      state.isRefreshError = false;
     });
     builder.addCase(login.rejected, (state, action) => {
       if(action.error && action.error.message) {
@@ -79,6 +81,7 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.loading = false;
       state.isAuth = true;
+      state.isRefreshError = false;
     });
     builder.addCase(refresh.rejected, (state, action) => {
       state.user = {

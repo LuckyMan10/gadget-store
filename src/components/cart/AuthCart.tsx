@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import {
     getUserCart,
     updateUserCart,
-    deleteUserCart,
+    deleteUserCart
 } from "features/api/userCartApiSlice";
 import { updateUserFavList } from "features/api/userFavListApiSlice";
 import { NotificationModal } from "components/notificationModal/NotificationModal";
@@ -23,8 +23,8 @@ const AuthCart: React.FC<{ title: string }> = ({ title }) => {
     const navigate = useNavigate();
     const [message, setMessage] = useState<string>("");
     const [notification, setNotification] = useState<boolean>(false);
-    const { user } = useAppSelector((state) => state.auth);
-    const { userCart, loading, isEmpty, isWaitUpdate } = useAppSelector(
+    const { user, loading } = useAppSelector((state) => state.auth);
+    const { userCart, isEmpty, isWaitUpdate } = useAppSelector(
         (state) => state.cart
     );
     const { cartButtons } = useAppSelector(
